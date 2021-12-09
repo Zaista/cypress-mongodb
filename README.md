@@ -21,9 +21,10 @@ cy.insertOne(oneDocument, 'some_collection', 'some_database').then(res => {
 const manyDocuments = [{document: 1}, {document: 2}];
 cy.insertMany(manyDocuments, 'some_other_collection');
 
+const deleteClause = {document: 1};
 cy.deleteOne(oneDocument, 'new_collection', 'some_database');
 
-cy.deleteMany(manyDocuments); // defaults to collection and database from env variables
+cy.deleteMany(deleteClause); // defaults to collection and database from env variables
 
 const pipeline = []; // any kind of aggregation
 cy.aggregate(pipeline).then(res => {
