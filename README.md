@@ -4,8 +4,8 @@ Plugin that allows interaction with MongoDB server using Cypress commands.
 
 # Installation
 
-run `npm install cypress-mongodb`
-
+run `npm install cypress-mongodb`<br>
+configure (see below)<br>
 profit
 
 # Usage
@@ -93,6 +93,7 @@ mongo.setupMongoDB();
 
 # Future development & support
 
+Update command support.<br>
 Support for fixture files planned.<br>
 Please create feature requests for things you'd like to see.<br>
 Please raise issues for any problems you encounter.

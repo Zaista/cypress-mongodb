@@ -1,6 +1,6 @@
 {
   "name": "cypress-mongodb",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Cypress MongoDB plugin",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
