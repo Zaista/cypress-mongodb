@@ -1,4 +1,4 @@
-import {MongoClient} from "mongodb";
+import {Document, MongoClient} from "mongodb";
 
 export async function insertOne(args: Connection) {
     if (!args.uri) {

@@ -21,7 +21,7 @@ declare global {
         interface Chainable<Subject = any> {
             aggregate(pipeline: Document[], database?: string, collection?: string): Chainable<Subject>
             createCollection(collection: string, database?: string): Chainable<Subject>
-            deleteCollection(collection: string, database?: string): Chainable<Subject>
+            dropCollection(collection: string, database?: string): Chainable<Subject>
             insertOne(pipeline: Document | Document[], collection?: string, database?: string): Chainable<Subject>
             insertMany(pipeline: Document | Document[], collection?: string, database?: string): Chainable<Subject>
             deleteOne(pipeline: Document, collection?: string, database?: string): Chainable<Subject>
@@ -49,7 +49,7 @@ export const setConfig = async (on: any) => {
     });
 
     on('task', {
-        deleteCollection(args: Connection) {
+        dropCollection(args: Connection) {
             return collection_util.dropCollection(args).then(result => {
                 return result;
             });
@@ -102,7 +102,7 @@ export const setupMongoDB = async () => {
     );
 
     Cypress.Commands.add(
-        'deleteCollection',
+        'dropCollection',
         collection_commands.dropCollection
     );
 
