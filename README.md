@@ -61,7 +61,7 @@ module.exports = (on, config) => {
 }
 ```
 
-In your `cypress/index/index.js` add the following:
+In your `cypress/support/index.js` add the following:
 
 ```
 const mongo = require('cypress-mongodb');
@@ -85,7 +85,7 @@ export default (on: Cypress.PluginEvents, config: Cypress.PluginConfigOptions) =
 }
 ```
 
-In your `cypress/index/index.ts` add the following:
+In your `cypress/support/index.ts` add the following:
 
 ```
 import * as mongo from "cypress-mongodb";
