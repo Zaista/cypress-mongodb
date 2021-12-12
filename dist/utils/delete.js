@@ -56,7 +56,7 @@ function deleteOne(args) {
             return [2, mongodb_1.MongoClient.connect(args.uri).then(function (client) {
                     return client.db(args.database).collection(args.collection).deleteOne(args.pipeline).then(function (res) {
                         client.close();
-                        return '1 document deleted';
+                        return res.deletedCount + ' document deleted';
                     }).catch(function (err) {
                         client.close();
                         throw err;

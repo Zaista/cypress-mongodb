@@ -1,6 +1,6 @@
 {
   "name": "cypress-mongodb",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Cypress MongoDB plugin",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -16,15 +16,21 @@
     "database",
     "db"
   ],
-  "author": "Jovan Ilić <ilicjovan89@gmail.com>",
+  "author": "Jovan Ilić <ilicjovan89@gmail.com> (https://jovanilic.com)",
   "license": "MIT",
+  "homepage": "https://github.com/Zaista/cypress-mongodb",
+  "bugs": "https://github.com/Zaista/cypress-mongodb/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Zaista/cypress-mongodb"
+  },
   "dependencies": {
     "mongodb": "4.2.1"
   },
   "devDependencies": {
     "@types/mocha": "^9.0.0",
     "@types/mongodb": "^4.0.7",
-    "cypress": "^9.1.1",
+    "cypress": "9.0.0",
     "mocha": "^9.1.3",
     "typescript": "^4.5.2"
   }

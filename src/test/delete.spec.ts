@@ -1,61 +1,100 @@
 import * as assert from 'assert';
-import {deleteMany, deleteOne} from "../utils/delete.js";
+import { createCollection, dropCollection } from '../utils/collection.js';
+import { deleteMany, deleteOne } from '../utils/delete.js';
+import { insertMany } from '../utils/insert.js';
+
+const default_args: Connection = {
+  uri: 'mongodb://localhost:27017',
+  collection: 'delete_collection',
+  database: 'delete_database',
+  pipeline: { id: 1 },
+};
 
 describe('Delete tests', () => {
-
-    it('Should delete one document', async () => {
-        const args = {
-            uri: 'mongodb://localhost:27017',
-            database: 'test_db',
-            collection: 'new_test',
-            pipeline: {test: 1}
-        }
-        await deleteOne(args).then(res => {
-            assert.match(res, /1 document deleted/);
-        }).catch(err => {
-            throw err;
-        });
+  before(async () => {
+    await dropCollection(default_args).catch((err) => {
+      if (err.toString().includes('MongoServerError: ns not found')) {
+        // ok, collection doesn't exist
+      } else {
+        throw err;
+      }
     });
+    await createCollection(default_args);
 
-    it('Should fail deleting one document', async () => {
-        const args = {
-            uri: 'mongodb://localhost:27017',
-            database: 'test_db',
-            collection: 'new_test',
-            pipeline: [{test: 1}]
-        }
-        await deleteOne(args).then(res => {
-            throw new Error('Should fail deleting one document');
-        }).catch(err => {
-            assert.match(err.toString(), /Error: Pipeline must be an object/);
-        });
-    });
+    const args: Connection = {
+      uri: default_args.uri,
+      collection: default_args.collection,
+      database: default_args.database,
+      pipeline: [{ id: 1 }, { id: 1 }, { id: 1 }, { id: 1 }],
+    };
+    await insertMany(args);
+  });
 
-    it('Should delete many documents', async () => {
-        const args = {
-            uri: 'mongodb://localhost:27017',
-            database: 'test_db',
-            collection: 'new_test',
-            pipeline: {test: 2}
-        }
-        await deleteMany(args).then(res => {
-            assert.match(res, /documents deleted/);
-        }).catch(err => {
-            throw err;
-        });
-    });
+  it('Should delete one document', async () => {
+    await deleteOne(default_args)
+      .then((res) => {
+        assert.match(res, /1 document deleted/);
+      })
+      .catch((err) => {
+        throw err;
+      });
+  });
 
-    it('Should fail deleting single document', async () => {
-        const args = {
-            uri: 'mongodb://localhost:27017',
-            database: 'test_db',
-            collection: 'new_test',
-            pipeline: [{test: 1}]
-        }
-        await deleteMany(args).then(res => {
-            throw new Error('Should fail inserting many documents');
-        }).catch(err => {
-            assert.match(err.toString(), /Error: Pipeline must be an object/);
-        });
-    });
+  it('Should delete 0 document', async () => {
+    const args = {
+      uri: default_args.uri,
+      database: default_args.database,
+      collection: default_args.collection,
+      pipeline: { id: 'non existing' },
+    };
+    await deleteOne(args)
+      .then((res) => {
+        assert.match(res, /0 document deleted/);
+      })
+      .catch((err) => {
+        throw err;
+      });
+  });
+
+  it('Should fail deleting one document', async () => {
+    const args = {
+      uri: default_args.uri,
+      database: default_args.database,
+      collection: default_args.collection,
+      pipeline: [{}],
+    };
+    await deleteOne(args)
+      .then((res) => {
+        throw new Error('Should fail deleting one document');
+      })
+      .catch((err) => {
+        assert.match(err.toString(), /Error: Pipeline must be an object/);
+      });
+  });
+
+  it('Should delete many documents', async () => {
+    await deleteMany(default_args)
+      .then((res) => {
+        assert.match(res, /3 documents deleted/);
+      })
+      .catch((err) => {
+        throw err;
+      });
+  });
+
+  it('Should fail deleting single document', async () => {
+    const args = {
+      uri: default_args.uri,
+      database: default_args.database,
+      collection: default_args.collection,
+      pipeline: [{}],
+    };
+    await deleteMany(args)
+      .then((res) => {
+        throw new Error('Should fail inserting many documents');
+      })
+      .catch((err) => {
+        assert.match(err.toString(), /Error: Pipeline must be an object/);
+      });
+  });
 });

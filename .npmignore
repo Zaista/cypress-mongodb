@@ -1,0 +1,7 @@
+.idea/
+private/
+node_modules/
+src/
+dist/test
+docker-compose.yaml
+tsconfig.json

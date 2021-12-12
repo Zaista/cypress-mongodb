@@ -38,7 +38,37 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var assert = require("assert");
 var aggregation_js_1 = require("../utils/aggregation.js");
+var collection_js_1 = require("../utils/collection.js");
+var insert_js_1 = require("../utils/insert.js");
+var default_args = {
+    uri: 'mongodb://localhost:27017',
+    collection: 'aggregation_collection',
+    database: 'aggregation_database',
+    pipeline: [{ id: 1, aggregation: 'aggregation_result' }, { id: 2 }, { id: 3 }],
+};
 describe('Aggregation tests', function () {
+    before(function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4, (0, collection_js_1.dropCollection)(default_args).catch(function (err) {
+                        if (err.toString().includes('MongoServerError: ns not found')) {
+                        }
+                        else {
+                            throw err;
+                        }
+                    })];
+                case 1:
+                    _a.sent();
+                    return [4, (0, collection_js_1.createCollection)(default_args)];
+                case 2:
+                    _a.sent();
+                    return [4, (0, insert_js_1.insertMany)(default_args)];
+                case 3:
+                    _a.sent();
+                    return [2];
+            }
+        });
+    }); });
     it('Should fail with missing uri error', function () { return __awaiter(void 0, void 0, void 0, function () {
         var pipeline, args;
         return __generator(this, function (_a) {
@@ -46,9 +76,11 @@ describe('Aggregation tests', function () {
                 case 0:
                     pipeline = [{ $match: { id: 1 } }];
                     args = { uri: '', database: '', collection: '', pipeline: pipeline };
-                    return [4, (0, aggregation_js_1.aggregate)(args).then(function (res) {
+                    return [4, (0, aggregation_js_1.aggregate)(args)
+                            .then(function (res) {
                             throw new Error('Should fail with missing uri error');
-                        }).catch(function (err) {
+                        })
+                            .catch(function (err) {
                             assert.match(err.toString(), /Missing MONGODB_URI environment variable/);
                         })];
                 case 1:
@@ -63,10 +95,17 @@ describe('Aggregation tests', function () {
             switch (_a.label) {
                 case 0:
                     pipeline = [{ $match: { id: 1 } }];
-                    args = { uri: 'mongodb://localhost:27017', database: '', collection: '', pipeline: pipeline };
-                    return [4, (0, aggregation_js_1.aggregate)(args).then(function (res) {
+                    args = {
+                        uri: default_args.uri,
+                        database: '',
+                        collection: default_args.collection,
+                        pipeline: pipeline,
+                    };
+                    return [4, (0, aggregation_js_1.aggregate)(args)
+                            .then(function (res) {
                             throw new Error('Should fail with missing database name error');
-                        }).catch(function (err) {
+                        })
+                            .catch(function (err) {
                             assert.match(err.toString(), /Error: Database not specified/);
                         })];
                 case 1:
@@ -81,10 +120,17 @@ describe('Aggregation tests', function () {
             switch (_a.label) {
                 case 0:
                     pipeline = [{ $match: { id: 1 } }];
-                    args = { uri: 'mongodb://localhost:27017', database: 'new_database', collection: '', pipeline: pipeline };
-                    return [4, (0, aggregation_js_1.aggregate)(args).then(function (res) {
+                    args = {
+                        uri: default_args.uri,
+                        database: default_args.database,
+                        collection: '',
+                        pipeline: pipeline,
+                    };
+                    return [4, (0, aggregation_js_1.aggregate)(args)
+                            .then(function (res) {
                             throw new Error('Should fail with missing collection name error');
-                        }).catch(function (err) {
+                        })
+                            .catch(function (err) {
                             assert.match(err.toString(), /Error: Collection not specified/);
                         })];
                 case 1:
@@ -93,21 +139,42 @@ describe('Aggregation tests', function () {
             }
         });
     }); });
-    it('Should pass', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Should match all documents', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var args;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    args = {
+                        uri: default_args.uri,
+                        database: default_args.database,
+                        collection: default_args.collection,
+                        pipeline: [],
+                    };
+                    return [4, (0, aggregation_js_1.aggregate)(args).then(function (res) {
+                            assert.notEqual(res, undefined);
+                            assert.equal(res.length, 3);
+                        })];
+                case 1:
+                    _a.sent();
+                    return [2];
+            }
+        });
+    }); });
+    it('Should match specific documents', function () { return __awaiter(void 0, void 0, void 0, function () {
         var pipeline, args;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     pipeline = [{ $match: { id: 1 } }];
                     args = {
-                        uri: 'mongodb://localhost:27017',
-                        database: 'test_db',
-                        collection: 'test_collection',
-                        pipeline: pipeline
+                        uri: default_args.uri,
+                        database: default_args.database,
+                        collection: default_args.collection,
+                        pipeline: pipeline,
                     };
                     return [4, (0, aggregation_js_1.aggregate)(args).then(function (res) {
                             assert.notEqual(res[0], undefined);
-                            assert.equal(res[0].test, 'It wooorks!');
+                            assert.equal(res[0].aggregation, 'aggregation_result');
                         })];
                 case 1:
                     _a.sent();

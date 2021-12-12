@@ -37,24 +37,49 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var assert = require("assert");
+var collection_js_1 = require("../utils/collection.js");
 var insert_js_1 = require("../utils/insert.js");
+var default_args = {
+    uri: 'mongodb://localhost:27017',
+    collection: 'insert_collection',
+    database: 'insert_database',
+    pipeline: { id: 1 }
+};
 describe('Insert tests', function () {
-    it('Should insert one document', function () { return __awaiter(void 0, void 0, void 0, function () {
+    before(function () { return __awaiter(void 0, void 0, void 0, function () {
         var args;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    args = {
-                        uri: 'mongodb://localhost:27017',
-                        database: 'test_db',
-                        collection: 'new_test',
-                        pipeline: { test: 1 }
-                    };
-                    return [4, (0, insert_js_1.insertOne)(args).then(function (res) {
-                            assert.match(res, /1 document inserted: /);
-                        }).catch(function (err) {
+                case 0: return [4, (0, collection_js_1.dropCollection)(default_args).catch(function (err) {
+                        if (err.toString().includes('MongoServerError: ns not found')) {
+                        }
+                        else {
                             throw err;
-                        })];
+                        }
+                    })];
+                case 1:
+                    _a.sent();
+                    return [4, (0, collection_js_1.createCollection)(default_args)];
+                case 2:
+                    _a.sent();
+                    args = {
+                        uri: default_args.uri,
+                        collection: default_args.collection,
+                        database: default_args.database,
+                        pipeline: [{ id: 1 }, { id: 1 }, { id: 1 }, { id: 1 }],
+                    };
+                    return [2];
+            }
+        });
+    }); });
+    it('Should insert one document', function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4, (0, insert_js_1.insertOne)(default_args).then(function (res) {
+                        assert.match(res, /1 document inserted: /);
+                    }).catch(function (err) {
+                        throw err;
+                    })];
                 case 1:
                     _a.sent();
                     return [2];
@@ -67,10 +92,10 @@ describe('Insert tests', function () {
             switch (_a.label) {
                 case 0:
                     args = {
-                        uri: 'mongodb://localhost:27017',
-                        database: 'test_db',
-                        collection: 'new_test',
-                        pipeline: [{ test: 1 }, { test: 2 }]
+                        uri: default_args.uri,
+                        database: default_args.database,
+                        collection: default_args.collection,
+                        pipeline: [{ id: 1 }, { id: 2 }]
                     };
                     return [4, (0, insert_js_1.insertOne)(args).then(function (res) {
                             throw new Error('Should fail inserting more documents');
@@ -89,10 +114,10 @@ describe('Insert tests', function () {
             switch (_a.label) {
                 case 0:
                     args = {
-                        uri: 'mongodb://localhost:27017',
-                        database: 'test_db',
-                        collection: 'new_test',
-                        pipeline: [{ test: 1 }, { test: 2 }, { test: 3 }]
+                        uri: default_args.uri,
+                        database: default_args.database,
+                        collection: default_args.collection,
+                        pipeline: [{ id: 1 }, { id: 2 }, { id: 3 }]
                     };
                     return [4, (0, insert_js_1.insertMany)(args).then(function (res) {
                             assert.match(res, /3 documents inserted/);
@@ -106,21 +131,13 @@ describe('Insert tests', function () {
         });
     }); });
     it('Should fail inserting single document', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var args;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    args = {
-                        uri: 'mongodb://localhost:27017',
-                        database: 'test_db',
-                        collection: 'new_test',
-                        pipeline: { test: 1 }
-                    };
-                    return [4, (0, insert_js_1.insertMany)(args).then(function (res) {
-                            throw new Error('Should fail inserting single document');
-                        }).catch(function (err) {
-                            assert.match(err.toString(), /Error: Pipeline must be an array/);
-                        })];
+                case 0: return [4, (0, insert_js_1.insertMany)(default_args).then(function (res) {
+                        throw new Error('Should fail inserting single document');
+                    }).catch(function (err) {
+                        assert.match(err.toString(), /Error: Pipeline must be an array/);
+                    })];
                 case 1:
                     _a.sent();
                     return [2];

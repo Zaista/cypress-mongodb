@@ -38,6 +38,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var assert = require("assert");
 var collection_js_1 = require("../utils/collection.js");
+var default_args = {
+    uri: 'mongodb://localhost:27017',
+    collection: 'random_collection',
+    database: 'random_database',
+};
 describe('Collection tests', function () {
     it('Should fail with missing uri error', function () { return __awaiter(void 0, void 0, void 0, function () {
         var args;
@@ -45,9 +50,11 @@ describe('Collection tests', function () {
             switch (_a.label) {
                 case 0:
                     args = { uri: '', database: '', collection: '' };
-                    return [4, (0, collection_js_1.createCollection)(args).then(function (res) {
+                    return [4, (0, collection_js_1.createCollection)(args)
+                            .then(function (res) {
                             throw new Error('Should fail with missing uri error');
-                        }).catch(function (err) {
+                        })
+                            .catch(function (err) {
                             assert.match(err.toString(), /Missing MONGODB_URI environment variable/);
                         })];
                 case 1:
@@ -57,18 +64,11 @@ describe('Collection tests', function () {
         });
     }); });
     it('Should create new collections', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var args;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    args = {
-                        uri: 'mongodb://localhost:27017',
-                        database: 'random_database',
-                        collection: 'random_collection'
-                    };
-                    return [4, (0, collection_js_1.createCollection)(args).then(function (res) {
-                            assert.equal(res, 'Collection created');
-                        })];
+                case 0: return [4, (0, collection_js_1.createCollection)(default_args).then(function (res) {
+                        assert.equal(res, 'Collection created');
+                    })];
                 case 1:
                     _a.sent();
                     return [2];
@@ -76,20 +76,15 @@ describe('Collection tests', function () {
         });
     }); });
     it('Should fail creating existing collection', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var args;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    args = {
-                        uri: 'mongodb://localhost:27017',
-                        database: 'random_database',
-                        collection: 'random_collection'
-                    };
-                    return [4, (0, collection_js_1.createCollection)(args).then(function (res) {
-                            throw new Error('Should fail with collection already exists error');
-                        }).catch(function (err) {
-                            assert.match(err.toString(), /MongoServerError: Collection already exists/);
-                        })];
+                case 0: return [4, (0, collection_js_1.createCollection)(default_args)
+                        .then(function (res) {
+                        throw new Error('Should fail with collection already exists error');
+                    })
+                        .catch(function (err) {
+                        assert.match(err.toString(), /MongoServerError: Collection already exists/);
+                    })];
                 case 1:
                     _a.sent();
                     return [2];
@@ -97,18 +92,11 @@ describe('Collection tests', function () {
         });
     }); });
     it('Should drop created collection', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var args;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    args = {
-                        uri: 'mongodb://localhost:27017',
-                        database: 'random_database',
-                        collection: 'random_collection'
-                    };
-                    return [4, (0, collection_js_1.dropCollection)(args).then(function (res) {
-                            assert.equal(res, 'Collection dropped');
-                        })];
+                case 0: return [4, (0, collection_js_1.dropCollection)(default_args).then(function (res) {
+                        assert.equal(res, 'Collection dropped');
+                    })];
                 case 1:
                     _a.sent();
                     return [2];

@@ -14,7 +14,7 @@ export async function deleteOne(args: Connection) {
     return MongoClient.connect(args.uri).then(client => {
         return client.db(args.database).collection(args.collection as string).deleteOne(args.pipeline!).then(res => {
             client.close();
-            return '1 document deleted';
+            return res.deletedCount + ' document deleted';
         }).catch(err => {
             client.close();
             throw err;
