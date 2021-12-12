@@ -10,6 +10,9 @@ import * as delete_commands from './commands/delete';
 
 declare global {
 
+    var Cypress: any;
+    var cy: any;
+
     interface Connection {
         uri: string,
         database?: string,

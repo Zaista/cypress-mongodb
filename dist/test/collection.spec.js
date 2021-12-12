@@ -44,6 +44,22 @@ var default_args = {
     database: 'random_database',
 };
 describe('Collection tests', function () {
+    before(function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4, (0, collection_js_1.dropCollection)(default_args).catch(function (err) {
+                        if (err.toString().includes('MongoServerError: ns not found')) {
+                        }
+                        else {
+                            throw err;
+                        }
+                    })];
+                case 1:
+                    _a.sent();
+                    return [2];
+            }
+        });
+    }); });
     it('Should fail with missing uri error', function () { return __awaiter(void 0, void 0, void 0, function () {
         var args;
         return __generator(this, function (_a) {

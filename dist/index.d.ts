@@ -1,5 +1,7 @@
 import { Document } from "mongodb";
 declare global {
+    var Cypress: any;
+    var cy: any;
     interface Connection {
         uri: string;
         database?: string;
@@ -11,10 +13,10 @@ declare global {
             aggregate(pipeline: Document[], database?: string, collection?: string): Chainable<Subject>;
             createCollection(collection: string, database?: string): Chainable<Subject>;
             dropCollection(collection: string, database?: string): Chainable<Subject>;
-            insertOne(pipeline: Document | Document[], collection?: string, database?: string): Chainable<Subject>;
-            insertMany(pipeline: Document | Document[], collection?: string, database?: string): Chainable<Subject>;
-            deleteOne(pipeline: Document, collection?: string, database?: string): Chainable<Subject>;
-            deleteMany(pipeline: Document, collection?: string, database?: string): Chainable<Subject>;
+            insertOne(document: Document, collection?: string, database?: string): Chainable<Subject>;
+            insertMany(documents: Document[], collection?: string, database?: string): Chainable<Subject>;
+            deleteOne(filter: Document, collection?: string, database?: string): Chainable<Subject>;
+            deleteMany(filter: Document, collection?: string, database?: string): Chainable<Subject>;
         }
     }
 }
