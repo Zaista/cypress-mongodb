@@ -1,6 +1,6 @@
 import {MongoClient} from "mongodb";
 
-export async function createCollection(args: Connection) {
+export async function createCollection(args: MongoDetails) {
     if (!args.uri) {
         throw new Error('Missing MONGODB_URI environment variable')
     } else if (!args.database) {
@@ -20,7 +20,7 @@ export async function createCollection(args: Connection) {
     });
 }
 
-export async function dropCollection(args: Connection) {
+export async function dropCollection(args: MongoDetails) {
     if (!args.uri) {
         throw new Error('Missing MONGODB_URI environment variable')
     } else if (!args.database) {

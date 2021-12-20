@@ -10,7 +10,7 @@ import * as delete_commands from './commands/delete';
 
 declare global {
 
-    interface Connection {
+    interface MongoDetails {
         uri: string,
         database?: string,
         collection?: string,
@@ -33,7 +33,7 @@ declare global {
 export const setConfig = async (on: any) => {
 
     on('task', {
-        aggregate(args: Connection) {
+        aggregate(args: MongoDetails) {
             return aggregate_util.aggregate(args).then(result => {
                 return result;
             });
@@ -41,7 +41,7 @@ export const setConfig = async (on: any) => {
     });
 
     on('task', {
-        createCollection(args: Connection) {
+        createCollection(args: MongoDetails) {
             return collection_util.createCollection(args).then(result => {
                 return result;
             });
@@ -49,7 +49,7 @@ export const setConfig = async (on: any) => {
     });
 
     on('task', {
-        dropCollection(args: Connection) {
+        dropCollection(args: MongoDetails) {
             return collection_util.dropCollection(args).then(result => {
                 return result;
             });
@@ -57,7 +57,7 @@ export const setConfig = async (on: any) => {
     });
 
     on('task', {
-        insertOne(args: Connection) {
+        insertOne(args: MongoDetails) {
             return insert_util.insertOne(args).then(result => {
                 return result;
             });
@@ -65,7 +65,7 @@ export const setConfig = async (on: any) => {
     });
 
     on('task', {
-        insertMany(args: Connection) {
+        insertMany(args: MongoDetails) {
             return insert_util.insertMany(args).then(result => {
                 return result;
             });
@@ -73,7 +73,7 @@ export const setConfig = async (on: any) => {
     });
 
     on('task', {
-        deleteOne(args: Connection) {
+        deleteOne(args: MongoDetails) {
             return delete_util.deleteOne(args).then(result => {
                 return result;
             });
@@ -81,7 +81,7 @@ export const setConfig = async (on: any) => {
     });
 
     on('task', {
-        deleteMany(args: Connection) {
+        deleteMany(args: MongoDetails) {
             return delete_util.deleteMany(args).then(result => {
                 return result;
             });

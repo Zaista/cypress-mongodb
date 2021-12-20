@@ -1,6 +1,6 @@
 import {MongoClient} from "mongodb";
 
-export async function deleteOne(args: Connection) {
+export async function deleteOne(args: MongoDetails) {
     if (!args.uri) {
         throw new Error('Missing MONGODB_URI environment variable');
     } else if (!args.database) {
@@ -22,7 +22,7 @@ export async function deleteOne(args: Connection) {
     });
 }
 
-export async function deleteMany(args: Connection) {
+export async function deleteMany(args: MongoDetails) {
     if (!args.uri) {
         throw new Error('Missing MONGODB_URI environment variable');
     } else if (!args.database) {

@@ -1,6 +1,6 @@
 import {Document, MongoClient} from "mongodb";
 
-export async function insertOne(args: Connection) {
+export async function insertOne(args: MongoDetails) {
     if (!args.uri) {
         throw new Error('Missing MONGODB_URI environment variable');
     } else if (!args.database) {
@@ -14,7 +14,7 @@ export async function insertOne(args: Connection) {
     return MongoClient.connect(args.uri).then(client => {
         return client.db(args.database).collection(args.collection as string).insertOne(args.pipeline!).then(res => {
             client.close();
-            return '1 document inserted: ' + res.insertedId;
+            return res.insertedId;
         }).catch(err => {
             client.close();
             throw err;
@@ -22,7 +22,7 @@ export async function insertOne(args: Connection) {
     });
 }
 
-export async function insertMany(args: Connection) {
+export async function insertMany(args: MongoDetails) {
     if (!args.uri) {
         throw new Error('Missing MONGODB_URI environment variable');
     } else if (!args.database) {
@@ -36,7 +36,7 @@ export async function insertMany(args: Connection) {
     return MongoClient.connect(args.uri).then(client => {
         return client.db(args.database).collection(args.collection as string).insertMany(args.pipeline! as Document[]).then(res => {
             client.close();
-            return res.insertedCount + ' documents inserted';
+            return res.insertedIds;
         }).catch(err => {
             client.close();
             throw err;

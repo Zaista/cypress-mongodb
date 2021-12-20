@@ -1,6 +1,6 @@
 import {Document, MongoClient} from "mongodb";
 
-export async function aggregate(args: Connection) {
+export async function aggregate(args: MongoDetails) {
     if (!args.uri) {
         throw new Error('Missing MONGODB_URI environment variable')
     } else if (!args.database) {

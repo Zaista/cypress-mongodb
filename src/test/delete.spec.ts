@@ -3,7 +3,7 @@ import { createCollection, dropCollection } from '../utils/collection.js';
 import { deleteMany, deleteOne } from '../utils/delete.js';
 import { insertMany } from '../utils/insert.js';
 
-const default_args: Connection = {
+const default_args: MongoDetails = {
   uri: 'mongodb://localhost:27017',
   collection: 'delete_collection',
   database: 'delete_database',
@@ -21,7 +21,7 @@ describe('Delete tests', () => {
     });
     await createCollection(default_args);
 
-    const args: Connection = {
+    const args: MongoDetails = {
       uri: default_args.uri,
       collection: default_args.collection,
       database: default_args.database,

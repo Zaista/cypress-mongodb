@@ -3,7 +3,7 @@ import { aggregate } from '../utils/aggregation.js';
 import { createCollection, dropCollection } from '../utils/collection.js';
 import { insertMany } from '../utils/insert.js';
 
-const default_args: Connection = {
+const default_args: MongoDetails = {
   uri: 'mongodb://localhost:27017',
   collection: 'aggregation_collection',
   database: 'aggregation_database',
