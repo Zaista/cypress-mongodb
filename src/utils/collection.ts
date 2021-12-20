@@ -10,7 +10,7 @@ export async function createCollection(args: Connection) {
     }
 
     return MongoClient.connect(args.uri).then(client => {
-        return client.db(args.database).createCollection(args.collection as string).then( res => {
+        return client.db(args.database).createCollection(args.collection as string).then( () => {
             client.close();
             return 'Collection created';
         }).catch(err => {
@@ -30,7 +30,7 @@ export async function dropCollection(args: Connection) {
     }
 
     return MongoClient.connect(args.uri).then(client => {
-        return client.db(args.database).collection(args.collection as string).drop().then( res => {
+        return client.db(args.database).collection(args.collection as string).drop().then( () => {
             client.close();
             return 'Collection dropped';
         }).catch(err => {

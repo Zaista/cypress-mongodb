@@ -37,8 +37,6 @@ export function dropCollection(collection: string, database?: string): Chainable
         pipeline: []
     };
 
-    process.env.TR
-
     if (!collection) {
         throw new Error('Collection not specified')
     }

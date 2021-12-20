@@ -20,14 +20,6 @@ describe('Insert tests', () => {
         }
       });
       await createCollection(default_args);
-  
-      const args: Connection = {
-        uri: default_args.uri,
-        collection: default_args.collection,
-        database: default_args.database,
-        pipeline: [{ id: 1 }, { id: 1 }, { id: 1 }, { id: 1 }],
-      };
-    //   await insertMany(args);
     });
   
 
@@ -46,7 +38,7 @@ describe('Insert tests', () => {
             collection: default_args.collection,
             pipeline: [{id: 1}, {id: 2}]
         }
-        await insertOne(args).then(res => {
+        await insertOne(args).then(() => {
             throw new Error('Should fail inserting more documents');
         }).catch(err => {
             assert.match(err.toString(), /Error: Pipeline must be an object/);
@@ -68,7 +60,7 @@ describe('Insert tests', () => {
     });
 
     it('Should fail inserting single document', async () => {
-        await insertMany(default_args).then(res => {
+        await insertMany(default_args).then(() => {
             throw new Error('Should fail inserting single document');
         }).catch(err => {
             assert.match(err.toString(), /Error: Pipeline must be an array/);

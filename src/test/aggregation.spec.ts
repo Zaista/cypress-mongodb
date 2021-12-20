@@ -28,7 +28,7 @@ describe('Aggregation tests', () => {
     const pipeline = [{ $match: { id: 1 } }];
     const args = { uri: '', database: '', collection: '', pipeline: pipeline };
     await aggregate(args)
-      .then((res) => {
+      .then(() => {
         throw new Error('Should fail with missing uri error');
       })
       .catch((err) => {
@@ -48,7 +48,7 @@ describe('Aggregation tests', () => {
       pipeline: pipeline,
     };
     await aggregate(args)
-      .then((res) => {
+      .then(() => {
         throw new Error('Should fail with missing database name error');
       })
       .catch((err) => {
@@ -65,7 +65,7 @@ describe('Aggregation tests', () => {
       pipeline: pipeline,
     };
     await aggregate(args)
-      .then((res) => {
+      .then(() => {
         throw new Error('Should fail with missing collection name error');
       })
       .catch((err) => {

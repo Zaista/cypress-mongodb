@@ -21,7 +21,7 @@ describe('Collection tests', () => {
   it('Should fail with missing uri error', async () => {
     const args = { uri: '', database: '', collection: '' };
     await createCollection(args)
-      .then((res) => {
+      .then(() => {
         throw new Error('Should fail with missing uri error');
       })
       .catch((err) => {
@@ -40,7 +40,7 @@ describe('Collection tests', () => {
 
   it('Should fail creating existing collection', async () => {
     await createCollection(default_args)
-      .then((res) => {
+      .then(() => {
         throw new Error('Should fail with collection already exists error');
       })
       .catch((err) => {

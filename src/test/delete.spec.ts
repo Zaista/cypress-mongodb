@@ -64,7 +64,7 @@ describe('Delete tests', () => {
       pipeline: [{}],
     };
     await deleteOne(args)
-      .then((res) => {
+      .then(() => {
         throw new Error('Should fail deleting one document');
       })
       .catch((err) => {
@@ -90,7 +90,7 @@ describe('Delete tests', () => {
       pipeline: [{}],
     };
     await deleteMany(args)
-      .then((res) => {
+      .then(() => {
         throw new Error('Should fail inserting many documents');
       })
       .catch((err) => {
