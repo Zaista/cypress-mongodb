@@ -19,12 +19,18 @@ cy.insertOne(oneDocument, 'some_collection', 'some_database').then(res => {
 });
 
 const manyDocuments = [{document: 1}, {document: 2}];
-cy.insertMany(manyDocuments, 'some_other_collection');
+cy.insertMany(manyDocuments, 'some_other_collection').then(res => { // defaults to database from env variable
+    console.log(res); // print object with inserted ids
+});
 
 const deleteClause = {document: 1};
-cy.deleteOne(oneDocument, 'new_collection', 'some_database');
+cy.deleteOne(oneDocument, 'new_collection', 'some_database').then(res => {
+    cy.log(res); // prints 1 (or 0) document deleted
+});
 
-cy.deleteMany(deleteClause); // defaults to collection and database from env variables
+cy.deleteMany(deleteClause).then(res => { // defaults to collection and database from env variables
+    cy.log(res); // prints '# documents deleted'
+});
 
 const pipeline = []; // any kind of aggregation
 cy.aggregate(pipeline).then(res => {
@@ -32,7 +38,7 @@ cy.aggregate(pipeline).then(res => {
 });
 
 cy.dropCollection('start_new').then(res => {
-    cy.log(res);
+    cy.log(res); // prints 'Collection dropped'
 });
 ```
 
@@ -57,7 +63,7 @@ In your `cypress/plugins/index.js` add the following:
 const mongo = require('cypress-mongodb');
 
 module.exports = (on, config) => {
-  mongo.setConfig(on);
+  mongo.configurePlugin(on);
 }
 ```
 
@@ -65,7 +71,7 @@ In your `cypress/support/index.js` add the following:
 
 ```
 const mongo = require('cypress-mongodb');
-mongo.setupMongoDB();
+mongo.addCommands();
 ```
 
 
@@ -80,8 +86,7 @@ import * as mongo from 'cypress-mongodb';
  * @type {Cypress.PluginConfig}
  */
 export default (on: Cypress.PluginEvents, config: Cypress.PluginConfigOptions) => {
-    getCompareSnapshotsPlugin(on, config);
-    mongo.setConfig(on);
+    mongo.configurePlugin(on);
 }
 ```
 
@@ -89,12 +94,12 @@ In your `cypress/support/index.ts` add the following:
 
 ```
 import * as mongo from "cypress-mongodb";
-mongo.setupMongoDB();
+mongo.addCommands();
 ```
 
 # Future development & support
 
 Update command support.<br>
-Support for fixture files planned.<br>
+Explicit support for fixture files planned.<br>
 Please create feature requests for things you'd like to see.<br>
 Please raise issues for any problems you encounter.

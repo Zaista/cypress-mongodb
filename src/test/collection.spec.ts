@@ -1,5 +1,6 @@
 import * as assert from 'assert';
 import { createCollection, dropCollection } from '../utils/collection.js';
+import {MongoDetails} from "../index";
 
 const default_args: MongoDetails = {
   uri: 'mongodb://localhost:27017',

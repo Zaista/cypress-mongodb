@@ -1,4 +1,5 @@
 import {Document, MongoClient} from "mongodb";
+import {MongoDetails} from "../index";
 
 export async function insertOne(args: MongoDetails) {
     if (!args.uri) {

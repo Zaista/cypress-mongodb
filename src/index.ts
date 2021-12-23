@@ -1,4 +1,3 @@
-import {Document} from "mongodb";
 import * as aggregate_util from "./utils/aggregation";
 import * as aggregate_commands from './commands/aggregation';
 import * as collection_util from "./utils/collection";
@@ -7,16 +6,9 @@ import * as insert_util from "./utils/insert";
 import * as insert_commands from './commands/insert';
 import * as delete_util from "./utils/delete";
 import * as delete_commands from './commands/delete';
+import {Document} from "mongodb";
 
 declare global {
-
-    interface MongoDetails {
-        uri: string,
-        database?: string,
-        collection?: string,
-        pipeline?: Document | Document[]
-    }
-
     namespace Cypress {
         interface Chainable<Subject = any> {
             aggregate(pipeline: Document[], database?: string, collection?: string): Chainable<Subject>
@@ -30,7 +22,14 @@ declare global {
     }
 }
 
-export const setConfig = async (on: any) => {
+export interface MongoDetails {
+    uri: string,
+    database?: string,
+    collection?: string,
+    pipeline?: Document | Document[]
+}
+
+export const configurePlugin = async (on: Cypress.PluginEvents) => {
 
     on('task', {
         aggregate(args: MongoDetails) {
@@ -89,7 +88,7 @@ export const setConfig = async (on: any) => {
     });
 }
 
-export const setupMongoDB = async () => {
+export const addCommands = async () => {
 
     Cypress.Commands.add(
         'aggregate',

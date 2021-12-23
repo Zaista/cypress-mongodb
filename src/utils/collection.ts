@@ -1,4 +1,5 @@
 import {MongoClient} from "mongodb";
+import {MongoDetails} from "../index";
 
 export async function createCollection(args: MongoDetails) {
     if (!args.uri) {
