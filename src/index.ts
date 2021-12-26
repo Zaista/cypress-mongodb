@@ -130,7 +130,7 @@ export const configurePlugin = async (on: Cypress.PluginEvents) => {
   });
 
   on('task', {
-    find(args: MongoDetails) {
+    findMany(args: MongoDetails) {
       return find_util.findMany(args).then((result) => {
         return result;
       });
