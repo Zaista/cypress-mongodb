@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import { createCollection, dropCollection } from '../utils/collection.js';
 import { insertOne, insertMany } from '../utils/insert.js';
-import {MongoDetails} from "../index";
+import { MongoDetails } from '../index';
 
 const default_args: MongoDetails = {
   uri: 'mongodb://localhost:27017',
@@ -68,10 +68,10 @@ describe('Insert tests', () => {
       pipeline: insert_documents,
     };
     const expected_result = {
-        '0': insert_documents[0]._id,
-        '1': insert_documents[1]._id,
-        '2': insert_documents[2]._id
-    }
+      '0': insert_documents[0]._id,
+      '1': insert_documents[1]._id,
+      '2': insert_documents[2]._id,
+    };
     await insertMany(args)
       .then((res) => {
         assert.deepEqual(res, expected_result);

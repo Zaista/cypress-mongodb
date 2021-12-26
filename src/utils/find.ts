@@ -1,7 +1,7 @@
-import { MongoClient } from 'mongodb';
+import { Document, MongoClient } from 'mongodb';
 import { MongoDetails } from '../index';
 
-export async function deleteOne(args: MongoDetails) {
+export async function findOne(args: MongoDetails) {
   if (!args.uri) {
     throw new Error('Missing MONGODB_URI environment variable');
   } else if (!args.database) {
@@ -13,17 +13,17 @@ export async function deleteOne(args: MongoDetails) {
     typeof args.pipeline !== 'object' ||
     Array.isArray(args.pipeline)
   ) {
-    throw new Error('Pipeline must be an object');
+    throw new Error('Query not specified');
   }
 
   return MongoClient.connect(args.uri).then((client) => {
     return client
       .db(args.database)
       .collection(args.collection as string)
-      .deleteOne(args.pipeline!)
+      .findOne(args.pipeline!)
       .then((res) => {
         client.close();
-        return res.deletedCount + ' document deleted';
+        return res;
       })
       .catch((err) => {
         client.close();
@@ -32,7 +32,7 @@ export async function deleteOne(args: MongoDetails) {
   });
 }
 
-export async function deleteMany(args: MongoDetails) {
+export async function findMany(args: MongoDetails) {
   if (!args.uri) {
     throw new Error('Missing MONGODB_URI environment variable');
   } else if (!args.database) {
@@ -44,17 +44,18 @@ export async function deleteMany(args: MongoDetails) {
     typeof args.pipeline !== 'object' ||
     Array.isArray(args.pipeline)
   ) {
-    throw new Error('Pipeline must be an object');
+    throw new Error('Query not specified');
   }
 
   return MongoClient.connect(args.uri).then((client) => {
     return client
       .db(args.database)
       .collection(args.collection as string)
-      .deleteMany(args.pipeline!)
+      .find(args.pipeline! as Document[])
+      .toArray()
       .then((res) => {
         client.close();
-        return res.deletedCount + ' documents deleted';
+        return res;
       })
       .catch((err) => {
         client.close();
