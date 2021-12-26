@@ -2,13 +2,17 @@ import * as assert from 'assert';
 import { aggregate } from '../utils/aggregation.js';
 import { createCollection, dropCollection } from '../utils/collection.js';
 import { insertMany } from '../utils/insert.js';
-import {MongoDetails} from "../index";
+import { MongoDetails } from '../index';
 
 const default_args: MongoDetails = {
   uri: 'mongodb://localhost:27017',
   collection: 'aggregation_collection',
   database: 'aggregation_database',
-  pipeline: [{ id: 1, aggregation: 'aggregation_result' }, {id: 2}, {id: 3}],
+  pipeline: [
+    { id: 1, aggregation: 'aggregation_result' },
+    { id: 2 },
+    { id: 3 },
+  ],
 };
 
 describe('Aggregation tests', () => {

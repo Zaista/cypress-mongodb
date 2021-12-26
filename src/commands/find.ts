@@ -1,7 +1,9 @@
+import { Document } from 'mongodb';
 import Chainable = Cypress.Chainable;
 
-export function createCollection(
-  collection: string,
+export function findOne(
+  query: Document,
+  collection?: string,
   database?: string
 ): Chainable {
   let args = {
@@ -11,7 +13,13 @@ export function createCollection(
     pipeline: [],
   };
 
-  if (!collection) {
+  if (!query) {
+    throw new Error('Query must be specified');
+  }
+
+  if (collection) {
+    args.collection = collection;
+  } else if (!args.collection) {
     throw new Error('Collection not specified');
   }
 
@@ -22,9 +30,10 @@ export function createCollection(
   }
 
   return cy
-    .task('createCollection', {
+    .task('findOne', {
       uri: args.uri,
-      collection: collection,
+      pipeline: query,
+      collection: args.collection,
       database: args.database,
     })
     .then((result: any) => {
@@ -32,8 +41,9 @@ export function createCollection(
     });
 }
 
-export function dropCollection(
-  collection: string,
+export function findMany(
+  query: Document,
+  collection?: string,
   database?: string
 ): Chainable {
   let args = {
@@ -43,7 +53,13 @@ export function dropCollection(
     pipeline: [],
   };
 
-  if (!collection) {
+  if (!query) {
+    throw new Error('Query must be specified');
+  }
+
+  if (collection) {
+    args.collection = collection;
+  } else if (!args.collection) {
     throw new Error('Collection not specified');
   }
 
@@ -54,9 +70,10 @@ export function dropCollection(
   }
 
   return cy
-    .task('dropCollection', {
+    .task('findMany', {
       uri: args.uri,
-      collection: collection,
+      pipeline: query,
+      collection: args.collection,
       database: args.database,
     })
     .then((result: any) => {

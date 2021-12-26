@@ -1,11 +1,12 @@
 {
   "name": "cypress-mongodb",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Cypress MongoDB plugin",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "test": "mocha ./dist/test/*.spec.js",
+    "prebuild": "npx prettier --write src/",
     "build": "tsc -d"
   },
   "keywords": [
@@ -32,6 +33,7 @@
     "@types/mocha": "^9.0.0",
     "@types/mongodb": "^4.0.7",
     "mocha": "^9.1.3",
+    "prettier": "2.5.1",
     "typescript": "^4.5.2"
   }
 }
