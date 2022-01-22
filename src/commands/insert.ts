@@ -32,7 +32,7 @@ export function insertOne(
   return cy
     .task('insertOne', {
       uri: args.uri,
-      document: document,
+      pipeline: document,
       collection: args.collection,
       database: args.database,
     })
