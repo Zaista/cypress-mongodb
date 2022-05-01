@@ -8,12 +8,8 @@
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "types":  [
-      "cypress"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "types": ["cypress"]
   },
   "include": ["./src/**/*"],
   "exclude": ["dist", "node_modules"]

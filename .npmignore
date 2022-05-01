@@ -3,5 +3,6 @@ private/
 node_modules/
 src/
 dist/test
+test/
 docker-compose.yaml
 tsconfig.json
