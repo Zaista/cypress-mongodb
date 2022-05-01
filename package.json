@@ -6,7 +6,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "test": "mocha ./dist/test/*.spec.js",
-    "prebuild": "npx prettier --write src/",
+    "prebuild": "npx prettier --write .",
     "build": "tsc -d"
   },
   "keywords": [

@@ -45,6 +45,7 @@ cy.dropCollection('start_new').then(res => {
 # Environment setup
 
 Add the following `env` properties in your `cypress.json` file:
+
 ```
   "env": {
     "MONGODB_URI": "mongodb://localhost:27017",
@@ -73,7 +74,6 @@ In your `cypress/support/index.js` add the following:
 const mongo = require('cypress-mongodb');
 mongo.addCommands();
 ```
-
 
 # Plugin configuration - TypeScript
 
