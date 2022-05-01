@@ -1,2 +1,2 @@
-import * as mongo from 'cypress-mongodb';
+const mongo = require('cypress-mongodb');
 mongo.addCommands();
