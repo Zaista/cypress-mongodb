@@ -14,17 +14,17 @@ profit
 cy.createCollection('new_collection', 'new_database'); // creates both collection and database
 
 const oneDocument = {document: 1};
-cy.insertOne(oneDocument, 'some_collection', 'some_database').then(res => {
+cy.insertOne(oneDocument, { collection: 'some_collection', database: 'some_database' }).then(res => {
     cy.log(res); // print the id of inserted document
 });
 
 const manyDocuments = [{document: 1}, {document: 2}];
-cy.insertMany(manyDocuments, 'some_other_collection').then(res => { // defaults to database from env variable
+cy.insertMany(manyDocuments, { collection: 'some_other_collection' }).then(res => { // defaults to database from env variable
     console.log(res); // print object with inserted ids
 });
 
 const deleteClause = {document: 1};
-cy.deleteOne(oneDocument, 'new_collection', 'some_database').then(res => {
+cy.deleteOne(oneDocument, { collection: 'new_collection', database: 'some_database' }).then(res => {
     cy.log(res); // prints 1 (or 0) document deleted
 });
 
@@ -48,13 +48,15 @@ Add the following `env` properties in your `cypress.json` file:
 
 ```
   "env": {
-    "MONGODB_URI": "mongodb://localhost:27017",
-    "MONGODB_DATABASE": "database_name",
-    "MONGODB_COLLECTION": "collection_name"
+    mongodb: {
+      "uri": "mongodb://localhost:27017",
+      "database": "database_name",
+      "collection": "collection_name"
+    }
   }
 ```
 
-<b>Note:</b> only `MONGODB_URI` is mandatory, you can always override/set database and collection names in each cypress mongodb command. You can set both local and remote urls.
+<b>Note:</b> only `mongodb.uri` is mandatory, you can always override/set database and collection names in each cypress mongodb command using options. You can set both local and remote urls.
 
 # Plugin configuration - JavaScript
 
