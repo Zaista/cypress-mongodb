@@ -24,6 +24,8 @@ jobs:
         with:
           mongodb-version: ${{ matrix.mongodb-version }}
 
+      - working-directory: .
+        run: npm run build
       - working-directory: ./test
         run: npm install
       - working-directory: ./test
