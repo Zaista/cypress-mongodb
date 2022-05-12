@@ -1,38 +1,30 @@
 import { Document } from 'mongodb';
 import Chainable = Cypress.Chainable;
+import { MongoOptions } from '../index';
+import { validate } from '../utils/validator';
 
 export function aggregate(
   pipeline: Document[],
-  database?: string,
-  collection?: string
+  options: MongoOptions
 ): Chainable {
-  let args = {
-    uri: Cypress.env('MONGODB_URI'),
-    database: Cypress.env('MONGODB_DATABASE'),
-    collection: Cypress.env('MONGODB_COLLECTION'),
-    pipeline: [],
+  const args = {
+    uri: Cypress.env('mongodb').uri,
+    options: {
+      database: options?.database || Cypress.env('mongodb').database,
+      collection: options?.collection || Cypress.env('mongodb').collection,
+    },
+    pipeline: pipeline,
   };
 
-  if (database) {
-    args.database = database;
-  } else if (!args.database) {
-    throw new Error('Database not specified');
+  validate(args);
+
+  if (!pipeline) {
+    throw new Error('Pipeline must be specified');
+  } else if (typeof pipeline !== 'object' || !Array.isArray(pipeline)) {
+    throw new Error('Pipeline must be a valid mongodb aggregation');
   }
 
-  if (collection) {
-    args.collection = collection;
-  } else if (!args.collection) {
-    throw new Error('Collection not specified');
-  }
-
-  return cy
-    .task('aggregate', {
-      uri: args.uri,
-      database: args.database,
-      collection: args.collection,
-      pipeline: pipeline,
-    })
-    .then((result: any) => {
-      return result;
-    });
+  return cy.task('aggregate', args).then((result: any) => {
+    return result;
+  });
 }

@@ -2,18 +2,10 @@ import { MongoClient } from 'mongodb';
 import { MongoDetails } from '../index';
 
 export async function createCollection(args: MongoDetails) {
-  if (!args.uri) {
-    throw new Error('Missing MONGODB_URI environment variable');
-  } else if (!args.database) {
-    throw new Error('Database not specified');
-  } else if (!args.collection) {
-    throw new Error('Collection not specified');
-  }
-
   return MongoClient.connect(args.uri).then((client) => {
     return client
-      .db(args.database)
-      .createCollection(args.collection as string)
+      .db(args.options.database)
+      .createCollection(args.options.collection as string)
       .then(() => {
         client.close();
         return 'Collection created';
@@ -26,18 +18,10 @@ export async function createCollection(args: MongoDetails) {
 }
 
 export async function dropCollection(args: MongoDetails) {
-  if (!args.uri) {
-    throw new Error('Missing MONGODB_URI environment variable');
-  } else if (!args.database) {
-    throw new Error('Database not specified');
-  } else if (!args.collection) {
-    throw new Error('Collection not specified');
-  }
-
   return MongoClient.connect(args.uri).then((client) => {
     return client
-      .db(args.database)
-      .collection(args.collection as string)
+      .db(args.options.database)
+      .collection(args.options.collection as string)
       .drop()
       .then(() => {
         client.close();

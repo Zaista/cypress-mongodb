@@ -1,82 +1,64 @@
 import { Document } from 'mongodb';
 import Chainable = Cypress.Chainable;
+import { MongoOptions } from '../index';
+import { validate } from '../utils/validator';
 
 export function insertOne(
   document: Document,
-  collection?: string,
-  database?: string
+  options: { database: string; collection: string; forceObjectId: boolean }
 ): Chainable {
-  let args = {
-    uri: Cypress.env('MONGODB_URI'),
-    database: Cypress.env('MONGODB_DATABASE'),
-    collection: Cypress.env('MONGODB_COLLECTION'),
-    pipeline: [],
+  const args = {
+    uri: Cypress.env('mongodb').uri,
+    options: {
+      database: options?.database || Cypress.env('mongodb').database,
+      collection: options?.collection || Cypress.env('mongodb').collection,
+      forceObjectId: false,
+    },
+    pipeline: document,
   };
+
+  validate(args);
 
   if (!document) {
     throw new Error('Document must be specified');
+  } else if (typeof document !== 'object' || Array.isArray(document)) {
+    throw new Error('Document must be an object');
   }
 
-  if (collection) {
-    args.collection = collection;
-  } else if (!args.collection) {
-    throw new Error('Collection not specified');
-  }
+  if (options?.forceObjectId)
+    args.options.forceObjectId = options.forceObjectId;
 
-  if (database) {
-    args.database = database;
-  } else if (!args.database) {
-    throw new Error('Database not specified');
-  }
-
-  return cy
-    .task('insertOne', {
-      uri: args.uri,
-      pipeline: document,
-      collection: args.collection,
-      database: args.database,
-    })
-    .then((result: any) => {
-      return result;
-    });
+  return cy.task('insertOne', args).then((result: any) => {
+    return result;
+  });
 }
 
 export function insertMany(
   documents: Document[],
-  collection?: string,
-  database?: string
+  options: { database: string; collection: string; forceObjectId: boolean }
 ): Chainable {
-  let args = {
-    uri: Cypress.env('MONGODB_URI'),
-    database: Cypress.env('MONGODB_DATABASE'),
-    collection: Cypress.env('MONGODB_COLLECTION'),
-    pipeline: [],
+  const args = {
+    uri: Cypress.env('mongodb').uri,
+    options: {
+      database: options?.database || Cypress.env('mongodb').database,
+      collection: options?.collection || Cypress.env('mongodb').collection,
+      forceObjectId: false,
+    },
+    pipeline: documents,
   };
+
+  validate(args);
 
   if (!documents) {
     throw new Error('Documents must be specified');
+  } else if (!Array.isArray(documents)) {
+    throw new Error('Documents must be an array');
   }
 
-  if (collection) {
-    args.collection = collection;
-  } else if (!args.collection) {
-    throw new Error('Collection not specified');
-  }
+  if (options?.forceObjectId)
+    args.options.forceObjectId = options.forceObjectId;
 
-  if (database) {
-    args.database = database;
-  } else if (!args.database) {
-    throw new Error('Database not specified');
-  }
-
-  return cy
-    .task('insertMany', {
-      uri: args.uri,
-      pipeline: documents,
-      collection: args.collection,
-      database: args.database,
-    })
-    .then((result: any) => {
-      return result;
-    });
+  return cy.task('insertMany', args).then((result: any) => {
+    return result;
+  });
 }

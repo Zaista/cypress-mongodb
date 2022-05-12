@@ -15,53 +15,50 @@ declare global {
     interface Chainable<Subject = any> {
       aggregate(
         pipeline: Document[],
-        database?: string,
-        collection?: string
+        options?: MongoOptions
       ): Chainable<Subject>;
       createCollection(
         collection: string,
-        database?: string
+        options?: { database: string }
       ): Chainable<Subject>;
-      dropCollection(collection: string, database?: string): Chainable<Subject>;
+      dropCollection(
+        collection: string,
+        options?: { database: string }
+      ): Chainable<Subject>;
       insertOne(
         document: Document,
-        collection?: string,
-        database?: string
+        options?: {
+          collection: string;
+          database: string;
+          forceObjectId: boolean;
+        }
       ): Chainable<Subject>;
       insertMany(
         documents: Document[],
-        collection?: string,
-        database?: string
+        options?: {
+          collection: string;
+          database: string;
+          forceObjectId: boolean;
+        }
       ): Chainable<Subject>;
-      deleteOne(
-        filter: Document,
-        collection?: string,
-        database?: string
-      ): Chainable<Subject>;
-      deleteMany(
-        filter: Document,
-        collection?: string,
-        database?: string
-      ): Chainable<Subject>;
-      findOne(
-        query: Document,
-        collection?: string,
-        database?: string
-      ): Chainable<Subject>;
-      findMany(
-        query: Document,
-        collection?: string,
-        database?: string
-      ): Chainable<Subject>;
+      deleteOne(filter: Document, options?: MongoOptions): Chainable<Subject>;
+      deleteMany(filter: Document, options?: MongoOptions): Chainable<Subject>;
+      findOne(query: Document, options?: MongoOptions): Chainable<Subject>;
+      findMany(query: Document, options?: MongoOptions): Chainable<Subject>;
     }
   }
 }
 
 export interface MongoDetails {
   uri: string;
-  database?: string;
-  collection?: string;
+  options: MongoOptions;
   pipeline?: Document | Document[];
+}
+
+export interface MongoOptions {
+  collection?: string;
+  database?: string;
+  forceObjectId?: boolean;
 }
 
 export const configurePlugin = async (on: Cypress.PluginEvents) => {

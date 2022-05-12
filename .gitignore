@@ -2,3 +2,6 @@
 private/
 node_modules/
 dist/
+test/cypress/downloads
+test/cypress/screenshots
+test/cypress/videos

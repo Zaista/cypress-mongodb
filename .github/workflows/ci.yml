@@ -1,6 +1,6 @@
 name: Run tests
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   build:
@@ -24,6 +24,10 @@ jobs:
         with:
           mongodb-version: ${{ matrix.mongodb-version }}
 
+      - working-directory: .
+        run: npm install
+      - working-directory: .
+        run: npm run build
       - working-directory: ./test
         run: npm install
       - working-directory: ./test
