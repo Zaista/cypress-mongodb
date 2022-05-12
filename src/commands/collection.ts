@@ -1,65 +1,40 @@
 import Chainable = Cypress.Chainable;
+import { validate } from '../utils/validator';
 
 export function createCollection(
   collection: string,
-  database?: string
+  options: { database: string }
 ): Chainable {
-  let args = {
-    uri: Cypress.env('MONGODB_URI'),
-    database: Cypress.env('MONGODB_DATABASE'),
-    collection: Cypress.env('MONGODB_COLLECTION'),
-    pipeline: [],
+  const args = {
+    uri: Cypress.env('mongodb').uri,
+    options: {
+      database: options?.database || Cypress.env('mongodb').database,
+      collection: collection,
+    },
   };
 
-  if (!collection) {
-    throw new Error('Collection not specified');
-  }
+  validate(args);
 
-  if (database) {
-    args.database = database;
-  } else if (!args.database) {
-    throw new Error('Database not specified');
-  }
-
-  return cy
-    .task('createCollection', {
-      uri: args.uri,
-      collection: collection,
-      database: args.database,
-    })
-    .then((result: any) => {
-      return result;
-    });
+  return cy.task('createCollection', args).then((result: any) => {
+    return result;
+  });
 }
 
 export function dropCollection(
   collection: string,
-  database?: string
+  options: { database: string }
 ): Chainable {
-  let args = {
-    uri: Cypress.env('MONGODB_URI'),
-    database: Cypress.env('MONGODB_DATABASE'),
-    collection: Cypress.env('MONGODB_COLLECTION'),
-    pipeline: [],
+  const args = {
+    uri: Cypress.env('mongodb').uri,
+    options: {
+      database: options?.database || Cypress.env('mongodb').database,
+      collection: collection,
+    },
   };
 
-  if (!collection) {
-    throw new Error('Collection not specified');
-  }
+  validate(args);
 
-  if (database) {
-    args.database = database;
-  } else if (!args.database) {
-    throw new Error('Database not specified');
-  }
-
-  return cy
-    .task('dropCollection', {
-      uri: args.uri,
-      collection: collection,
-      database: args.database,
-    })
-    .then((result: any) => {
-      return result;
-    });
+  return cy.task('dropCollection', args).then((result: any) => {
+    return result;
+  });
 }
