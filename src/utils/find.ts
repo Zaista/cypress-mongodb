@@ -9,7 +9,6 @@ export async function findOne(args: MongoDetails) {
       .findOne(args.pipeline!)
       .then((res) => {
         client.close();
-        console.log(res!._id);
         return res;
       })
       .catch((err) => {
