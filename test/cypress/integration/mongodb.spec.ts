@@ -791,7 +791,7 @@ describe(
         });
       });
 
-      it.only('Should insert one document - force ObjectId', () => {
+      it('Should insert one document - force ObjectId', () => {
         const document = {
           _id: new ObjectId(faker.datatype.hexadecimal(24).substring(2)),
           word: faker.random.word(),
