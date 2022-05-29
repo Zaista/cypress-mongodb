@@ -282,6 +282,7 @@ describe('Configuration tests', () => {
           if (error.message.includes('Collection not specified')) return;
           throw error;
         });
+        // @ts-ignore
         cy.createCollection().then(() => {
           throw new Error('Should fail with missing collection name error');
         });
@@ -292,6 +293,7 @@ describe('Configuration tests', () => {
           if (error.message.includes('Collection not specified')) return;
           throw error;
         });
+        // @ts-ignore
         cy.dropCollection().then(() => {
           throw new Error('Should fail with missing collection name error');
         });
@@ -375,12 +377,12 @@ describe('Configuration tests', () => {
       },
     },
     () => {
-      it('Should work with provide options - create', () => {
+      it('Should work with provided options - create', () => {
         cy.createCollection(configuration_data.collection, {
           database: configuration_data.database,
         });
       });
-      it('Should work with provide options - aggregate', () => {
+      it('Should work with provided options - aggregate', () => {
         const pipeline = [{ $match: { id: 1 } }];
         cy.aggregate(pipeline, {
           collection: configuration_data.collection,
@@ -388,7 +390,7 @@ describe('Configuration tests', () => {
         });
       });
 
-      it('Should work with provide options - findOne', () => {
+      it('Should work with provided options - findOne', () => {
         const query = { id: 1 };
         cy.findOne(query, {
           collection: configuration_data.collection,
@@ -396,7 +398,7 @@ describe('Configuration tests', () => {
         });
       });
 
-      it('Should work with provide options - findMany', () => {
+      it('Should work with provided options - findMany', () => {
         const query = { id: 1 };
         cy.findMany(query, {
           collection: configuration_data.collection,
@@ -404,7 +406,7 @@ describe('Configuration tests', () => {
         });
       });
 
-      it('Should work with provide options - deleteOne', () => {
+      it('Should work with provided options - deleteOne', () => {
         const filter = { id: 1 };
         cy.deleteOne(filter, {
           collection: configuration_data.collection,
@@ -412,7 +414,7 @@ describe('Configuration tests', () => {
         });
       });
 
-      it('Should work with provide options - deleteMany', () => {
+      it('Should work with provided options - deleteMany', () => {
         const filter = { id: 1 };
         cy.deleteMany(filter, {
           collection: configuration_data.collection,
@@ -420,7 +422,7 @@ describe('Configuration tests', () => {
         });
       });
 
-      it('Should work with provide options - insertOne', () => {
+      it('Should work with provided options - insertOne', () => {
         const document = { id: 1 };
         cy.insertOne(document, {
           collection: configuration_data.collection,
@@ -428,14 +430,14 @@ describe('Configuration tests', () => {
         });
       });
 
-      it('Should work with provide options - insertMany', () => {
+      it('Should work with provided options - insertMany', () => {
         const documents = [{ id: 1 }];
         cy.insertMany(documents, {
           collection: configuration_data.collection,
           database: configuration_data.database,
         });
       });
-      it('Should work with provide options - drop', () => {
+      it('Should work with provided options - drop', () => {
         cy.dropCollection(configuration_data.collection, {
           database: configuration_data.database,
         });
@@ -472,7 +474,7 @@ describe(
     });
 
     it('Should match all documents', () => {
-      cy.aggregate([]).then((result) => {
+      cy.aggregate([]).then((result: any) => {
         assert.notEqual(result, undefined);
         assert.isAtLeast(result.length, 3);
       });
@@ -480,7 +482,7 @@ describe(
 
     it('Should match specific documents', () => {
       const pipeline = [{ $match: { id: 1 } }];
-      cy.aggregate(pipeline).then((result) => {
+      cy.aggregate(pipeline).then((result: any) => {
         assert.notEqual(result[0], undefined);
         assert.equal(result[0].aggregation, 'aggregation_result');
       });
@@ -495,7 +497,8 @@ describe(
         throw error;
       });
       const pipeline = { id: 2 };
-      cy.aggregate(pipeline).then((result) => {
+      // @ts-ignore
+      cy.aggregate(pipeline).then(() => {
         throw new Error('Should fail with pipeline must be an array error');
       });
     });
@@ -505,7 +508,8 @@ describe(
         if (error.message.includes('Pipeline must be specified')) return;
         throw error;
       });
-      cy.aggregate().then((result) => {
+      // @ts-ignore
+      cy.aggregate().then(() => {
         throw new Error('Should fail with pipeline must be specified error');
       });
     });
@@ -536,7 +540,8 @@ describe(
 
     it('Should fail creating existing collection', () => {
       cy.on('fail', (error) => {
-        if (error.message.includes('Collection already exists')) return;
+        if (error.message.match(/Collection ('\w+.\w+' )?already exists/i))
+          return;
         throw error;
       });
 
@@ -557,6 +562,7 @@ describe(
         throw error;
       });
 
+      // @ts-ignore
       cy.createCollection().then(() => {
         throw new Error('Should fail with collection not specified error');
       });
@@ -607,7 +613,7 @@ describe(
           throw error;
         });
         const pipeline = [{ id: 1 }];
-        cy.deleteOne(pipeline).then((result) => {
+        cy.deleteOne(pipeline).then(() => {
           throw new Error('Should fail with pipeline must be an object error');
         });
       });
@@ -617,7 +623,8 @@ describe(
           if (error.message.includes('Filter must be specified')) return;
           throw error;
         });
-        cy.deleteOne().then((result) => {
+        // @ts-ignore
+        cy.deleteOne().then(() => {
           throw new Error('Should fail with pipeline must be specified error');
         });
       });
@@ -637,7 +644,7 @@ describe(
           throw error;
         });
         const pipeline = [{ id: 1 }];
-        cy.deleteMany(pipeline).then((result) => {
+        cy.deleteMany(pipeline).then(() => {
           throw new Error('Should fail with pipeline must be an object error');
         });
       });
@@ -647,7 +654,8 @@ describe(
           if (error.message.includes('Filter must be specified')) return;
           throw error;
         });
-        cy.deleteMany().then((result) => {
+        // @ts-ignore
+        cy.deleteMany().then(() => {
           throw new Error('Should fail with pipeline must be specified error');
         });
       });
@@ -680,7 +688,7 @@ describe(
     describe('findOne', () => {
       it('Should find one document', () => {
         const query = { id: 1 };
-        cy.findOne(query).then((result) => {
+        cy.findOne(query).then((result: any) => {
           assert.equal(result.id, query.id);
         });
       });
@@ -701,7 +709,7 @@ describe(
           throw error;
         });
         const query = [{ id: 1 }];
-        cy.findOne(query).then((result) => {
+        cy.findOne(query).then(() => {
           throw new Error('Should fail with query must be valid error');
         });
       });
@@ -711,7 +719,8 @@ describe(
           if (error.message.includes('Query must be specified')) return;
           throw error;
         });
-        cy.findOne().then((result) => {
+        // @ts-ignore
+        cy.findOne().then(() => {
           throw new Error('Should fail with query must be specified error');
         });
       });
@@ -720,14 +729,14 @@ describe(
     describe('findMany', () => {
       it('Should find many documents', () => {
         const query = { id: 1 };
-        cy.findMany(query).then((result) => {
+        cy.findMany(query).then((result: any) => {
           assert.isAbove(result.length, 1);
         });
       });
 
       it('Should find no documents', () => {
         const query = { id: 5 };
-        cy.findMany(query).then((result) => {
+        cy.findMany(query).then((result: any) => {
           assert.equal(result.length, 0);
         });
       });
@@ -741,7 +750,7 @@ describe(
           throw error;
         });
         const query = [{ id: 1 }];
-        cy.findMany(query).then((result) => {
+        cy.findMany(query).then(() => {
           throw new Error('Should fail with query must be valid error');
         });
       });
@@ -751,7 +760,8 @@ describe(
           if (error.message.includes('Query must be specified')) return;
           throw error;
         });
-        cy.findMany().then((result) => {
+        // @ts-ignore
+        cy.findMany().then(() => {
           throw new Error('Should fail with query must be specified error');
         });
       });
@@ -813,7 +823,7 @@ describe(
           throw error;
         });
         const query = [{ id: 1 }];
-        cy.insertOne(query).then((result) => {
+        cy.insertOne(query).then(() => {
           throw new Error('Should fail with document must be an object error');
         });
       });
@@ -823,7 +833,8 @@ describe(
           if (error.message.includes('Document must be specified')) return;
           throw error;
         });
-        cy.insertOne().then((result) => {
+        // @ts-ignore
+        cy.insertOne().then(() => {
           throw new Error('Should fail with document must be specified error');
         });
       });
@@ -915,7 +926,8 @@ describe(
           throw error;
         });
         const query = { id: 1 };
-        cy.insertMany(query).then((result) => {
+        // @ts-ignore
+        cy.insertMany(query).then(() => {
           throw new Error('Should fail with documents must be an array error');
         });
       });
@@ -925,7 +937,8 @@ describe(
           if (error.message.includes('Documents must be specified')) return;
           throw error;
         });
-        cy.insertMany().then((result) => {
+        // @ts-ignore
+        cy.insertMany().then(() => {
           throw new Error('Should fail with documents must be specified error');
         });
       });

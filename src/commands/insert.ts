@@ -5,7 +5,7 @@ import { validate } from '../utils/validator';
 
 export function insertOne(
   document: Document,
-  options: { database: string; collection: string; forceObjectId: boolean }
+  options: MongoOptions
 ): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
@@ -35,7 +35,7 @@ export function insertOne(
 
 export function insertMany(
   documents: Document[],
-  options: { database: string; collection: string; forceObjectId: boolean }
+  options: MongoOptions
 ): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,

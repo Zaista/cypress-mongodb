@@ -25,21 +25,10 @@ declare global {
         collection: string,
         options?: { database: string }
       ): Chainable<Subject>;
-      insertOne(
-        document: Document,
-        options?: {
-          collection: string;
-          database: string;
-          forceObjectId: boolean;
-        }
-      ): Chainable<Subject>;
+      insertOne(document: Document, options?: MongoOptions): Chainable<Subject>;
       insertMany(
         documents: Document[],
-        options?: {
-          collection: string;
-          database: string;
-          forceObjectId: boolean;
-        }
+        options?: MongoOptions
       ): Chainable<Subject>;
       deleteOne(filter: Document, options?: MongoOptions): Chainable<Subject>;
       deleteMany(filter: Document, options?: MongoOptions): Chainable<Subject>;

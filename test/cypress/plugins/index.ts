@@ -1,5 +1,5 @@
-const mongo = require('cypress-mongodb');
+import * as mongo from 'cypress-mongodb';
 
-module.exports = (on, config) => {
+module.exports = (on) => {
   mongo.configurePlugin(on);
 };

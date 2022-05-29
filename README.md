@@ -8,10 +8,14 @@ run `npm install cypress-mongodb`<br>
 configure (see below)<br>
 profit
 
+# Supported and tested MongoDB versions
+
+4.0, 4.2, 4.4, 5.0
+
 # Usage
 
 ```
-cy.createCollection('new_collection', 'new_database'); // creates both collection and database
+cy.createCollection('new_collection', { database: 'new_database' }); // creates both collection and database
 
 const oneDocument = {document: 1};
 cy.insertOne(oneDocument, { collection: 'some_collection', database: 'some_database' }).then(res => {
@@ -87,7 +91,7 @@ import * as mongo from 'cypress-mongodb';
 /**
  * @type {Cypress.PluginConfig}
  */
-export default (on: Cypress.PluginEvents, config: Cypress.PluginConfigOptions) => {
+export default (on, config) => {
     mongo.configurePlugin(on);
 }
 ```
