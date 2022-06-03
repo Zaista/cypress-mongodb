@@ -620,7 +620,10 @@ describe(
       });
 
       it('Should fail deleting one document - incorrect pipeline', () => {
-        cy.on('fail', () => false);
+        cy.on('fail', (error) => {
+          if (error.message.includes('Filter must be an object')) return;
+          throw error;
+        });
         const pipeline = [{ id: 1 }];
         cy.deleteOne(pipeline).then(() => {
           throw new Error('Should fail with pipeline must be an object error');
