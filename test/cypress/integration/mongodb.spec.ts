@@ -550,10 +550,22 @@ describe(
       });
     });
 
+    it('Should fail creating existing collection -- nothrow', () => {
+      cy.createCollection(collection_data.collection, { noThrow: true })
+        .its('codeName')
+        .should('equal', 'NamespaceExists');
+    });
+
     it('Should drop created collection', () => {
       cy.dropCollection(collection_data.collection).then((res) => {
         assert.equal(res, 'Collection dropped');
       });
+    });
+
+    it('Should fail dropping nonexistant collection -- nothrow', () => {
+      cy.dropCollection(collection_data.collection, { noThrow: true })
+        .its('codeName')
+        .should('equal', 'NamespaceNotFound');
     });
 
     it('Should fail when no collection name is provided', () => {

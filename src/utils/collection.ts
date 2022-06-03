@@ -12,7 +12,11 @@ export async function createCollection(args: MongoDetails) {
       })
       .catch((err) => {
         client.close();
-        throw err;
+        if (args.options.noThrow) {
+          return err;
+        } else {
+          throw err;
+        }
       });
   });
 }
@@ -29,7 +33,11 @@ export async function dropCollection(args: MongoDetails) {
       })
       .catch((err) => {
         client.close();
-        throw err;
+        if (args.options.noThrow) {
+          return err;
+        } else {
+          throw err;
+        }
       });
   });
 }

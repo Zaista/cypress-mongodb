@@ -19,11 +19,11 @@ declare global {
       ): Chainable<Subject>;
       createCollection(
         collection: string,
-        options?: { database: string }
+        options?: { database?: string; noThrow?: boolean }
       ): Chainable<Subject>;
       dropCollection(
         collection: string,
-        options?: { database: string }
+        options?: { database?: string; noThrow?: boolean }
       ): Chainable<Subject>;
       insertOne(document: Document, options?: MongoOptions): Chainable<Subject>;
       insertMany(
@@ -42,12 +42,14 @@ export interface MongoDetails {
   uri: string;
   options: MongoOptions;
   pipeline?: Document | Document[];
+  noThrow?: boolean;
 }
 
 export interface MongoOptions {
   collection?: string;
   database?: string;
   forceObjectId?: boolean;
+  noThrow?: boolean;
 }
 
 export const configurePlugin = async (on: Cypress.PluginEvents) => {
