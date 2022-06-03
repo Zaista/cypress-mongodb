@@ -46,6 +46,18 @@ cy.dropCollection('start_new').then(res => {
 });
 ```
 
+`createCollection` and `dropCollection` have the option to `failSilently`.
+
+```
+cy.createCollection('existing_collection', { failSilently: true}).then(res => {
+    cy.log(res); // Error object if collection already exists
+});
+
+cy.dropCollection('nonexistent_collection', { failSilently: true}).then(res => {
+    cy.log(res); // Error object if collection doesn’t exist
+});
+```
+
 # Environment setup
 
 Add the following `env` properties in your `cypress.json` file:

@@ -12,7 +12,7 @@ export async function createCollection(args: MongoDetails) {
       })
       .catch((err) => {
         client.close();
-        if (args.options.noThrow) {
+        if (args.options.failSilently) {
           return err;
         } else {
           throw err;
@@ -33,7 +33,7 @@ export async function dropCollection(args: MongoDetails) {
       })
       .catch((err) => {
         client.close();
-        if (args.options.noThrow) {
+        if (args.options.failSilently) {
           return err;
         } else {
           throw err;

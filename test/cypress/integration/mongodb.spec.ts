@@ -550,8 +550,8 @@ describe(
       });
     });
 
-    it('Should fail creating existing collection -- nothrow', () => {
-      cy.createCollection(collection_data.collection, { noThrow: true })
+    it('Should not fail creating existing collection', () => {
+      cy.createCollection(collection_data.collection, { failSilently: true })
         .its('codeName')
         .should('equal', 'NamespaceExists');
     });
@@ -562,8 +562,8 @@ describe(
       });
     });
 
-    it('Should fail dropping nonexistant collection -- nothrow', () => {
-      cy.dropCollection(collection_data.collection, { noThrow: true })
+    it('Should not fail dropping nonexistant collection', () => {
+      cy.dropCollection(collection_data.collection, { failSilently: true })
         .its('codeName')
         .should('equal', 'NamespaceNotFound');
     });
@@ -620,10 +620,7 @@ describe(
       });
 
       it('Should fail deleting one document - incorrect pipeline', () => {
-        cy.on('fail', (error) => {
-          if (error.message.includes('Filter must be an object')) return;
-          throw error;
-        });
+        cy.on('fail', () => false);
         const pipeline = [{ id: 1 }];
         cy.deleteOne(pipeline).then(() => {
           throw new Error('Should fail with pipeline must be an object error');
