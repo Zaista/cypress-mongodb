@@ -3,13 +3,14 @@ import { validate } from '../utils/validator';
 
 export function createCollection(
   collection: string,
-  options: { database: string }
+  options: { database?: string; failSilently?: boolean }
 ): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
     options: {
       database: options?.database || Cypress.env('mongodb').database,
       collection: collection,
+      failSilently: options?.failSilently ?? false,
     },
   };
 
@@ -22,13 +23,14 @@ export function createCollection(
 
 export function dropCollection(
   collection: string,
-  options: { database: string }
+  options: { database?: string; failSilently?: boolean }
 ): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
     options: {
       database: options?.database || Cypress.env('mongodb').database,
       collection: collection,
+      failSilently: options?.failSilently ?? false,
     },
   };
 
