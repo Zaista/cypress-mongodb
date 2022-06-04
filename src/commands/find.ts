@@ -3,7 +3,10 @@ import Chainable = Cypress.Chainable;
 import { MongoOptions } from '../index';
 import { validate } from '../utils/validator';
 
-export function findOne(query: Document, options: MongoOptions): Chainable {
+export function findOne(
+  query: Document,
+  options: MongoOptions | undefined
+): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
     options: {
@@ -26,7 +29,10 @@ export function findOne(query: Document, options: MongoOptions): Chainable {
   });
 }
 
-export function findMany(query: Document, options: MongoOptions): Chainable {
+export function findMany(
+  query: Document,
+  options: MongoOptions | undefined
+): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
     options: {

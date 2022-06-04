@@ -5,7 +5,7 @@ import { validate } from '../utils/validator';
 
 export function aggregate(
   pipeline: Document[],
-  options: MongoOptions
+  options: MongoOptions | undefined
 ): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
