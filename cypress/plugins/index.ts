@@ -1,5 +1,8 @@
-import * as mongo from 'cypress-mongodb';
+import { configurePlugin } from '../../dist';
 
-module.exports = (on) => {
-  mongo.configurePlugin(on);
+/**
+ * @type {Cypress.PluginConfig}
+ */
+module.exports = (on: Cypress.PluginEvents) => {
+  configurePlugin(on);
 };

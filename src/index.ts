@@ -12,27 +12,55 @@ import { Document } from 'mongodb';
 
 declare global {
   namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable<Subject> {
+      /**
+       * Custom command to perform mongodb aggregation
+       * @example cy.aggregate([{ $match: { id: 1 } }]);
+       */
       aggregate(
         pipeline: Document[],
         options?: MongoOptions
       ): Chainable<Subject>;
+      /**
+       * Custom command to create a new collection in mongodb
+       */
       createCollection(
         collection: string,
         options?: { database?: string; failSilently?: boolean }
       ): Chainable<Subject>;
+      /**
+       * Custom command to drop an existing collection in mongodb
+       */
       dropCollection(
         collection: string,
         options?: { database?: string; failSilently?: boolean }
       ): Chainable<Subject>;
+      /**
+       * Custom command to insert a single document in mongodb
+       */
       insertOne(document: Document, options?: MongoOptions): Chainable<Subject>;
+      /**
+       * Custom command to insert multiple documents in mongodb
+       */
       insertMany(
         documents: Document[],
         options?: MongoOptions
       ): Chainable<Subject>;
+      /**
+       * Custom command to delete a single document from mongodb
+       */
       deleteOne(filter: Document, options?: MongoOptions): Chainable<Subject>;
+      /**
+       * Custom command to delete multiple documents from mongodb
+       */
       deleteMany(filter: Document, options?: MongoOptions): Chainable<Subject>;
+      /**
+       * Custom command to find a single document in mongodb
+       */
       findOne(query: Document, options?: MongoOptions): Chainable<Subject>;
+      /**
+       * Custom command to find multiple documents in mongodb
+       */
       findMany(query: Document, options?: MongoOptions): Chainable<Subject>;
     }
   }
@@ -48,7 +76,6 @@ export interface MongoDetails {
 export interface MongoOptions {
   collection?: string;
   database?: string;
-  forceObjectId?: boolean;
   failSilently?: boolean;
 }
 

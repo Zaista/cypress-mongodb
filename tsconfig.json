@@ -2,15 +2,13 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["es5", "dom"],
-    "moduleResolution": "node",
     "outDir": "./dist",
     "removeComments": true,
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "typeRoots": ["node_modules/@types"],
-    "types": ["cypress"]
+    "types": ["cypress", "node"]
   },
-  "include": ["./src/**/*"],
-  "exclude": ["dist", "cypress", "node_modules"]
+  "include": ["src"],
+  "exclude": ["dist", "node_modules", "cypress"]
 }
