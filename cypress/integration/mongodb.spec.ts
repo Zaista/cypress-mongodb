@@ -452,11 +452,8 @@ const aggregation_data = {
   database: 'aggregation_database',
   pipeline: [
     { id: 1, aggregation: 'aggregation_result' },
-    { id: 2, date: new Date() },
-    {
-      id: 3,
-      objectId: new ObjectId(faker.datatype.hexadecimal(24).substring(2)),
-    },
+    { id: 2},
+    { id: 3},
   ],
 };
 
