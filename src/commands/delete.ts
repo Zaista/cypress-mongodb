@@ -3,7 +3,10 @@ import Chainable = Cypress.Chainable;
 import { MongoOptions } from '../index';
 import { validate } from '../utils/validator';
 
-export function deleteOne(filter: Document, options: MongoOptions): Chainable {
+export function deleteOne(
+  filter: Document,
+  options: MongoOptions | undefined
+): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
     options: {
@@ -27,8 +30,8 @@ export function deleteOne(filter: Document, options: MongoOptions): Chainable {
 }
 
 export function deleteMany(
-  filter: Document[],
-  options: MongoOptions
+  filter: Document,
+  options: MongoOptions | undefined
 ): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,

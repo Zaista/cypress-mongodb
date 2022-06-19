@@ -3,7 +3,7 @@ import { validate } from '../utils/validator';
 
 export function createCollection(
   collection: string,
-  options: { database?: string; failSilently?: boolean }
+  options?: { database?: string; failSilently?: boolean }
 ): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
@@ -23,7 +23,7 @@ export function createCollection(
 
 export function dropCollection(
   collection: string,
-  options: { database?: string; failSilently?: boolean }
+  options?: { database?: string; failSilently?: boolean }
 ): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
