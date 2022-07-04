@@ -8,7 +8,7 @@
     "prebuild": "npx prettier --write src/",
     "build": "tsc -d",
     "test": "cypress run",
-    "open": "cypress open"
+    "open": "cypress open --e2e --browser chrome"
   },
   "keywords": [
     "cypress",
@@ -30,10 +30,8 @@
     "mongodb": "^4.7.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "^6.3.1",
-    "@types/cypress": "^1.1.3",
-    "@types/mongodb": "^4.0.7",
-    "cypress": "^9.7.0",
+    "@faker-js/faker": "^7.3.0",
+    "cypress": "^10.3.0",
     "prettier": "^2.7.1",
     "typescript": "^4.7.4"
   }
