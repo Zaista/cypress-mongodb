@@ -1,7 +1,8 @@
-import { Document, ObjectId } from 'mongodb';
+import { Document } from 'mongodb';
 import Chainable = Cypress.Chainable;
 import { MongoOptions } from '../index';
 import { validate } from '../utils/validator';
+import { deserialize } from 'bson';
 
 export function findOne(
   query: Document,
@@ -25,8 +26,8 @@ export function findOne(
   }
 
   return cy.task('findOne', args).then((result: any) => {
-    destringify(result);
-    return result;
+    if (result !== null) return deserialize(Buffer.from(result));
+    else return null;
   });
 }
 
@@ -52,26 +53,6 @@ export function findMany(
   }
 
   return cy.task('findMany', args).then((result: any) => {
-    destringify(result);
-    return result;
+    return Object.values(deserialize(Buffer.from(result)));
   });
-}
-
-function destringify(o: any) {
-  if (o !== null) {
-    Object.keys(o).forEach(function (k) {
-      if (o[k] !== null && typeof o[k] === 'object') {
-        destringify(o[k]);
-        return;
-      }
-      if (typeof o[k] === 'string' && o[k].includes('stringifiedFrom')) {
-        const jsonObject = JSON.parse(o[k]);
-        if (jsonObject.stringifiedFrom === 'Date')
-          o[k] = new Date(jsonObject.stringifiedValue);
-        else if (jsonObject.stringifiedFrom === 'ObjectId')
-          o[k] = new ObjectId(jsonObject.stringifiedValue);
-        else throw new Error('Stringification not supported');
-      }
-    });
-  }
 }
