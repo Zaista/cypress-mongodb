@@ -1,7 +1,11 @@
-import { Document, MongoClient, ObjectId } from 'mongodb';
+import { Document, MongoClient } from 'mongodb';
 import { MongoDetails } from '../index';
+import { deserialize, serialize } from 'bson';
 
 export async function aggregate(args: MongoDetails) {
+  args.pipeline = deserialize(Buffer.from(args.pipeline as Buffer));
+  args.pipeline = Object.values(args.pipeline);
+
   const client = new MongoClient(args.uri);
   await client.connect();
 
@@ -11,34 +15,10 @@ export async function aggregate(args: MongoDetails) {
       .collection(<string>args.options.collection)
       .aggregate(args.pipeline as Document[])
       .toArray();
-    stringify(result);
-    return result;
+    return serialize(result);
   } catch (err: any) {
     throw new Error('Error connecting: ' + err.stack);
   } finally {
     await client.close();
-  }
-}
-
-function stringify(o: any) {
-  if (o !== null) {
-    Object.keys(o).forEach(function (k) {
-      if (
-        o[k] !== null &&
-        typeof o[k] === 'object' &&
-        typeof o[k].getTimestamp === 'undefined'
-      ) {
-        stringify(o[k]);
-        return;
-      } else if (
-        o[k] !== null &&
-        typeof o[k] === 'object' &&
-        typeof o[k].getTimestamp !== 'undefined'
-      ) {
-        o[k] = `{"stringifiedValue": "${o[
-          k
-        ].toString()}", "stringifiedFrom": "ObjectId"}`;
-      }
-    });
   }
 }

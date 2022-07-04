@@ -69,7 +69,7 @@ declare global {
 export interface MongoDetails {
   uri: string;
   options: MongoOptions;
-  pipeline?: Document | Document[];
+  pipeline?: Document | Document[] | Buffer;
   failSilently?: boolean;
 }
 

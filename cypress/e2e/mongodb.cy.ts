@@ -490,19 +490,51 @@ describe(
 
     it('Should return correct data types', () => {
       const document = {
-        id: faker.datatype.uuid(),
+        _id: new ObjectId(faker.datatype.hexadecimal(24).substring(2)),
+        string: faker.datatype.uuid(),
         date: new Date(),
-        objectId: new ObjectId(faker.datatype.hexadecimal(24).substring(2)),
+        boolean: faker.datatype.boolean(),
+        float: faker.datatype.float()
       };
       cy.insertOne(document);
-      // TODO test aggregations with specific types
-      // const pipeline = [{$match: { date: { $lte: `ISODate("${document.date.toISOString()}")`}}}];
-      const pipeline = [{$match: { id: document.id}}];
+      const pipeline = [
+        {
+          '$match': {
+            '$and': [
+              {
+                '_id': {
+                  '$eq': document._id
+                }
+              },
+              {
+                'string': {
+                  '$eq': document.string
+                }
+              },
+              {
+                'date': {
+                  '$eq': document.date
+                }
+              }, {
+                'boolean': {
+                  '$eq': document.boolean
+                }
+              }, {
+                'float': {
+                  '$eq': document.float
+                }
+              }
+            ]
+          }
+        }
+      ]
       cy.aggregate(pipeline).then((result: any) => {
-        assert.strictEqual(result[0].id, document.id); 
+        assert.strictEqual(result[0]._id.toString(), document._id.toString());
+        assert.strictEqual(result[0].string, document.string); 
         assert.strictEqual(result[0].date.toISOString(), document.date.toISOString()); 
-        assert.strictEqual(result[0].objectId.toString(), document.objectId.toString());
-        assert.strictEqual(result[0].objectId._bsontype, 'ObjectID');
+        assert.strictEqual(result[0]._id._bsontype, 'ObjectID');
+        assert.strictEqual(result[0].boolean, document.boolean);
+        assert.strictEqual(result[0].float, document.float);
         assert.strictEqual(result.length, 1);
       });
     });

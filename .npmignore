@@ -1,8 +1,8 @@
 .idea/
 .github/
-private/
 node_modules/
 src/
-test/
+cypress/
 docker-compose.yaml
 tsconfig.json
+cypress.config.ts
