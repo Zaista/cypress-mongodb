@@ -1,8 +1,11 @@
 import { Document, MongoClient } from 'mongodb';
 import { MongoDetails } from '../index';
-import { serialize } from 'bson';
+import { deserialize, serialize } from 'bson';
 
 export async function aggregate(args: MongoDetails) {
+  args.pipeline = deserialize(Buffer.from(args.pipeline as Buffer));
+  args.pipeline = Object.values(args.pipeline);
+
   const client = new MongoClient(args.uri);
   await client.connect();
 

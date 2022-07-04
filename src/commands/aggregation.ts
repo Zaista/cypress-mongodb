@@ -2,10 +2,10 @@ import { Document } from 'mongodb';
 import Chainable = Cypress.Chainable;
 import { MongoOptions } from '../index';
 import { validate } from '../utils/validator';
-import { deserialize } from 'bson';
+import { deserialize, serialize } from 'bson';
 
 export function aggregate(
-  pipeline: Document[],
+  pipeline: Document[] | Buffer,
   options: MongoOptions | undefined
 ): Chainable {
   const args = {
@@ -24,6 +24,8 @@ export function aggregate(
   } else if (typeof pipeline !== 'object' || !Array.isArray(pipeline)) {
     throw new Error('Pipeline must be a valid mongodb aggregation');
   }
+
+  args.pipeline = serialize(args.pipeline);
 
   return cy.task('aggregate', args).then((result: any) => {
     return Object.values(deserialize(Buffer.from(result)));
