@@ -1,3 +1,3 @@
-import { addCommands } from '../../dist';
-
-addCommands();
+// import { addCommands } from '../../dist';
+//
+// addCommands();

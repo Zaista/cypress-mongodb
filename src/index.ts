@@ -79,7 +79,7 @@ export interface MongoOptions {
   failSilently?: boolean;
 }
 
-export const configurePlugin = async (on: Cypress.PluginEvents) => {
+export default function configurePlugin(on: Cypress.PluginEvents) {
   on('task', {
     aggregate(args: MongoDetails) {
       return aggregate_util.aggregate(args).then((result) => {
@@ -151,29 +151,26 @@ export const configurePlugin = async (on: Cypress.PluginEvents) => {
       });
     },
   });
-};
+}
 
-export const addCommands = async () => {
-  Cypress.Commands.add('aggregate', aggregate_commands.aggregate);
+// export const addCommands = async () => {
+Cypress.Commands.add('aggregate', aggregate_commands.aggregate);
 
-  Cypress.Commands.add(
-    'createCollection',
-    collection_commands.createCollection
-  );
+Cypress.Commands.add('createCollection', collection_commands.createCollection);
 
-  Cypress.Commands.add('dropCollection', collection_commands.dropCollection);
+Cypress.Commands.add('dropCollection', collection_commands.dropCollection);
 
-  Cypress.Commands.add('insertOne', insert_commands.insertOne);
+Cypress.Commands.add('insertOne', insert_commands.insertOne);
 
-  Cypress.Commands.add('insertMany', insert_commands.insertMany);
+Cypress.Commands.add('insertMany', insert_commands.insertMany);
 
-  Cypress.Commands.add('deleteOne', delete_commands.deleteOne);
+Cypress.Commands.add('deleteOne', delete_commands.deleteOne);
 
-  Cypress.Commands.add('deleteMany', delete_commands.deleteMany);
+Cypress.Commands.add('deleteMany', delete_commands.deleteMany);
 
-  Cypress.Commands.add('findOne', find_commands.findOne);
+Cypress.Commands.add('findOne', find_commands.findOne);
 
-  Cypress.Commands.add('findMany', find_commands.findMany);
+Cypress.Commands.add('findMany', find_commands.findMany);
 
-  console.log('MongoDB plugin configured');
-};
+console.log('MongoDB plugin configured');
+// };
