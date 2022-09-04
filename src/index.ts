@@ -79,7 +79,7 @@ export interface MongoOptions {
   failSilently?: boolean;
 }
 
-export const configurePlugin = async (on: Cypress.PluginEvents) => {
+export function configurePlugin(on: Cypress.PluginEvents) {
   on('task', {
     aggregate(args: MongoDetails) {
       return aggregate_util.aggregate(args).then((result) => {
@@ -151,9 +151,9 @@ export const configurePlugin = async (on: Cypress.PluginEvents) => {
       });
     },
   });
-};
+}
 
-export const addCommands = async () => {
+export function addCommands() {
   Cypress.Commands.add('aggregate', aggregate_commands.aggregate);
 
   Cypress.Commands.add(
@@ -176,4 +176,4 @@ export const addCommands = async () => {
   Cypress.Commands.add('findMany', find_commands.findMany);
 
   console.log('MongoDB plugin configured');
-};
+}

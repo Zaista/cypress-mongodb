@@ -1,8 +1,10 @@
-.idea/
 .github/
+.idea/
+cypress/
 node_modules/
 src/
-cypress/
+private/
+.prettierrc.json
+cypress.config.ts
 docker-compose.yaml
 tsconfig.json
-cypress.config.ts

@@ -1,3 +1,2 @@
-import { addCommands } from '../../dist';
-
+import { addCommands } from '../../src';
 addCommands();

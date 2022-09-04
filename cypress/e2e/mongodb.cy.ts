@@ -490,7 +490,7 @@ describe(
 
     it('Should return correct data types', () => {
       const document = {
-        _id: new ObjectId(faker.datatype.hexadecimal(24).substring(2)),
+        _id: new ObjectId(faker.datatype.hexadecimal({length: 24}).substring(2)),
         string: faker.datatype.uuid(),
         date: new Date(),
         boolean: faker.datatype.boolean(),
@@ -872,20 +872,20 @@ describe(
           double: faker.datatype.float(),
           array: faker.datatype.array() as any,
           date: new Date(),
-          objectId: new ObjectId(faker.datatype.hexadecimal(24).substring(2)),
+          objectId: new ObjectId(faker.datatype.hexadecimal({length: 24}).substring(2)),
           object: {
             innerObject: {
               date: new Date(),
               objectId: new ObjectId(
-                faker.datatype.hexadecimal(24).substring(2)
+                faker.datatype.hexadecimal({length: 24}).substring(2)
               ),
               innerArray: [
                 new Date(),
-                new ObjectId(faker.datatype.hexadecimal(24).substring(2)),
+                new ObjectId(faker.datatype.hexadecimal({length: 24}).substring(2)),
                 {
                   date: new Date(),
                   objectId: new ObjectId(
-                    faker.datatype.hexadecimal(24).substring(2)
+                    faker.datatype.hexadecimal({length: 24}).substring(2)
                   ),
                 },
                 null,
@@ -1027,7 +1027,7 @@ describe(
           },
           {
             string: uniqueString,
-            objectId: new ObjectId(faker.datatype.hexadecimal(24).substring(2)),
+            objectId: new ObjectId(faker.datatype.hexadecimal({length: 24}).substring(2)),
           },
           {
             string: uniqueString,
@@ -1036,20 +1036,20 @@ describe(
             double: faker.datatype.float(),
             array: faker.datatype.array() as any,
             date: new Date(),
-            objectId: new ObjectId(faker.datatype.hexadecimal(24).substring(2)),
+            objectId: new ObjectId(faker.datatype.hexadecimal({length: 24}).substring(2)),
             object: {
               innerObject: {
                 date: new Date(),
                 objectId: new ObjectId(
-                  faker.datatype.hexadecimal(24).substring(2)
+                  faker.datatype.hexadecimal({length: 24}).substring(2)
                 ),
                 innerArray: [
                   new Date(),
-                  new ObjectId(faker.datatype.hexadecimal(24).substring(2)),
+                  new ObjectId(faker.datatype.hexadecimal({length: 24}).substring(2)),
                   {
                     date: new Date(),
                     objectId: new ObjectId(
-                      faker.datatype.hexadecimal(24).substring(2)
+                      faker.datatype.hexadecimal({length: 24}).substring(2)
                     ),
                   },
                   null,
