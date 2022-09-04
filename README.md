@@ -123,7 +123,7 @@ export default defineConfig({
 
 In your `cypress/support/e2e.ts` add the following:
 
-```
+```TypeScript
 import { addCommands } from "cypress-mongodb";
 addCommands();
 ```
