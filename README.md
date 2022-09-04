@@ -60,16 +60,18 @@ cy.dropCollection('nonexistent_collection', { failSilently: true}).then(res => {
 
 # Environment setup
 
-Add the following `env` properties in your `cypress.json` file:
+Add the following `env` properties in your `cypress.config.js` file:
 
-```JSON
+```JavaScript
 {
-  "env": {
-    "mongodb": {
-      "uri": "mongodb://localhost:27017",
-      "database": "database_name",
-      "collection": "collection_name"
-    }
+  module.exports = defineConfig({
+      "env": {
+        "mongodb": {
+          "uri": "mongodb://localhost:27017",
+          "database": "database_name",
+          "collection": "collection_name"
+        },
+      })
   }
 }
 ```
@@ -78,7 +80,7 @@ Add the following `env` properties in your `cypress.json` file:
 
 # Plugin configuration - JavaScript
 
-In your `cypress/plugins/index.js` add the following:
+In your `cypress.config.js` add the following:
 
 ```JavaScript
 const mongo = require('cypress-mongodb');
@@ -94,36 +96,39 @@ module.exports = defineConfig({
 
 In your `cypress/support/e2e.js` add the following:
 
-```
+```JavaScript
 const mongo = require('cypress-mongodb');
 mongo.addCommands();
 ```
 
 # Plugin configuration - TypeScript
 
-In your `cypress/plugins/index.ts` add the following:
+In your `cypress.config.ts` add the following:
 
 ```TypeScript
-import * as mongo from 'cypress-mongodb';
+import { defineConfig } from 'cypress'
+import { configurePlugin } from 'cypress-mongodb';
 
 /**
  * @type {Cypress.PluginConfig}
  */
-export default (on, config) => {
-    mongo.configurePlugin(on);
+export default defineConfig({
+    e2e: {
+        setupNodeEvents(on) {
+            configurePlugin(on);
+        }
+    }
 }
 ```
 
 In your `cypress/support/e2e.ts` add the following:
 
 ```
-import * as mongo from "cypress-mongodb";
-mongo.addCommands();
+import { addCommands } from "cypress-mongodb";
+addCommands();
 ```
 
 # Future development & support
 
-Update command support.<br>
-Explicit support for fixture files planned.<br>
 Please create feature requests for things you'd like to see.<br>
 Please raise issues for any problems you encounter.
