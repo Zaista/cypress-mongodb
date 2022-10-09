@@ -67,11 +67,19 @@ declare global {
       /**
        * Custom command to update a single document in mongodb
        */
-      updateOne(filter: Document, document: Document, options?: MongoOptions): Chainable<Subject>;
+      updateOne(
+        filter: Document,
+        document: Document,
+        options?: MongoOptions
+      ): Chainable<Subject>;
       /**
        * Custom command to update multiple documents in mongodb
        */
-      updateMany(filter: Document, document: Document, options?: MongoOptions): Chainable<Subject>;
+      updateMany(
+        filter: Document,
+        document: Document,
+        options?: MongoOptions
+      ): Chainable<Subject>;
     }
   }
 }
