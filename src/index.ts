@@ -8,6 +8,8 @@ import * as delete_util from './utils/delete';
 import * as delete_commands from './commands/delete';
 import * as find_util from './utils/find';
 import * as find_commands from './commands/find';
+import * as update_util from './utils/update';
+import * as update_commands from './commands/update';
 import { Document } from 'mongodb';
 
 declare global {
@@ -62,6 +64,14 @@ declare global {
        * Custom command to find multiple documents in mongodb
        */
       findMany(query: Document, options?: MongoOptions): Chainable<Subject>;
+      /**
+       * Custom command to update a single document in mongodb
+       */
+      updateOne(filter: Document, document: Document, options?: MongoOptions): Chainable<Subject>;
+      /**
+       * Custom command to update multiple documents in mongodb
+       */
+      updateMany(filter: Document, document: Document, options?: MongoOptions): Chainable<Subject>;
     }
   }
 }
@@ -151,6 +161,22 @@ export function configurePlugin(on: Cypress.PluginEvents) {
       });
     },
   });
+
+  on('task', {
+    updateOne(args: MongoDetails) {
+      return update_util.updateOne(args).then((result) => {
+        return result;
+      });
+    },
+  });
+
+  on('task', {
+    updateMany(args: MongoDetails) {
+      return update_util.updateMany(args).then((result) => {
+        return result;
+      });
+    },
+  });
 }
 
 export function addCommands() {
@@ -174,6 +200,10 @@ export function addCommands() {
   Cypress.Commands.add('findOne', find_commands.findOne);
 
   Cypress.Commands.add('findMany', find_commands.findMany);
+
+  Cypress.Commands.add('updateOne', update_commands.updateOne);
+
+  Cypress.Commands.add('updateMany', update_commands.updateMany);
 
   console.log('MongoDB plugin configured');
 }
