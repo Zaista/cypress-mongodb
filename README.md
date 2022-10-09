@@ -10,25 +10,25 @@ profit
 
 # Supported and tested MongoDB versions
 
-4.0, 4.2, 4.4, 5.0
+4.4, 5.0
 
 # Usage
 
 ```TypeScript
-cy.createCollection('new_collection', { database: 'new_database' }); // creates both collection and database
+cy.createCollection('new_collection', {database: 'new_database'}); // creates both collection and database
 
 const oneDocument = {document: 1};
-cy.insertOne(oneDocument, { collection: 'some_collection', database: 'some_database' }).then(res => {
+cy.insertOne(oneDocument, {collection: 'some_collection', database: 'some_database'}).then(res => {
     cy.log(res); // prints the id of inserted document
 });
 
 const manyDocuments = [{document: 1}, {document: 2}];
-cy.insertMany(manyDocuments, { collection: 'some_other_collection' }).then(res => { // defaults to database from env variable
+cy.insertMany(manyDocuments, {collection: 'some_other_collection'}).then(res => { // defaults to database from env variable
     console.log(res); // prints the key-value pairs with inserted ids
 });
 
 const deleteClause = {document: 1};
-cy.deleteOne(oneDocument, { collection: 'new_collection', database: 'some_database' }).then(res => {
+cy.deleteOne(oneDocument, {collection: 'new_collection', database: 'some_database'}).then(res => {
     cy.log(res); // prints 1 (or 0) document deleted
 });
 
@@ -49,11 +49,11 @@ cy.dropCollection('start_new').then(res => {
 `createCollection` and `dropCollection` have the option to `failSilently`.
 
 ```TypeScript
-cy.createCollection('existing_collection', { failSilently: true}).then(res => {
+cy.createCollection('existing_collection', {failSilently: true}).then(res => {
     cy.log(res); // Error object if collection already exists
 });
 
-cy.dropCollection('nonexistent_collection', { failSilently: true}).then(res => {
+cy.dropCollection('nonexistent_collection', {failSilently: true}).then(res => {
     cy.log(res); // Error object if collection doesn’t exist
 });
 ```
@@ -64,19 +64,20 @@ Add the following `env` properties in your `cypress.config.js` file:
 
 ```JavaScript
 {
-  module.exports = defineConfig({
-      "env": {
-        "mongodb": {
-          "uri": "mongodb://localhost:27017",
-          "database": "database_name",
-          "collection": "collection_name"
-        },
-      })
-  }
+    module.exports = defineConfig({
+        "env": {
+            "mongodb": {
+                "uri": "mongodb://localhost:27017",
+                "database": "database_name",
+                "collection": "collection_name"
+            }
+        }
+    });
 }
 ```
 
-<b>Note:</b> only `mongodb.uri` is mandatory, you can always override/set database and collection names in each cypress mongodb command using options. You can set both local and remote urls.
+<b>Note:</b> only `mongodb.uri` is mandatory, you can always override/set database and collection names in each cypress
+mongodb command using options. You can set both local and remote urls.
 
 # Plugin configuration - JavaScript
 
@@ -106,8 +107,8 @@ mongo.addCommands();
 In your `cypress.config.ts` add the following:
 
 ```TypeScript
-import { defineConfig } from 'cypress'
-import { configurePlugin } from 'cypress-mongodb';
+import {defineConfig} from 'cypress'
+import {configurePlugin} from 'cypress-mongodb';
 
 /**
  * @type {Cypress.PluginConfig}
@@ -118,13 +119,14 @@ export default defineConfig({
             configurePlugin(on);
         }
     }
-}
+});
 ```
 
 In your `cypress/support/e2e.ts` add the following:
 
 ```TypeScript
-import { addCommands } from "cypress-mongodb";
+import {addCommands} from "cypress-mongodb";
+
 addCommands();
 ```
 
