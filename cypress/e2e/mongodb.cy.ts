@@ -663,6 +663,16 @@ describe(
                 });
             });
 
+            it('Should support deletion using _id', () => {
+                const _id = new ObjectId(faker.datatype.hexadecimal({length: 24}).substring(2));
+                const data = {_id : _id, value: 'value'};
+                const filter = {_id : _id};
+                cy.insertOne(data);
+                cy.deleteOne(filter).then((result: any) => {
+                    assert.match(result, /1 document deleted/);
+                });
+            });
+
             it('Should delete 0 documents', () => {
                 const pipeline = {id: 'non existing'};
                 cy.deleteOne(pipeline).then((result: any) => {
@@ -698,6 +708,21 @@ describe(
                 const pipeline = {id: 1};
                 cy.deleteMany(pipeline).then((result: any) => {
                     assert.match(result, /3 documents deleted/);
+                });
+            });
+
+            it('Should support multiple deletion using _id', () => {
+                const _id = new ObjectId(faker.datatype.hexadecimal({length: 24}).substring(2));
+                const _id2 = new ObjectId(faker.datatype.hexadecimal({length: 24}).substring(2));
+                const data = [
+                  {id : _id, value: 'value'},
+                  {id : _id, value: 'value'},
+                  {id : _id2, value: 'value'}
+                  ];
+                const filter = {id : _id};
+                cy.insertMany(data);
+                cy.deleteMany(filter).then((result: any) => {
+                    assert.match(result, /2 documents deleted/);
                 });
             });
 

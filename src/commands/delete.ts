@@ -2,6 +2,7 @@ import { Document } from 'mongodb';
 import Chainable = Cypress.Chainable;
 import { MongoOptions } from '../index';
 import { validate } from '../utils/validator';
+import { serialize } from 'bson';
 
 export function deleteOne(
   filter: Document,
@@ -24,6 +25,7 @@ export function deleteOne(
     throw new Error('Filter must be an object');
   }
 
+  args.pipeline = serialize(args.pipeline);
   return cy.task('deleteOne', args).then((result: any) => {
     return result;
   });
@@ -50,6 +52,7 @@ export function deleteMany(
     throw new Error('Filter must be an object');
   }
 
+  args.pipeline = serialize(args.pipeline);
   return cy.task('deleteMany', args).then((result: any) => {
     return result;
   });

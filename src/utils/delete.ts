@@ -1,7 +1,9 @@
 import { MongoClient } from 'mongodb';
 import { MongoDetails } from '../index';
+import { deserialize } from 'bson';
 
 export async function deleteOne(args: MongoDetails) {
+  args.pipeline = deserialize(Buffer.from(args.pipeline as Buffer));
   return MongoClient.connect(args.uri).then((client) => {
     return client
       .db(args.options.database)
@@ -19,6 +21,7 @@ export async function deleteOne(args: MongoDetails) {
 }
 
 export async function deleteMany(args: MongoDetails) {
+  args.pipeline = deserialize(Buffer.from(args.pipeline as Buffer));
   return MongoClient.connect(args.uri).then((client) => {
     return client
       .db(args.options.database)
