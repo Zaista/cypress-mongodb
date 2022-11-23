@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "prebuild": "npx prettier --write src/",
+    "prebuild": "npx prettier --write src/ cypress/",
     "build": "tsc -d",
     "test": "cypress run",
     "open": "cypress open --e2e --browser chrome"

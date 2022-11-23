@@ -2,7 +2,7 @@ import { Document } from 'mongodb';
 import Chainable = Cypress.Chainable;
 import { MongoOptions } from '../index';
 import { validate } from '../utils/validator';
-import { deserialize } from 'bson';
+import { serialize, deserialize } from 'bson';
 
 export function findOne(
   query: Document,
@@ -24,6 +24,8 @@ export function findOne(
   } else if (typeof query !== 'object' || Array.isArray(query)) {
     throw new Error('Query must be a valid mongodb query object');
   }
+
+  args.pipeline = serialize(args.pipeline);
 
   return cy.task('findOne', args).then((result: any) => {
     if (result !== null) return deserialize(Buffer.from(result));
@@ -51,6 +53,8 @@ export function findMany(
   } else if (typeof query !== 'object' || Array.isArray(query)) {
     throw new Error('Query must be a valid mongodb query object');
   }
+
+  args.pipeline = serialize(args.pipeline);
 
   return cy.task('findMany', args).then((result: any) => {
     return Object.values(deserialize(Buffer.from(result)));

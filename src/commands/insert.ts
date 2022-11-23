@@ -52,6 +52,7 @@ export function insertMany(
   } else if (!Array.isArray(documents)) {
     throw new Error('Documents must be an array');
   }
+
   args.pipeline = serialize(args.pipeline);
 
   return cy.task('insertMany', args).then((result: any) => {
