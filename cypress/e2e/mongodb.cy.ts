@@ -800,7 +800,7 @@ describe(
         );
         const document = { _id: _id, test: 'test' };
         cy.insertOne(document);
-        cy.findOne({ _id: _id }).then(result => {
+        cy.findOne({ _id: _id }).then((result) => {
           assert.strictEqual(result.test, document.test);
           assert.isTrue(result._id.equals(document._id));
         });
@@ -854,7 +854,7 @@ describe(
         const document1 = { _id: _id, test: 'test' };
         const document2 = { test: 'test' };
         cy.insertMany([document1, document2]);
-        cy.findMany({ _id: _id }).then(result => {
+        cy.findMany({ _id: _id }).then((result) => {
           console.log(result);
           assert.equal(result.length, 1);
           assert.strictEqual(result[0].test, document1.test);
