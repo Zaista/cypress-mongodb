@@ -1,8 +1,9 @@
 import { Document, MongoClient } from 'mongodb';
 import { MongoDetails } from '../index';
-import { serialize } from 'bson';
+import { deserialize, serialize } from 'bson';
 
 export async function findOne(args: MongoDetails) {
+  args.pipeline = deserialize(Buffer.from(args.pipeline as Buffer));
   return MongoClient.connect(args.uri).then(async (client) => {
     try {
       const result: any = await client
@@ -20,6 +21,7 @@ export async function findOne(args: MongoDetails) {
 }
 
 export async function findMany(args: MongoDetails) {
+  args.pipeline = deserialize(Buffer.from(args.pipeline as Buffer));
   return MongoClient.connect(args.uri).then((client) => {
     return client
       .db(args.options.database)
