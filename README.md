@@ -10,7 +10,7 @@ profit
 
 # Supported and tested MongoDB versions
 
-4.4, 5.0
+4.4, 5.0, 6.0
 
 # Usage
 
