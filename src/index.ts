@@ -95,6 +95,7 @@ export interface MongoOptions {
   collection?: string;
   database?: string;
   failSilently?: boolean;
+  upsert?: boolean;
 }
 
 export function configurePlugin(on: Cypress.PluginEvents) {
