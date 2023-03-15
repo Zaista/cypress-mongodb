@@ -8,10 +8,13 @@ export async function updateOne(args: any) {
     try {
       const database = client.db(args.options.database);
       const collection = database.collection(args.options.collection);
-      const result = await collection.updateOne(args.filter, args.pipeline);
+      const result: any = await collection.updateOne(
+        args.filter,
+        args.pipeline,
+        args.options
+      );
       await client.close();
-      if (result !== null) return serialize(result);
-      return null;
+      return result ? serialize(result) : null;
     } catch (err) {
       await client.close();
       throw err;
@@ -24,14 +27,15 @@ export async function updateMany(args: any) {
   args.pipeline = deserialize(Buffer.from(args.pipeline as Buffer));
   return MongoClient.connect(args.uri).then(async (client) => {
     try {
-      return client
-        .db(args.options.database)
-        .collection(args.options.collection as string)
-        .updateMany(args.filter, args.pipeline)
-        .then((result) => {
-          client.close();
-          return serialize(result);
-        });
+      const database = client.db(args.options.database);
+      const collection = database.collection(args.options.collection as string);
+      const result: any = await collection.updateMany(
+        args.filter,
+        args.pipeline,
+        args.options
+      );
+      await client.close();
+      return result ? serialize(result) : null;
     } catch (err) {
       await client.close();
       throw err;

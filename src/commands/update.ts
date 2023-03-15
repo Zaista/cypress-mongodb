@@ -14,6 +14,7 @@ export function updateOne(
     options: {
       database: options?.database || Cypress.env('mongodb').database,
       collection: options?.collection || Cypress.env('mongodb').collection,
+      upsert: options?.upsert,
     },
     filter: filter,
     pipeline: document,
@@ -51,6 +52,7 @@ export function updateMany(
     options: {
       database: options?.database || Cypress.env('mongodb').database,
       collection: options?.collection || Cypress.env('mongodb').collection,
+      upsert: options?.upsert,
     },
     filter: filter,
     pipeline: document,
