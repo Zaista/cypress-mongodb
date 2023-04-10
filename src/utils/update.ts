@@ -3,16 +3,13 @@ import { deserialize, serialize } from 'bson';
 
 export async function updateOne(args: any) {
   args.filter = deserialize(Buffer.from(args.filter as Buffer));
-  args.pipeline = deserialize(Buffer.from(args.pipeline as Buffer));
+  args.document = deserialize(Buffer.from(args.document as Buffer));
   return MongoClient.connect(args.uri).then(async (client) => {
     try {
-      const database = client.db(args.options.database);
-      const collection = database.collection(args.options.collection);
-      const result: any = await collection.updateOne(
-        args.filter,
-        args.pipeline,
-        args.options
-      );
+      const result: any = await client
+        .db(args.options.database)
+        .collection(args.options.collection as string)
+        .updateOne(args.filter, args.document, args.options);
       await client.close();
       return result ? serialize(result) : null;
     } catch (err) {
@@ -24,14 +21,14 @@ export async function updateOne(args: any) {
 
 export async function updateMany(args: any) {
   args.filter = deserialize(Buffer.from(args.filter as Buffer));
-  args.pipeline = deserialize(Buffer.from(args.pipeline as Buffer));
+  args.document = deserialize(Buffer.from(args.document as Buffer));
   return MongoClient.connect(args.uri).then(async (client) => {
     try {
       const database = client.db(args.options.database);
       const collection = database.collection(args.options.collection as string);
       const result: any = await collection.updateMany(
         args.filter,
-        args.pipeline,
+        args.document,
         args.options
       );
       await client.close();

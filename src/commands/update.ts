@@ -9,7 +9,7 @@ export function updateOne(
   document: Document,
   options?: MongoOptions
 ): Chainable {
-  const args: any = {
+  const args = {
     uri: Cypress.env('mongodb').uri,
     options: {
       database: options?.database || Cypress.env('mongodb').database,
@@ -17,7 +17,7 @@ export function updateOne(
       upsert: options?.upsert,
     },
     filter: filter,
-    pipeline: document,
+    document: document,
   };
 
   validate(args);
@@ -35,7 +35,7 @@ export function updateOne(
   }
 
   args.filter = serialize(args.filter);
-  args.pipeline = serialize(args.pipeline);
+  args.document = serialize(args.document);
 
   return cy.task('updateOne', args).then((result: any) => {
     return deserialize(Buffer.from(result));
@@ -47,7 +47,7 @@ export function updateMany(
   document: Document,
   options: MongoOptions | undefined
 ): Chainable {
-  const args: any = {
+  const args = {
     uri: Cypress.env('mongodb').uri,
     options: {
       database: options?.database || Cypress.env('mongodb').database,
@@ -55,7 +55,7 @@ export function updateMany(
       upsert: options?.upsert,
     },
     filter: filter,
-    pipeline: document,
+    document: document,
   };
 
   validate(args);
@@ -73,7 +73,7 @@ export function updateMany(
   }
 
   args.filter = serialize(args.filter);
-  args.pipeline = serialize(args.pipeline);
+  args.document = serialize(args.document);
 
   return cy.task('updateMany', args).then((result: any) => {
     return deserialize(Buffer.from(result));

@@ -32,9 +32,7 @@ describe(
       });
 
       it('Should support deletion using _id', () => {
-        const _id = new ObjectId(
-          faker.datatype.hexadecimal({ length: 24 }).substring(2)
-        );
+        const _id = new ObjectId();
         const data = { _id: _id, value: 'value' };
         const filter = { _id: _id };
         cy.insertOne(data);
@@ -82,12 +80,8 @@ describe(
       });
 
       it('Should support multiple deletion using _id', () => {
-        const _id = new ObjectId(
-          faker.datatype.hexadecimal({ length: 24 }).substring(2)
-        );
-        const _id2 = new ObjectId(
-          faker.datatype.hexadecimal({ length: 24 }).substring(2)
-        );
+        const _id = new ObjectId();
+        const _id2 = new ObjectId();
         const data = [
           { id: _id, value: 'value' },
           { id: _id, value: 'value' },

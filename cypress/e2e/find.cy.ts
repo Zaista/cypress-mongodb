@@ -32,9 +32,7 @@ describe(
       });
 
       it('Should fine one document using ObjectId', () => {
-        const _id = new ObjectId(
-          faker.datatype.hexadecimal({ length: 24 }).substring(2)
-        );
+        const _id = new ObjectId();
         const document = { _id: _id, test: 'test' };
         cy.insertOne(document);
         cy.findOne({ _id: _id }).then((result) => {
@@ -76,6 +74,47 @@ describe(
       });
     });
 
+    describe('findOneAndUpdate', () => {
+      it('Should find one document and update', () => {
+        const initialDocument = { _id: new ObjectId(), text: 'findOne' };
+        cy.insertOne(initialDocument);
+
+        const filter = { _id: initialDocument._id };
+        const updatedDocument = { $set: { text: 'findOneAndUpdate' } };
+        cy.findOneAndUpdate(filter, updatedDocument, {
+          returnDocument: 'after',
+        }).then((result: any) => {
+          assert.equal(result.text, 'findOneAndUpdate');
+        });
+      });
+
+      it('Should find no document and update using upsert', () => {
+        const _id = new ObjectId();
+        const document = {
+          $set: { test: 'should be upsert using findOneAndUpdate' },
+        };
+        cy.findOneAndUpdate({ _id: _id }, document, {
+          upsert: true,
+          returnDocument: 'after',
+        }).then((result) => {
+          console.log(result);
+          assert.equal(result.test, 'should be upsert using findOneAndUpdate');
+        });
+      });
+    });
+
+    describe('findOneAndDelete', () => {
+      it('Should find one document and delete', () => {
+        const document = { unique: new ObjectId() };
+        cy.insertOne(document);
+
+        const filter = { unique: document.unique };
+        cy.findOneAndDelete(filter).then((result: any) => {
+          assert.isTrue(result.unique.equals(document.unique));
+        });
+      });
+    });
+
     describe('findMany', () => {
       it('Should find many documents', () => {
         const query = { id: 1 };
@@ -85,9 +124,7 @@ describe(
       });
 
       it('Should fine many documents using ObjectId', () => {
-        const _id = new ObjectId(
-          faker.datatype.hexadecimal({ length: 24 }).substring(2)
-        );
+        const _id = new ObjectId();
         const document1 = { _id: _id, test: 'test' };
         const document2 = { test: 'test' };
         cy.insertMany([document1, document2]);

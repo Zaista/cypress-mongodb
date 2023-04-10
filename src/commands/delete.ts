@@ -14,7 +14,7 @@ export function deleteOne(
       database: options?.database || Cypress.env('mongodb').database,
       collection: options?.collection || Cypress.env('mongodb').collection,
     },
-    pipeline: filter,
+    filter: filter,
   };
 
   validate(args);
@@ -25,7 +25,7 @@ export function deleteOne(
     throw new Error('Filter must be an object');
   }
 
-  args.pipeline = serialize(args.pipeline);
+  args.filter = serialize(args.filter);
   return cy.task('deleteOne', args).then((result: any) => {
     return result;
   });
@@ -41,7 +41,7 @@ export function deleteMany(
       database: options?.database || Cypress.env('mongodb').database,
       collection: options?.collection || Cypress.env('mongodb').collection,
     },
-    pipeline: filter,
+    filter: filter,
   };
 
   validate(args);
@@ -52,7 +52,7 @@ export function deleteMany(
     throw new Error('Filter must be an object');
   }
 
-  args.pipeline = serialize(args.pipeline);
+  args.filter = serialize(args.filter);
   return cy.task('deleteMany', args).then((result: any) => {
     return result;
   });

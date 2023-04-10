@@ -1,7 +1,6 @@
 import { MongoClient } from 'mongodb';
-import { MongoDetails } from '../index';
 
-export async function createCollection(args: MongoDetails) {
+export async function createCollection(args: any) {
   return MongoClient.connect(args.uri).then((client) => {
     return client
       .db(args.options.database)
@@ -21,7 +20,7 @@ export async function createCollection(args: MongoDetails) {
   });
 }
 
-export async function dropCollection(args: MongoDetails) {
+export async function dropCollection(args: any) {
   return MongoClient.connect(args.uri).then((client) => {
     return client
       .db(args.options.database)

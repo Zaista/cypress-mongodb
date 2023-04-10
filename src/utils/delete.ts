@@ -1,14 +1,13 @@
 import { MongoClient } from 'mongodb';
-import { MongoDetails } from '../index';
 import { deserialize } from 'bson';
 
-export async function deleteOne(args: MongoDetails) {
-  args.pipeline = deserialize(Buffer.from(args.pipeline as Buffer));
+export async function deleteOne(args: any) {
+  args.filter = deserialize(Buffer.from(args.filter as Buffer));
   return MongoClient.connect(args.uri).then((client) => {
     return client
       .db(args.options.database)
       .collection(args.options.collection as string)
-      .deleteOne(args.pipeline!)
+      .deleteOne(args.filter)
       .then((res) => {
         client.close();
         return res.deletedCount + ' document deleted';
@@ -20,16 +19,16 @@ export async function deleteOne(args: MongoDetails) {
   });
 }
 
-export async function deleteMany(args: MongoDetails) {
-  args.pipeline = deserialize(Buffer.from(args.pipeline as Buffer));
+export async function deleteMany(args: any) {
+  args.filter = deserialize(Buffer.from(args.filter as Buffer));
   return MongoClient.connect(args.uri).then((client) => {
     return client
       .db(args.options.database)
       .collection(args.options.collection as string)
-      .deleteMany(args.pipeline!)
-      .then((res) => {
+      .deleteMany(args.filter)
+      .then((result) => {
         client.close();
-        return res.deletedCount + ' documents deleted';
+        return result.deletedCount + ' documents deleted';
       })
       .catch((err) => {
         client.close();

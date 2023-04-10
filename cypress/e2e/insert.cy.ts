@@ -41,25 +41,17 @@ describe(
           double: faker.datatype.float(),
           array: faker.datatype.array() as any,
           date: new Date(),
-          objectId: new ObjectId(
-            faker.datatype.hexadecimal({ length: 24 }).substring(2)
-          ),
+          objectId: new ObjectId(),
           object: {
             innerObject: {
               date: new Date(),
-              objectId: new ObjectId(
-                faker.datatype.hexadecimal({ length: 24 }).substring(2)
-              ),
+              objectId: new ObjectId(),
               innerArray: [
                 new Date(),
-                new ObjectId(
-                  faker.datatype.hexadecimal({ length: 24 }).substring(2)
-                ),
+                new ObjectId(),
                 {
                   date: new Date(),
-                  objectId: new ObjectId(
-                    faker.datatype.hexadecimal({ length: 24 }).substring(2)
-                  ),
+                  objectId: new ObjectId(),
                 },
                 null,
               ],
@@ -202,9 +194,7 @@ describe(
           },
           {
             string: uniqueString,
-            objectId: new ObjectId(
-              faker.datatype.hexadecimal({ length: 24 }).substring(2)
-            ),
+            objectId: new ObjectId(),
           },
           {
             string: uniqueString,
@@ -213,25 +203,17 @@ describe(
             double: faker.datatype.float(),
             array: faker.datatype.array() as any,
             date: new Date(),
-            objectId: new ObjectId(
-              faker.datatype.hexadecimal({ length: 24 }).substring(2)
-            ),
+            objectId: new ObjectId(),
             object: {
               innerObject: {
                 date: new Date(),
-                objectId: new ObjectId(
-                  faker.datatype.hexadecimal({ length: 24 }).substring(2)
-                ),
+                objectId: new ObjectId(),
                 innerArray: [
                   new Date(),
-                  new ObjectId(
-                    faker.datatype.hexadecimal({ length: 24 }).substring(2)
-                  ),
+                  new ObjectId(),
                   {
                     date: new Date(),
-                    objectId: new ObjectId(
-                      faker.datatype.hexadecimal({ length: 24 }).substring(2)
-                    ),
+                    objectId: new ObjectId(),
                   },
                   null,
                 ],
