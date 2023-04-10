@@ -69,6 +69,13 @@ declare global {
         options?: MongoOptions
       ): Chainable<Subject>;
       /**
+       * Custom command to find a single document and delete it in mongodb
+       */
+      findOneAndDelete(
+        filter: Document,
+        options?: MongoOptions
+      ): Chainable<Subject>;
+      /**
        * Custom command to find multiple documents in mongodb
        */
       findMany(query: Document, options?: MongoOptions): Chainable<Subject>;
@@ -157,6 +164,12 @@ export function configurePlugin(on: Cypress.PluginEvents) {
       });
     },
 
+    findOneAndDelete(args) {
+      return find_util.findOneAndDelete(args).then((result) => {
+        return result;
+      });
+    },
+
     findMany(args) {
       return find_util.findMany(args).then((result) => {
         return result;
@@ -198,6 +211,8 @@ export function addCommands() {
   Cypress.Commands.add('findOne', find_commands.findOne);
 
   Cypress.Commands.add('findOneAndUpdate', find_commands.findOneAndUpdate);
+
+  Cypress.Commands.add('findOneAndDelete', find_commands.findOneAndDelete);
 
   Cypress.Commands.add('findMany', find_commands.findMany);
 

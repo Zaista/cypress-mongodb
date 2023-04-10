@@ -103,6 +103,18 @@ describe(
       });
     });
 
+    describe('findOneAndDelete', () => {
+      it('Should find one document and delete', () => {
+        const document = { unique: new ObjectId() };
+        cy.insertOne(document);
+
+        const filter = { unique: document.unique };
+        cy.findOneAndDelete(filter).then((result: any) => {
+          assert.isTrue(result.unique.equals(document.unique));
+        });
+      });
+    });
+
     describe('findMany', () => {
       it('Should find many documents', () => {
         const query = { id: 1 };

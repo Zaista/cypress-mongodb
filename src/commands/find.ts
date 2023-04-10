@@ -74,6 +74,35 @@ export function findOneAndUpdate(
   });
 }
 
+export function findOneAndDelete(
+  filter: Document,
+  options: MongoOptions | undefined
+): Chainable {
+  const args = {
+    uri: Cypress.env('mongodb').uri,
+    options: {
+      database: options?.database || Cypress.env('mongodb').database,
+      collection: options?.collection || Cypress.env('mongodb').collection,
+    },
+    filter: filter,
+  };
+
+  validate(args);
+
+  if (!filter) {
+    throw new Error('Filter must be specified');
+  } else if (typeof filter !== 'object' || Array.isArray(filter)) {
+    throw new Error('Filter must be an object');
+  }
+
+  args.filter = serialize(args.filter);
+
+  return cy.task('findOneAndDelete', args).then((result: any) => {
+    if (result !== null) return deserialize(Buffer.from(result)).value;
+    else return null;
+  });
+}
+
 export function findMany(
   query: Document,
   options: MongoOptions | undefined
