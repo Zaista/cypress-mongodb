@@ -45,9 +45,7 @@ describe(
 
     it('Should return correct data types', () => {
       const document = {
-        _id: new ObjectId(
-          faker.datatype.hexadecimal({ length: 24 }).substring(2)
-        ),
+        _id: new ObjectId(),
         string: faker.datatype.uuid(),
         date: new Date(),
         boolean: faker.datatype.boolean(),

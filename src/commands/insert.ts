@@ -8,13 +8,13 @@ export function insertOne(
   document: Document,
   options?: MongoOptions
 ): Chainable {
-  const args: any = {
+  const args = {
     uri: Cypress.env('mongodb').uri,
     options: {
       database: options?.database || Cypress.env('mongodb').database,
       collection: options?.collection || Cypress.env('mongodb').collection,
     },
-    pipeline: document,
+    document: document,
   };
 
   validate(args);
@@ -25,7 +25,7 @@ export function insertOne(
     throw new Error('Document must be an object');
   }
 
-  args.pipeline = serialize(args.pipeline);
+  args.document = serialize(args.document);
 
   return cy.task('insertOne', args).then((result: any) => {
     return result;
@@ -36,13 +36,13 @@ export function insertMany(
   documents: Document[],
   options: MongoOptions | undefined
 ): Chainable {
-  const args: any = {
+  const args = {
     uri: Cypress.env('mongodb').uri,
     options: {
       database: options?.database || Cypress.env('mongodb').database,
       collection: options?.collection || Cypress.env('mongodb').collection,
     },
-    pipeline: documents,
+    documents: documents,
   };
 
   validate(args);
@@ -53,7 +53,7 @@ export function insertMany(
     throw new Error('Documents must be an array');
   }
 
-  args.pipeline = serialize(args.pipeline);
+  args.documents = serialize(args.documents) as any;
 
   return cy.task('insertMany', args).then((result: any) => {
     return result;

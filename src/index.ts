@@ -61,6 +61,14 @@ declare global {
        */
       findOne(query: Document, options?: MongoOptions): Chainable<Subject>;
       /**
+       * Custom command to find a single document and update it in mongodb
+       */
+      findOneAndUpdate(
+        filter: Document,
+        document: Document,
+        options?: MongoOptions
+      ): Chainable<Subject>;
+      /**
        * Custom command to find multiple documents in mongodb
        */
       findMany(query: Document, options?: MongoOptions): Chainable<Subject>;
@@ -84,103 +92,84 @@ declare global {
   }
 }
 
-export interface MongoDetails {
-  uri: string;
-  options: MongoOptions;
-  pipeline?: Document | Document[] | Buffer;
-  failSilently?: boolean;
-}
-
 export interface MongoOptions {
   collection?: string;
   database?: string;
   failSilently?: boolean;
   upsert?: boolean;
+  returnDocument?: string;
+  returnNewDocument?: boolean;
 }
 
 export function configurePlugin(on: Cypress.PluginEvents) {
   on('task', {
-    aggregate(args: MongoDetails) {
+    aggregate(args) {
       return aggregate_util.aggregate(args).then((result) => {
         return result;
       });
     },
-  });
 
-  on('task', {
-    createCollection(args: MongoDetails) {
+    createCollection(args) {
       return collection_util.createCollection(args).then((result) => {
         return result;
       });
     },
-  });
 
-  on('task', {
-    dropCollection(args: MongoDetails) {
+    dropCollection(args) {
       return collection_util.dropCollection(args).then((result) => {
         return result;
       });
     },
-  });
 
-  on('task', {
-    insertOne(args: MongoDetails) {
+    insertOne(args) {
       return insert_util.insertOne(args).then((result) => {
         return result;
       });
     },
-  });
 
-  on('task', {
-    insertMany(args: MongoDetails) {
+    insertMany(args) {
       return insert_util.insertMany(args).then((result) => {
         return result;
       });
     },
-  });
 
-  on('task', {
-    deleteOne(args: MongoDetails) {
+    deleteOne(args) {
       return delete_util.deleteOne(args).then((result) => {
         return result;
       });
     },
-  });
 
-  on('task', {
-    deleteMany(args: MongoDetails) {
+    deleteMany(args) {
       return delete_util.deleteMany(args).then((result) => {
         return result;
       });
     },
-  });
 
-  on('task', {
-    findOne(args: MongoDetails) {
+    findOne(args) {
       return find_util.findOne(args).then((result) => {
         return result;
       });
     },
-  });
 
-  on('task', {
-    findMany(args: MongoDetails) {
+    findOneAndUpdate(args) {
+      return find_util.findOneAndUpdate(args).then((result) => {
+        return result;
+      });
+    },
+
+    findMany(args) {
       return find_util.findMany(args).then((result) => {
         return result;
       });
     },
-  });
 
-  on('task', {
-    updateOne(args: MongoDetails) {
+    updateOne(args) {
       return update_util.updateOne(args).then((result) => {
         return result;
       });
     },
-  });
 
-  on('task', {
-    updateMany(args: MongoDetails) {
+    updateMany(args) {
       return update_util.updateMany(args).then((result) => {
         return result;
       });
@@ -207,6 +196,8 @@ export function addCommands() {
   Cypress.Commands.add('deleteMany', delete_commands.deleteMany);
 
   Cypress.Commands.add('findOne', find_commands.findOne);
+
+  Cypress.Commands.add('findOneAndUpdate', find_commands.findOneAndUpdate);
 
   Cypress.Commands.add('findMany', find_commands.findMany);
 
