@@ -327,6 +327,9 @@ import {addCommands} from "cypress-mongodb";
 addCommands();
 ```
 
+# Documentation
+https://mongodb.github.io/node-mongodb-native/4.10/classes/Collection.html
+
 # Future development & support
 
 Please create feature requests for things you'd like to see.<br>
