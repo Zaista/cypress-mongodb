@@ -24,22 +24,43 @@ compilation error
 # Usage
 
 ## Collection commands
+
+### syntax
 ```TypeScript
-cy.createCollection('new_collection');
+cy.createCollection(collectionName);
+cy.createCollection(collectionName, options);
 
-cy.createCollection('existing_collection', options).then(res => {
-    cy.log(res); // Error object if collection already exists
-});
-
-cy.dropCollection('nonexistent_collection', options).then(res => {
-    cy.log(res); // Error object if collection doesn’t exist
-});
+cy.dropCollection(collectionName);
+cy.dropCollection(collectionName, options);
 ```
 
-| Option       | Default                                               | Description                                                        |
+### arguments
+| Arguments      | Type              | Description                            |
+|----------------|-------------------|----------------------------------------|
+| collectionName | String (required) | Name of the collection to create/drop  |
+| options        | Object (optional) | Provide additional options (see below) |
+
+
+### options
+| Options      | Default                                               | Description                                                        |
 |--------------|-------------------------------------------------------|--------------------------------------------------------------------|
 | database     | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed              |
 | failSilently | `false`                                               | Control if the command will fail or if the collection is not found |
+
+### examples
+```TypeScript
+cy.createCollection('someCollection'); // collection with name `someCollection` will be created
+
+cy.createCollection('someOtherCollection', { database: 'someDatabase', failSilently: 'true' }).then(res => {
+    cy.log(res); // Will return 'Collection created' or the error object if collection already exists. Will not fail the test 
+});
+
+cy.dropCollection('someCollection'); // collection will be droped
+
+cy.dropCollection('nonexistentCollection', { database: 'someDatabase', failSilently: 'true' }).then(res => {
+    cy.log(res); // Will return 'Collection dropped' or the error object if collection doesn’t exist. Will not fail the test
+});
+```
 
 ## Insert commands
 ```TypeScript
