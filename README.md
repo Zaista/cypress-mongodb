@@ -132,8 +132,8 @@ cy.findOneAndDelete(filter, options);
 | database       | Value specified in the `mongodb` environment variable | Collection on top of which the command will be executed                                                                                    |
 | upsert         | `false`                                               | Creates a new document if no documents matched the provided filter (used only in `findOneAndUpdate` command)                               |
 | returnDocument | `before`                                              | Specify this option with `after` value to return the update document instead of the original one (used only in `findOneAndUpdate` command) |
-| sort           | First matching document                               | Specifies a sorting order for the documents matched by the filter                                                                          |
-| projection     | Entire document                                       | A subset of fields to return                                                                                                               |
+| sort           | First matching document                               | Specifies a sorting order for the documents matched by the filter (used only in `findOneAndDelete` command)                                |
+| projection     | Entire document                                       | A subset of fields to return (used only in `findOneAndDelete` command)                                                                     |
 
 ### > examples
 ```TypeScript
