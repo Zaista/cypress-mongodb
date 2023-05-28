@@ -10,13 +10,13 @@ profit
 
 # Supported and tested system versions
 
-|                        | Versions           |
-|------------------------|--------------------|
-| MongoDB                | 4.4, 5.0, 6.0      |
-| Node                   | 16.20, 18.16, 19.9 |
-| MongoDB Node.js Driver | 4.10.0             |
+|                        | Versions                 |
+|------------------------|--------------------------|
+| MongoDB                | `4.4`, `5.0`, `6.0`      |
+| Node                   | `16.20`, `18.16`, `19.9` |
+| MongoDB Node.js Driver | `4.10.0`                 |
 
-## Important
+### important
 
 If you use mongodb dependency in your project, it hast to be version <=4.10.0, otherwise you'll get a Webpack
 compilation error
@@ -25,7 +25,7 @@ compilation error
 
 ## Collection commands
 
-### syntax
+### > syntax
 ```TypeScript
 cy.createCollection(collectionName);
 cy.createCollection(collectionName, options);
@@ -34,20 +34,20 @@ cy.dropCollection(collectionName);
 cy.dropCollection(collectionName, options);
 ```
 
-### arguments
+### > arguments
 | Arguments      | Type              | Description                            |
 |----------------|-------------------|----------------------------------------|
 | collectionName | String (required) | Name of the collection to create/drop  |
 | options        | Object (optional) | Provide additional options (see below) |
 
 
-### options
+### > options
 | Options      | Default                                               | Description                                                        |
 |--------------|-------------------------------------------------------|--------------------------------------------------------------------|
 | database     | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed              |
 | failSilently | `false`                                               | Control if the command will fail or if the collection is not found |
 
-### examples
+### > examples
 ```TypeScript
 cy.createCollection('someCollection'); // collection with name `someCollection` will be created
 
@@ -63,16 +63,47 @@ cy.dropCollection('nonexistentCollection', { database: 'someDatabase', failSilen
 ```
 
 ## Insert commands
+### > syntax
 ```TypeScript
-const oneDocument = {document: 1};
-cy.insertOne(oneDocument, {collection: 'some_collection', database: 'some_database'}).then(res => {
-    cy.log(res); // prints the id of inserted document
+cy.insertOne(document);
+cy.insertOne(document, options);
+
+cy.insertMany(documents);
+cy.insertMany(documents, options);
+```
+
+### > arguments
+| Arguments   | Type                | Description                                        |
+|-------------|---------------------|----------------------------------------------------|
+| document    | Object (required)   | A Document object that will be inserted            |
+| documents   | Object[] (required) | An array of Document objects that will be inserted |
+| options     | Object (optional)   | Provide additional options (see below)             |
+
+
+### > options
+| Options      | Default                                               | Description                                             |
+|--------------|-------------------------------------------------------|---------------------------------------------------------|
+| collection   | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed   |
+| database     | Value specified in the `mongodb` environment variable | Collection on top of which the command will be executed |
+
+### > examples
+```TypeScript
+cy.insertOne({document: 1}; // will insert the provided document in mongodb
+
+cy.insertOne({document: 1}, {collection: 'someCollection', database: 'someDatabase'}).then(result => {
+    cy.log(result); // prints the _id of inserted document
 });
 
-const manyDocuments = [{document: 1}, {document: 2}];
-cy.insertMany(manyDocuments, {collection: 'some_other_collection'}).then(res => { // defaults to database from env variable
-    console.log(res); // prints the key-value pairs with inserted ids
+cy.insertMany([{document: 1}, {document: 2}]); // will insert provided documents in mongodb
+
+cy.insertMany([{document: 1}, {document: 2}], {collection: 'some_other_collection'}).then(result => {
+    console.log(result); // prints the key-value pairs of the inserted ids
 });
+```
+
+## Find commands
+### > syntax
+```TypeScript
 
 const documentWithObjectId = {_id: new ObjectId();}; // don't forget import { ObjectId } from 'mongodb';
 cy.findOne(documentWithObjectId).then(res => {
