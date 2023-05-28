@@ -4,10 +4,7 @@ import { MongoOptions } from '../index';
 import { validate } from '../utils/validator';
 import { serialize, deserialize } from 'bson';
 
-export function findOne(
-  query: Document,
-  options: MongoOptions | undefined
-): Chainable {
+export function findOne(query: Document, options?: MongoOptions): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
     options: {
@@ -36,7 +33,12 @@ export function findOne(
 export function findOneAndUpdate(
   filter: Document,
   document: Document,
-  options: MongoOptions | undefined
+  options?: {
+    database?: string;
+    collection?: string;
+    upsert?: boolean;
+    returnDocument?: 'before' | 'after';
+  }
 ): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
@@ -45,7 +47,6 @@ export function findOneAndUpdate(
       collection: options?.collection || Cypress.env('mongodb').collection,
       upsert: options?.upsert,
       returnDocument: options?.returnDocument,
-      returnNewDocument: options?.returnNewDocument,
     },
     filter: filter,
     document: document,
@@ -76,13 +77,20 @@ export function findOneAndUpdate(
 
 export function findOneAndDelete(
   filter: Document,
-  options: MongoOptions | undefined
+  options?: {
+    database?: string;
+    collection?: string;
+    sort?: Document;
+    projection?: Document;
+  }
 ): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
     options: {
       database: options?.database || Cypress.env('mongodb').database,
       collection: options?.collection || Cypress.env('mongodb').collection,
+      sort: options?.sort,
+      projection: options?.projection,
     },
     filter: filter,
   };
@@ -96,6 +104,8 @@ export function findOneAndDelete(
   }
 
   args.filter = serialize(args.filter);
+  args.options.sort = serialize(args.options.sort as Document);
+  args.options.projection = serialize(args.options.projection as Document);
 
   return cy.task('findOneAndDelete', args).then((result: any) => {
     if (result !== null) return deserialize(Buffer.from(result)).value;

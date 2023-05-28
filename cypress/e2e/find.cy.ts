@@ -75,7 +75,7 @@ describe(
     });
 
     describe('findOneAndUpdate', () => {
-      it('Should find one document and update', () => {
+      it('Should find one document, update and return updated document', () => {
         const initialDocument = { _id: new ObjectId(), text: 'findOne' };
         cy.insertOne(initialDocument);
 
@@ -85,6 +85,20 @@ describe(
           returnDocument: 'after',
         }).then((result: any) => {
           assert.equal(result.text, 'findOneAndUpdate');
+        });
+      });
+
+      it('Should find one document, update and return original document', () => {
+        const initialDocument = {
+          _id: new ObjectId(),
+          text: 'findOneOriginal',
+        };
+        cy.insertOne(initialDocument);
+
+        const filter = { _id: initialDocument._id };
+        const updatedDocument = { $set: { text: 'findOneAndUpdate' } };
+        cy.findOneAndUpdate(filter, updatedDocument).then((result: any) => {
+          assert.equal(result.text, 'findOneOriginal');
         });
       });
 
@@ -105,12 +119,40 @@ describe(
 
     describe('findOneAndDelete', () => {
       it('Should find one document and delete', () => {
-        const document = { unique: new ObjectId() };
-        cy.insertOne(document);
+        const uuid = faker.datatype.uuid();
+        const initialDocuments = [
+          { uuid: uuid, points: 24 },
+          { uuid: uuid, points: 11 },
+          { uuid: uuid, points: 15 },
+          { uuid: uuid, points: 37 },
+          { uuid: uuid, points: 22 },
+        ];
+        cy.insertMany(initialDocuments);
 
-        const filter = { unique: document.unique };
+        const filter = { uuid: uuid };
         cy.findOneAndDelete(filter).then((result: any) => {
-          assert.isTrue(result.unique.equals(document.unique));
+          assert.equal(result.points, 24);
+        });
+      });
+
+      it('Should find one document and delete with sort and projection', () => {
+        const uuid = faker.datatype.uuid();
+        const initialDocuments = [
+          { uuid: uuid, points: 27 },
+          { uuid: uuid, points: 13 },
+          { uuid: uuid, points: 18 },
+          { uuid: uuid, points: 36 },
+          { uuid: uuid, points: 27 },
+        ];
+        cy.insertMany(initialDocuments);
+
+        const filter = { uuid: uuid };
+        cy.findOneAndDelete(filter, {
+          sort: { points: 1 },
+          projection: { points: 1 },
+        }).then((result: any) => {
+          assert.equal(result.points, 13);
+          expect(result.uuid).to.be.undefined;
         });
       });
     });

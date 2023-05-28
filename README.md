@@ -8,15 +8,41 @@ run `npm install cypress-mongodb`<br>
 configure (see below)<br>
 profit
 
-# Supported and tested MongoDB versions
+# Supported and tested system versions
 
-4.4, 5.0, 6.0
+|                        | Versions           |
+|------------------------|--------------------|
+| MongoDB                | 4.4, 5.0, 6.0      |
+| Node                   | 16.20, 18.16, 19.9 |
+| MongoDB Node.js Driver | 4.10.0             |
+
+## Important
+
+If you use mongodb dependency in your project, it hast to be version <=4.10.0, otherwise you'll get a Webpack
+compilation error
 
 # Usage
 
+## Collection commands
 ```TypeScript
-cy.createCollection('new_collection', {database: 'new_database'}); // creates both collection and database
+cy.createCollection('new_collection');
 
+cy.createCollection('existing_collection', options).then(res => {
+    cy.log(res); // Error object if collection already exists
+});
+
+cy.dropCollection('nonexistent_collection', options).then(res => {
+    cy.log(res); // Error object if collection doesn’t exist
+});
+```
+
+| Option       | Default                                               | Description                                                        |
+|--------------|-------------------------------------------------------|--------------------------------------------------------------------|
+| database     | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed              |
+| failSilently | `false`                                               | Control if the command will fail or if the collection is not found |
+
+## Insert commands
+```TypeScript
 const oneDocument = {document: 1};
 cy.insertOne(oneDocument, {collection: 'some_collection', database: 'some_database'}).then(res => {
     cy.log(res); // prints the id of inserted document
@@ -25,6 +51,11 @@ cy.insertOne(oneDocument, {collection: 'some_collection', database: 'some_databa
 const manyDocuments = [{document: 1}, {document: 2}];
 cy.insertMany(manyDocuments, {collection: 'some_other_collection'}).then(res => { // defaults to database from env variable
     console.log(res); // prints the key-value pairs with inserted ids
+});
+
+const documentWithObjectId = {_id: new ObjectId();}; // don't forget import { ObjectId } from 'mongodb';
+cy.findOne(documentWithObjectId).then(res => {
+    cy.log(res); // prints the document with the _id (if found)
 });
 
 const deleteClause = {document: 1};
@@ -46,17 +77,6 @@ cy.dropCollection('start_new').then(res => {
 });
 ```
 
-`createCollection` and `dropCollection` have the option to `failSilently`.
-
-```TypeScript
-cy.createCollection('existing_collection', {failSilently: true}).then(res => {
-    cy.log(res); // Error object if collection already exists
-});
-
-cy.dropCollection('nonexistent_collection', {failSilently: true}).then(res => {
-    cy.log(res); // Error object if collection doesn’t exist
-});
-```
 
 # Environment setup
 
