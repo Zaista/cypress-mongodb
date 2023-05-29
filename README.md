@@ -114,11 +114,11 @@ cy.dropCollection(name, options);
 
 
 ### > options
-| Options                                 | Default                                               | Description                                                                                                                   |
-|-----------------------------------------|-------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| database                                | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed                                                                         |
-| failSilently                            | `false`                                               | Control if the command will fail or if the collection is not found                                                            |
-| *...any other mongodb supported option* | N/A                                                   | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/CreateCollectionOptions.html) |
+| Options                                 | Default                                               | Description                                                                                                                                                                                                                                                                        |
+|-----------------------------------------|-------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| database                                | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed                                                                                                                                                                                                                              |
+| failSilently                            | `false`                                               | Control if the command will fail or if the collection is not found                                                                                                                                                                                                                 |
+| *...any other mongodb supported option* | *N/A*                                                 | Refer to official documentation for supported [createCollection](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/CreateCollectionOptions.html) or [dropCollection](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/DropCollectionOptions.html) options |
 
 ### > examples
 ```TypeScript
