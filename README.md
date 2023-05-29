@@ -283,7 +283,7 @@ cy.aggregate(pipeline).then(result => {
 | Options                    | Default                                               | Description                                                                                                                   |
 |----------------------------|-------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
 | database                   | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed                                                                         |
-| collection             ]   | Value specified in the `mongodb` environment variable | Collection on top of which the command will be executed                                                                       |
+| collection                 | Value specified in the `mongodb` environment variable | Collection on top of which the command will be executed                                                                       |
 | failSilently               | `false`                                               | Control if the command will fail or if the collection is not found                                                            |
 | `createCollection` options | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/CreateCollectionOptions.html) |
 | `dropCollection` options   | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/DropCollectionOptions.html)   |
