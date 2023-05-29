@@ -118,7 +118,7 @@ cy.dropCollection(name, options);
 |---------------------------|-------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
 | database                  | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed                                                                         |
 | failSilently              | `false`                                               | Control if the command will fail or if the collection is not found                                                            |
-| *default mongodb options* |                                                       | Refer to official (documentation)[https://mongodb.github.io/node-mongodb-native/4.10/interfaces/CreateCollectionOptions.html] |
+| *default mongodb options* |                                                       | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/CreateCollectionOptions.html) |
 
 ### > examples
 ```TypeScript
