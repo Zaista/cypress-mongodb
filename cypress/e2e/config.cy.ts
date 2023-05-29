@@ -1,3 +1,5 @@
+import { faker } from '@faker-js/faker';
+
 describe('Configuration tests', () => {
   const configuration_data = {
     uri: 'mongodb://localhost:27017',
@@ -376,8 +378,10 @@ describe('Configuration tests', () => {
     },
     () => {
       it('Should work with provided options - create', () => {
-        cy.createCollection(configuration_data.collection, {
+        cy.createCollection(faker.random.word(), {
           database: configuration_data.database,
+        }).then((result) => {
+          assert.equal('Collection created', result);
         });
       });
       it('Should work with provided options - aggregate', () => {

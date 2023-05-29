@@ -6,9 +6,9 @@ export async function findOne(args: any) {
   return MongoClient.connect(args.uri).then(async (client) => {
     try {
       const result: any = await client
-        .db(args.options.database)
-        .collection(args.options.collection as string)
-        .findOne(args.query);
+        .db(args.database)
+        .collection(args.collection as string)
+        .findOne(args.query, args.options);
       await client.close();
       if (result !== null) return serialize(result);
       return null;
@@ -25,9 +25,9 @@ export async function findOneAndUpdate(args: any) {
   return MongoClient.connect(args.uri).then(async (client) => {
     try {
       const result: any = await client
-        .db(args.options.database)
-        .collection(args.options.collection as string)
-        .findOneAndUpdate(args.filter, args.document, args.options as any);
+        .db(args.database)
+        .collection(args.collection as string)
+        .findOneAndUpdate(args.filter, args.document, args.options);
       await client.close();
       if (result !== null) return serialize(result);
       return null;
@@ -40,15 +40,12 @@ export async function findOneAndUpdate(args: any) {
 
 export async function findOneAndDelete(args: any) {
   args.filter = deserialize(Buffer.from(args.filter as Buffer));
-  args.options.sort = deserialize(Buffer.from(args.options.sort as Buffer));
-  args.options.projection = deserialize(
-    Buffer.from(args.options.projection as Buffer)
-  );
+  args.options = deserialize(Buffer.from(args.options as Buffer));
   return MongoClient.connect(args.uri).then(async (client) => {
     try {
       const result: any = await client
-        .db(args.options.database)
-        .collection(args.options.collection as string)
+        .db(args.database)
+        .collection(args.collection as string)
         .findOneAndDelete(args.filter, args.options);
       await client.close();
       if (result !== null) return serialize(result);
@@ -64,9 +61,9 @@ export async function findMany(args: any) {
   args.query = deserialize(Buffer.from(args.query as Buffer));
   return MongoClient.connect(args.uri).then((client) => {
     return client
-      .db(args.options.database)
-      .collection(args.options.collection as string)
-      .find(args.query as Document[])
+      .db(args.database)
+      .collection(args.collection as string)
+      .find(args.query as Document[], args.options)
       .toArray()
       .then((result) => {
         client.close();

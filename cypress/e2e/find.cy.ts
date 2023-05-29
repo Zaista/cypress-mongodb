@@ -5,7 +5,6 @@ const finding_data = {
   uri: 'mongodb://localhost:27017',
   collection: 'finding_collection',
   database: 'finding_database',
-  pipeline: [{ id: 1 }, { id: 1 }, { id: 2 }, { id: 3 }],
 };
 describe(
   'Finding tests',
@@ -19,15 +18,14 @@ describe(
     },
   },
   () => {
-    before(() => {
-      cy.insertMany(finding_data.pipeline);
-    });
-
     describe('findOne', () => {
       it('Should find one document', () => {
-        const query = { id: 1 };
+        const document = { id: faker.string.uuid() };
+        cy.insertOne(document);
+        const query = { id: document.id };
         cy.findOne(query).then((result: any) => {
           assert.strictEqual(result.id, query.id);
+          expect(result.length).to.be.undefined;
         });
       });
 
@@ -42,7 +40,7 @@ describe(
       });
 
       it('Should find no document', () => {
-        const query = { id: 4 };
+        const query = { id: faker.string.uuid() };
         cy.findOne(query).then((result) => {
           assert.isNull(result);
         });
@@ -119,7 +117,7 @@ describe(
 
     describe('findOneAndDelete', () => {
       it('Should find one document and delete', () => {
-        const uuid = faker.datatype.uuid();
+        const uuid = faker.string.uuid();
         const initialDocuments = [
           { uuid: uuid, points: 24 },
           { uuid: uuid, points: 11 },
@@ -136,7 +134,7 @@ describe(
       });
 
       it('Should find one document and delete with sort and projection', () => {
-        const uuid = faker.datatype.uuid();
+        const uuid = faker.string.uuid();
         const initialDocuments = [
           { uuid: uuid, points: 27 },
           { uuid: uuid, points: 13 },
@@ -159,9 +157,28 @@ describe(
 
     describe('findMany', () => {
       it('Should find many documents', () => {
-        const query = { id: 1 };
+        const id = faker.string.uuid();
+        const documents = [{ id: id }, { id: id }, { id: id }];
+        cy.insertMany(documents);
+        const query = { id: id };
         cy.findMany(query).then((result: any) => {
-          assert.isAbove(result.length, 1);
+          assert.equal(result.length, 3);
+        });
+      });
+
+      it('Should find many documents with limit', () => {
+        const id = faker.string.uuid();
+        const documents = [
+          { id: id },
+          { id: id },
+          { id: id },
+          { id: id },
+          { id: id },
+        ];
+        cy.insertMany(documents);
+        const query = { id: id };
+        cy.findMany(query, { limit: 4 }).then((result: any) => {
+          assert.equal(result.length, 4);
         });
       });
 
@@ -179,7 +196,7 @@ describe(
       });
 
       it('Should find no documents', () => {
-        const query = { id: 5 };
+        const query = { id: faker.string.uuid() };
         cy.findMany(query).then((result: any) => {
           assert.strictEqual(result.length, 0);
         });
