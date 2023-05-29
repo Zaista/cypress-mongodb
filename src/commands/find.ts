@@ -1,16 +1,14 @@
 import { Document } from 'mongodb';
 import Chainable = Cypress.Chainable;
-import { MongoOptions } from '../index';
 import { validate } from '../utils/validator';
 import { serialize, deserialize } from 'bson';
 
-export function findOne(query: Document, options?: MongoOptions): Chainable {
+export function findOne(query: Document, options?: any): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
-    options: {
-      database: options?.database || Cypress.env('mongodb').database,
-      collection: options?.collection || Cypress.env('mongodb').collection,
-    },
+    database: options?.database || Cypress.env('mongodb').database,
+    collection: options?.collection || Cypress.env('mongodb').collection,
+    options: options,
     query: query,
   };
 
@@ -33,21 +31,13 @@ export function findOne(query: Document, options?: MongoOptions): Chainable {
 export function findOneAndUpdate(
   filter: Document,
   document: Document,
-  options?: {
-    database?: string;
-    collection?: string;
-    upsert?: boolean;
-    returnDocument?: 'before' | 'after';
-  }
+  options?: any
 ): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
-    options: {
-      database: options?.database || Cypress.env('mongodb').database,
-      collection: options?.collection || Cypress.env('mongodb').collection,
-      upsert: options?.upsert,
-      returnDocument: options?.returnDocument,
-    },
+    database: options?.database || Cypress.env('mongodb').database,
+    collection: options?.collection || Cypress.env('mongodb').collection,
+    options: options,
     filter: filter,
     document: document,
   };
@@ -75,23 +65,12 @@ export function findOneAndUpdate(
   });
 }
 
-export function findOneAndDelete(
-  filter: Document,
-  options?: {
-    database?: string;
-    collection?: string;
-    sort?: Document;
-    projection?: Document;
-  }
-): Chainable {
+export function findOneAndDelete(filter: Document, options?: any): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
-    options: {
-      database: options?.database || Cypress.env('mongodb').database,
-      collection: options?.collection || Cypress.env('mongodb').collection,
-      sort: options?.sort,
-      projection: options?.projection,
-    },
+    database: options?.database || Cypress.env('mongodb').database,
+    collection: options?.collection || Cypress.env('mongodb').collection,
+    options: options,
     filter: filter,
   };
 
@@ -104,8 +83,7 @@ export function findOneAndDelete(
   }
 
   args.filter = serialize(args.filter);
-  args.options.sort = serialize(args.options.sort as Document);
-  args.options.projection = serialize(args.options.projection as Document);
+  args.options = serialize(args.options as Document);
 
   return cy.task('findOneAndDelete', args).then((result: any) => {
     if (result !== null) return deserialize(Buffer.from(result)).value;
@@ -113,16 +91,12 @@ export function findOneAndDelete(
   });
 }
 
-export function findMany(
-  query: Document,
-  options: MongoOptions | undefined
-): Chainable {
+export function findMany(query: Document, options?: any): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
-    options: {
-      database: options?.database || Cypress.env('mongodb').database,
-      collection: options?.collection || Cypress.env('mongodb').collection,
-    },
+    database: options?.database || Cypress.env('mongodb').database,
+    collection: options?.collection || Cypress.env('mongodb').collection,
+    options: options,
     query: query,
   };
 

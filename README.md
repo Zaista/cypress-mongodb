@@ -99,25 +99,18 @@ addCommands();
 
 ### > syntax
 ```TypeScript
-cy.createCollection(collectionName);
-cy.createCollection(collectionName, options);
+cy.createCollection(name);
+cy.createCollection(name, options);
 
-cy.dropCollection(collectionName);
-cy.dropCollection(collectionName, options);
+cy.dropCollection(name);
+cy.dropCollection(name, options);
 ```
 
 ### > arguments
-| Arguments      | Type              | Description                            |
-|----------------|-------------------|----------------------------------------|
-| collectionName | String (required) | Name of the collection to create/drop  |
-| options        | Object (optional) | Provide additional options (see below) |
-
-
-### > options
-| Options      | Default                                               | Description                                                        |
-|--------------|-------------------------------------------------------|--------------------------------------------------------------------|
-| database     | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed              |
-| failSilently | `false`                                               | Control if the command will fail or if the collection is not found |
+| Arguments | Type              | Description                            |
+|-----------|-------------------|----------------------------------------|
+| name      | String (required) | Name of the collection to create/drop  |
+| options   | Object (optional) | Provide additional options (see below) |
 
 ### > examples
 ```TypeScript
@@ -150,13 +143,6 @@ cy.insertMany(documents, options);
 | document    | Object (required)   | A Document object that will be inserted            |
 | documents   | Object[] (required) | An array of Document objects that will be inserted |
 | options     | Object (optional)   | Provide additional options (see below)             |
-
-
-### > options
-| Options      | Default                                               | Description                                             |
-|--------------|-------------------------------------------------------|---------------------------------------------------------|
-| collection   | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed   |
-| database     | Value specified in the `mongodb` environment variable | Collection on top of which the command will be executed |
 
 ### > examples
 ```TypeScript
@@ -196,17 +182,6 @@ cy.findOneAndDelete(filter, options);
 | filter    | Object (required)   | The selection criteria for the deletion                  |
 | options   | Object (optional)   | Provide additional options (see below)                   |
 
-
-### > options
-| Options        | Default                                               | Description                                                                                                                                |
-|----------------|-------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-| collection     | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed                                                                                      |
-| database       | Value specified in the `mongodb` environment variable | Collection on top of which the command will be executed                                                                                    |
-| upsert         | `false`                                               | Creates a new document if no documents matched the provided filter (used only in `findOneAndUpdate` command)                               |
-| returnDocument | `before`                                              | Specify this option with `after` value to return the update document instead of the original one (used only in `findOneAndUpdate` command) |
-| sort           | First matching document                               | Specifies a sorting order for the documents matched by the filter (used only in `findOneAndDelete` command)                                |
-| projection     | Entire document                                       | A subset of fields to return (used only in `findOneAndDelete` command)                                                                     |
-
 ### > examples
 ```TypeScript
 import { ObjectId } from 'mongodb';
@@ -243,14 +218,6 @@ cy.updateMany(filter, update, options);
 | update    | Object or pipeline (required) | The modifications to apply             |
 | options   | Object (optional)             | Provide additional options (see below) |
 
-
-### > options
-| Options    | Default                                               | Description                                                               |
-|------------|-------------------------------------------------------|---------------------------------------------------------------------------|
-| collection | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed                     |
-| database   | Value specified in the `mongodb` environment variable | Collection on top of which the command will be executed                   |
-| upsert     | `false`                                               | If set to `true`, creates a new document if no documents match the filter |
-
 ### > examples
 ```TypeScript
 cy.updateOne({document: 1}, { $set: { document: 2 } }, { upsert: true }).then(result => {
@@ -278,13 +245,6 @@ cy.deleteMany(filter, options);
 | filter    | Object (required)   | Specifies deletion criteria using query operators |
 | options   | Object (optional)   | Provide additional options (see below)            |
 
-
-### > options
-| Options      | Default                                               | Description                                             |
-|--------------|-------------------------------------------------------|---------------------------------------------------------|
-| collection   | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed   |
-| database     | Value specified in the `mongodb` environment variable | Collection on top of which the command will be executed |
-
 ### > examples
 ```TypeScript
 cy.deleteOne({document: 1}); // will delete a first matched document
@@ -311,13 +271,6 @@ cy.aggregate(pipeline, options);
 | pipeline  | Object[] (required) | An array of object representing a sequence of data aggregation operations or stages |
 | options   | Object (optional)   | Provide additional options (see below)                                              |
 
-
-### > options
-| Options      | Default                                               | Description                                             |
-|--------------|-------------------------------------------------------|---------------------------------------------------------|
-| collection   | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed   |
-| database     | Value specified in the `mongodb` environment variable | Collection on top of which the command will be executed |
-
 ### > examples
 ```TypeScript
 const pipeline = []; // any kind of aggregation
@@ -325,6 +278,26 @@ cy.aggregate(pipeline).then(result => {
     cy.log(result); // prints the result of the aggregation
 });
 ```
+
+### > available options
+| Options                    | Default                                               | Description                                                                                                                   |
+|----------------------------|-------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| database                   | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed                                                                         |
+| collection                 | Value specified in the `mongodb` environment variable | Collection on top of which the command will be executed                                                                       |
+| failSilently               | `false`                                               | Control if the command will fail or if the collection is not found                                                            |
+| `createCollection` options | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/CreateCollectionOptions.html) |
+| `dropCollection` options   | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/DropCollectionOptions.html)   |
+| `insertOne` options        | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/InsertOneOptions.html)        |
+| `insertMany` options       | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/BulkWriteOptions.html)        |
+| `findOne` options          | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/FindOptions.html)             |
+| `findMany` options         | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/FindOptions.html)             |
+| `findOneAndUpdate` options | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/FindOneAndUpdateOptions.html) |
+| `findOneAndDelete` options | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/FindOneAndDeleteOptions.html) |
+| `updateOne` options        | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/UpdateOptions.html)           |
+| `updateMany` options       | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/UpdateOptions.html)           |
+| `deleteOne` options        | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/DeleteOptions.html)           |
+| `deleteMany` options       | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/DeleteOptions.html)           |
+| `aggregate` options        | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/AggregateOptions.html)        |
 
 # Reference
 https://mongodb.github.io/node-mongodb-native/4.10/classes/Collection.html

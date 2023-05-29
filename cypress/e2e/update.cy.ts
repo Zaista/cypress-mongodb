@@ -19,7 +19,7 @@ describe(
   () => {
     describe('updateOne', () => {
       it('Should update one document', () => {
-        const uuid = faker.datatype.uuid();
+        const uuid = faker.string.uuid();
         const testData = [
           { uuid: uuid, value: 'initial value' },
           { uuid: uuid, value: 'initial value' },
@@ -39,8 +39,8 @@ describe(
       });
 
       it('Should upsert one document', () => {
-        const uuid = faker.datatype.uuid();
-        const newUuid = faker.datatype.uuid();
+        const uuid = faker.string.uuid();
+        const newUuid = faker.string.uuid();
         const filter = { uuid: uuid };
         const document = { $set: { uuid: newUuid } };
         cy.updateOne(filter, document, { upsert: true }).then((result: any) => {
@@ -57,7 +57,7 @@ describe(
 
       it('Should update correct data types', () => {
         const document: any = {
-          uuid: faker.datatype.uuid(),
+          uuid: faker.string.uuid(),
           date: new Date(),
           object: { innerDate: new Date() },
         };
@@ -65,7 +65,7 @@ describe(
         const filter = { uuid: document.uuid };
         const updatedDocument = {
           $set: {
-            uuid: faker.datatype.uuid(),
+            uuid: faker.string.uuid(),
             date: new Date('2000-01-01'),
             object: { innerDate: new Date('02/02/2002') },
           },
@@ -113,7 +113,7 @@ describe(
 
     describe('insertMany', () => {
       it('Should update many documents', () => {
-        const uuid = faker.datatype.uuid();
+        const uuid = faker.string.uuid();
         const testData = [
           { uuid: uuid, value: 'initial value one' },
           { uuid: uuid, value: 'initial value two' },
@@ -136,8 +136,8 @@ describe(
       });
 
       it('Should upsert many documents', () => {
-        const uuid = faker.datatype.uuid();
-        const newUuid = faker.datatype.uuid();
+        const uuid = faker.string.uuid();
+        const newUuid = faker.string.uuid();
         const filter = { uuid: uuid };
         const document = { $set: { uuid: newUuid } };
         cy.updateMany(filter, document, { upsert: true }).then(
@@ -155,7 +155,7 @@ describe(
       });
 
       it('Should update many correct data types', () => {
-        const uuid = faker.datatype.uuid();
+        const uuid = faker.string.uuid();
         const documents = [
           {
             uuid: uuid,

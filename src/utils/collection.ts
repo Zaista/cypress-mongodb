@@ -1,42 +1,48 @@
 import { MongoClient } from 'mongodb';
 
-export async function createCollection(args: any) {
-  return MongoClient.connect(args.uri).then((client) => {
-    return client
-      .db(args.options.database)
-      .createCollection(args.options.collection as string)
-      .then(() => {
-        client.close();
-        return 'Collection created';
-      })
-      .catch((err) => {
-        client.close();
-        if (args.options.failSilently) {
-          return err;
-        } else {
-          throw err;
-        }
-      });
+export function createCollection(args: any) {
+  return MongoClient.connect(args.uri).then(async (client) => {
+    const database = client.db(args.database);
+
+    // delete not-default mongodb fields
+    const failSilently = args.options?.failSilently;
+    if (args.options) {
+      delete args.options.database;
+      delete args.options.failSilently;
+    }
+
+    try {
+      const result = await database.createCollection(
+        args.collection as string,
+        args.options
+      );
+      client.close();
+      return 'Collection created';
+    } catch (error) {
+      if (failSilently) return error;
+      else throw error;
+    }
   });
 }
 
-export async function dropCollection(args: any) {
-  return MongoClient.connect(args.uri).then((client) => {
-    return client
-      .db(args.options.database)
-      .collection(args.options.collection as string)
-      .drop()
-      .then(() => {
-        client.close();
-        return 'Collection dropped';
-      })
-      .catch((err) => {
-        client.close();
-        if (args.options.failSilently) {
-          return err;
-        } else {
-          throw err;
-        }
-      });
+export function dropCollection(args: any) {
+  return MongoClient.connect(args.uri).then(async (client) => {
+    const database = client.db(args.database);
+
+    // delete not-default mongodb fields
+    const failSilently = args.options?.failSilently;
+    if (args.options) delete args.options.failSilently; // since failSilently is not part of default mongodb options, delete it
+
+    try {
+      const result = await database.dropCollection(
+        args.collection as string,
+        args.options
+      );
+      client.close();
+      return 'Collection dropped';
+    } catch (error) {
+      if (failSilently) return error;
+      else throw error;
+    }
   });
 }

@@ -1,19 +1,17 @@
 import { Document } from 'mongodb';
 import Chainable = Cypress.Chainable;
-import { MongoOptions } from '../index';
 import { validate } from '../utils/validator';
 import { deserialize, serialize } from 'bson';
 
 export function aggregate(
   pipeline: Document[] | Buffer,
-  options: MongoOptions | undefined
+  options?: any
 ): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
-    options: {
-      database: options?.database || Cypress.env('mongodb').database,
-      collection: options?.collection || Cypress.env('mongodb').collection,
-    },
+    database: options?.database || Cypress.env('mongodb').database,
+    collection: options?.collection || Cypress.env('mongodb').collection,
+    options: options,
     pipeline: pipeline,
   };
 

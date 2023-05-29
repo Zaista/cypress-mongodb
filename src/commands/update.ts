@@ -1,21 +1,18 @@
 import { Document } from 'mongodb';
 import Chainable = Cypress.Chainable;
-import { MongoOptions } from '../index';
 import { validate } from '../utils/validator';
 import { deserialize, serialize } from 'bson';
 
 export function updateOne(
   filter: Document,
   document: Document,
-  options?: MongoOptions
+  options?: any
 ): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
-    options: {
-      database: options?.database || Cypress.env('mongodb').database,
-      collection: options?.collection || Cypress.env('mongodb').collection,
-      upsert: options?.upsert,
-    },
+    database: options?.database || Cypress.env('mongodb').database,
+    collection: options?.collection || Cypress.env('mongodb').collection,
+    options: options,
     filter: filter,
     document: document,
   };
@@ -45,15 +42,13 @@ export function updateOne(
 export function updateMany(
   filter: Document,
   document: Document,
-  options: MongoOptions | undefined
+  options?: any
 ): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
-    options: {
-      database: options?.database || Cypress.env('mongodb').database,
-      collection: options?.collection || Cypress.env('mongodb').collection,
-      upsert: options?.upsert,
-    },
+    database: options?.database || Cypress.env('mongodb').database,
+    collection: options?.collection || Cypress.env('mongodb').collection,
+    options: options,
     filter: filter,
     document: document,
   };

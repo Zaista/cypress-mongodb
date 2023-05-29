@@ -46,7 +46,7 @@ describe(
     it('Should return correct data types', () => {
       const document = {
         _id: new ObjectId(),
-        string: faker.datatype.uuid(),
+        string: faker.string.uuid(),
         date: new Date(),
         boolean: faker.datatype.boolean(),
         float: faker.datatype.float(),

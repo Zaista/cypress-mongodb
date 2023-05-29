@@ -12,9 +12,9 @@ export async function aggregate(args: any) {
 
   try {
     const result = await client
-      .db(args.options.database)
-      .collection(<string>args.options.collection)
-      .aggregate(args.pipeline as Document[])
+      .db(args.database)
+      .collection(args.collection)
+      .aggregate(args.pipeline as Document[], args.options)
       .toArray();
     return serialize(result);
   } catch (err: any) {

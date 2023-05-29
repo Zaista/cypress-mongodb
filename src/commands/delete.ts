@@ -1,19 +1,14 @@
 import { Document } from 'mongodb';
 import Chainable = Cypress.Chainable;
-import { MongoOptions } from '../index';
 import { validate } from '../utils/validator';
 import { serialize } from 'bson';
 
-export function deleteOne(
-  filter: Document,
-  options: MongoOptions | undefined
-): Chainable {
+export function deleteOne(filter: Document, options?: any): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
-    options: {
-      database: options?.database || Cypress.env('mongodb').database,
-      collection: options?.collection || Cypress.env('mongodb').collection,
-    },
+    database: options?.database || Cypress.env('mongodb').database,
+    collection: options?.collection || Cypress.env('mongodb').collection,
+    options: options,
     filter: filter,
   };
 
@@ -31,16 +26,12 @@ export function deleteOne(
   });
 }
 
-export function deleteMany(
-  filter: Document,
-  options: MongoOptions | undefined
-): Chainable {
+export function deleteMany(filter: Document, options?: any): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
-    options: {
-      database: options?.database || Cypress.env('mongodb').database,
-      collection: options?.collection || Cypress.env('mongodb').collection,
-    },
+    database: options?.database || Cypress.env('mongodb').database,
+    collection: options?.collection || Cypress.env('mongodb').collection,
+    options: options,
     filter: filter,
   };
 

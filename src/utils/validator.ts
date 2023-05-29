@@ -3,11 +3,11 @@ export function validate(args: any) {
     throw new Error('Missing mongodb.uri environment variable');
   }
 
-  if (!args.options.collection) {
+  if (!args.collection) {
     throw new Error('Collection not specified');
   }
 
-  if (!args.options.database) {
+  if (!args.database) {
     throw new Error('Database not specified');
   }
 }
