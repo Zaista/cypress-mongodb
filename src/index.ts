@@ -66,7 +66,7 @@ declare global {
       findOneAndUpdate(
         filter: Document,
         document: Document,
-        options?: MongoOptions
+        options?: any
       ): Chainable<Subject>;
       /**
        * Custom command to find a single document and delete it in mongodb
@@ -105,7 +105,6 @@ export interface MongoOptions {
   failSilently?: boolean;
   upsert?: boolean;
   returnDocument?: string;
-  returnNewDocument?: boolean;
 }
 
 export function configurePlugin(on: Cypress.PluginEvents) {

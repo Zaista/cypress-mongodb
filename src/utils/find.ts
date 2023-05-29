@@ -40,12 +40,16 @@ export async function findOneAndUpdate(args: any) {
 
 export async function findOneAndDelete(args: any) {
   args.filter = deserialize(Buffer.from(args.filter as Buffer));
+  args.options.sort = deserialize(Buffer.from(args.options.sort as Buffer));
+  args.options.projection = deserialize(
+    Buffer.from(args.options.projection as Buffer)
+  );
   return MongoClient.connect(args.uri).then(async (client) => {
     try {
       const result: any = await client
         .db(args.options.database)
         .collection(args.options.collection as string)
-        .findOneAndDelete(args.filter);
+        .findOneAndDelete(args.filter, args.options);
       await client.close();
       if (result !== null) return serialize(result);
       return null;

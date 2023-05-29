@@ -8,55 +8,18 @@ run `npm install cypress-mongodb`<br>
 configure (see below)<br>
 profit
 
-# Supported and tested MongoDB versions
+# Supported and tested system versions
 
-4.4, 5.0, 6.0
+|                        | Versions                 |
+|------------------------|--------------------------|
+| MongoDB                | `4.4`, `5.0`, `6.0`      |
+| Node                   | `16.20`, `18.16`, `19.9` |
+| MongoDB Node.js Driver | `4.10.0`                 |
 
-# Usage
+### known issues
 
-```TypeScript
-cy.createCollection('new_collection', {database: 'new_database'}); // creates both collection and database
-
-const oneDocument = {document: 1};
-cy.insertOne(oneDocument, {collection: 'some_collection', database: 'some_database'}).then(res => {
-    cy.log(res); // prints the id of inserted document
-});
-
-const manyDocuments = [{document: 1}, {document: 2}];
-cy.insertMany(manyDocuments, {collection: 'some_other_collection'}).then(res => { // defaults to database from env variable
-    console.log(res); // prints the key-value pairs with inserted ids
-});
-
-const deleteClause = {document: 1};
-cy.deleteOne(oneDocument, {collection: 'new_collection', database: 'some_database'}).then(res => {
-    cy.log(res); // prints 1 (or 0) document deleted
-});
-
-cy.deleteMany(deleteClause).then(res => { // defaults to collection and database from env variables
-    cy.log(res); // prints '# documents deleted'
-});
-
-const pipeline = []; // any kind of aggregation
-cy.aggregate(pipeline).then(res => {
-    cy.log(res); // prints the result of the aggregation
-});
-
-cy.dropCollection('start_new').then(res => {
-    cy.log(res); // prints 'Collection dropped'
-});
-```
-
-`createCollection` and `dropCollection` have the option to `failSilently`.
-
-```TypeScript
-cy.createCollection('existing_collection', {failSilently: true}).then(res => {
-    cy.log(res); // Error object if collection already exists
-});
-
-cy.dropCollection('nonexistent_collection', {failSilently: true}).then(res => {
-    cy.log(res); // Error object if collection doesn’t exist
-});
-```
+If you use mongodb dependency in your project, it hast to be version <=4.10.0, otherwise you'll get a Webpack
+compilation error
 
 # Environment setup
 
@@ -129,6 +92,242 @@ import {addCommands} from "cypress-mongodb";
 
 addCommands();
 ```
+
+# Documentation
+
+## Collection commands
+
+### > syntax
+```TypeScript
+cy.createCollection(collectionName);
+cy.createCollection(collectionName, options);
+
+cy.dropCollection(collectionName);
+cy.dropCollection(collectionName, options);
+```
+
+### > arguments
+| Arguments      | Type              | Description                            |
+|----------------|-------------------|----------------------------------------|
+| collectionName | String (required) | Name of the collection to create/drop  |
+| options        | Object (optional) | Provide additional options (see below) |
+
+
+### > options
+| Options      | Default                                               | Description                                                        |
+|--------------|-------------------------------------------------------|--------------------------------------------------------------------|
+| database     | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed              |
+| failSilently | `false`                                               | Control if the command will fail or if the collection is not found |
+
+### > examples
+```TypeScript
+cy.createCollection('someCollection'); // collection with name `someCollection` will be created
+
+cy.createCollection('someOtherCollection', { database: 'someDatabase', failSilently: 'true' }).then(result => {
+    cy.log(result); // Will return 'Collection created' or the error object if collection already exists. Will not fail the test 
+});
+
+cy.dropCollection('someCollection'); // collection will be droped
+
+cy.dropCollection('nonexistentCollection', { database: 'someDatabase', failSilently: 'true' }).then(result => {
+    cy.log(result); // Will return 'Collection dropped' or the error object if collection doesn’t exist. Will not fail the test
+});
+```
+
+## Insert commands
+### > syntax
+```TypeScript
+cy.insertOne(document);
+cy.insertOne(document, options);
+
+cy.insertMany(documents);
+cy.insertMany(documents, options);
+```
+
+### > arguments
+| Arguments   | Type                | Description                                        |
+|-------------|---------------------|----------------------------------------------------|
+| document    | Object (required)   | A Document object that will be inserted            |
+| documents   | Object[] (required) | An array of Document objects that will be inserted |
+| options     | Object (optional)   | Provide additional options (see below)             |
+
+
+### > options
+| Options      | Default                                               | Description                                             |
+|--------------|-------------------------------------------------------|---------------------------------------------------------|
+| collection   | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed   |
+| database     | Value specified in the `mongodb` environment variable | Collection on top of which the command will be executed |
+
+### > examples
+```TypeScript
+cy.insertOne({document: 1}; // will insert the provided document in mongodb
+
+cy.insertOne({document: 1}, {collection: 'someCollection', database: 'someDatabase'}).then(result => {
+    cy.log(result); // prints the _id of inserted document
+});
+
+cy.insertMany([{document: 1}, {document: 2}]); // will insert provided documents in mongodb
+
+cy.insertMany([{document: 1}, {document: 2}], {collection: 'some_other_collection'}).then(result => {
+    console.log(result); // prints the key-value pairs of the inserted ids
+});
+```
+
+## Find commands
+### > syntax
+```TypeScript
+cy.findOne(query);
+cy.findOne(query, options);
+
+cy.findMany(query);
+cy.findMany(query, options);
+
+cy.findOneAndUpdate(filter);
+cy.findOneAndUpdate(filter, options);
+
+cy.findOneAndDelete(filter);
+cy.findOneAndDelete(filter, options);
+```
+
+### > arguments
+| Arguments | Type                | Description                                              |
+|-----------|---------------------|----------------------------------------------------------|
+| query     | Object (required)   | Specifies query selection criteria using query operators |
+| filter    | Object (required)   | The selection criteria for the deletion                  |
+| options   | Object (optional)   | Provide additional options (see below)                   |
+
+
+### > options
+| Options        | Default                                               | Description                                                                                                                                |
+|----------------|-------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| collection     | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed                                                                                      |
+| database       | Value specified in the `mongodb` environment variable | Collection on top of which the command will be executed                                                                                    |
+| upsert         | `false`                                               | Creates a new document if no documents matched the provided filter (used only in `findOneAndUpdate` command)                               |
+| returnDocument | `before`                                              | Specify this option with `after` value to return the update document instead of the original one (used only in `findOneAndUpdate` command) |
+| sort           | First matching document                               | Specifies a sorting order for the documents matched by the filter (used only in `findOneAndDelete` command)                                |
+| projection     | Entire document                                       | A subset of fields to return (used only in `findOneAndDelete` command)                                                                     |
+
+### > examples
+```TypeScript
+import { ObjectId } from 'mongodb';
+cy.findOne({_id: new ObjectId()}).then(result => {
+    cy.log(result); // prints the document with the _id if found, otherwise null
+});
+
+cy.findMany({document: 1}).then(result => {
+    cy.log(result); // prints the array of documents if any matched, or empty array
+});
+
+cy.findOneAndUpdate({ document: 2 }, { $set: { document: 3 }).then(result => {
+  cy.log(result); // prints the original document with value 2
+});
+cy.findOneAndUpdate({ document: 3 }, { $set: { document: 4 }, {upsert: true, returnDocument: 'after'}).then((result: any) => {
+  cy.log(result); // prints the updated document with the value 4, will create (upsert) a new document if none are found
+});
+```
+
+## Update commands
+### > syntax
+```TypeScript
+cy.updateOne(filter, update);
+cy.updateOne(filter, update, options);
+
+cy.updateMany(filter, update);
+cy.updateMany(filter, update, options);
+```
+
+### > arguments
+| Arguments | Type                          | Description                            |
+|-----------|-------------------------------|----------------------------------------|
+| filter    | Object (required)             | The selection criteria for the update  |
+| update    | Object or pipeline (required) | The modifications to apply             |
+| options   | Object (optional)             | Provide additional options (see below) |
+
+
+### > options
+| Options    | Default                                               | Description                                                               |
+|------------|-------------------------------------------------------|---------------------------------------------------------------------------|
+| collection | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed                     |
+| database   | Value specified in the `mongodb` environment variable | Collection on top of which the command will be executed                   |
+| upsert     | `false`                                               | If set to `true`, creates a new document if no documents match the filter |
+
+### > examples
+```TypeScript
+cy.updateOne({document: 1}, { $set: { document: 2 } }, { upsert: true }).then(result => {
+    cy.log(result); // prints the object containing the update info: matchedCount, modifiedCount, upsertedCount, etc
+});
+
+cy.updateMany({document: 1}, { $set: { document: 2 } }, { upsert: true }).then(result => {
+    cy.log(result); // prints the object containing the update info: matchedCount, modifiedCount, upsertedCount, etc
+});
+```
+
+## Delete commands
+### > syntax
+```TypeScript
+cy.deleteOne(filter);
+cy.deleteOne(filter, options);
+
+cy.deleteMany(filter);
+cy.deleteMany(filter, options);
+```
+
+### > arguments
+| Arguments | Type                | Description                                       |
+|-----------|---------------------|---------------------------------------------------|
+| filter    | Object (required)   | Specifies deletion criteria using query operators |
+| options   | Object (optional)   | Provide additional options (see below)            |
+
+
+### > options
+| Options      | Default                                               | Description                                             |
+|--------------|-------------------------------------------------------|---------------------------------------------------------|
+| collection   | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed   |
+| database     | Value specified in the `mongodb` environment variable | Collection on top of which the command will be executed |
+
+### > examples
+```TypeScript
+cy.deleteOne({document: 1}); // will delete a first matched document
+
+cy.deleteOne({document: 1}, {collection: 'new_collection', database: 'some_database'}).then(result => {
+    cy.log(result); // prints 1 (or 0) document deleted
+});
+
+cy.deleteMany(deleteClause).then(res => {
+    cy.log(result); // prints '# documents deleted'
+});
+```
+
+## Aggregate commands
+### > syntax
+```TypeScript
+cy.aggregate(pipeline);
+cy.aggregate(pipeline, options);
+```
+
+### > arguments
+| Arguments | Type                | Description                                                                         |
+|-----------|---------------------|-------------------------------------------------------------------------------------|
+| pipeline  | Object[] (required) | An array of object representing a sequence of data aggregation operations or stages |
+| options   | Object (optional)   | Provide additional options (see below)                                              |
+
+
+### > options
+| Options      | Default                                               | Description                                             |
+|--------------|-------------------------------------------------------|---------------------------------------------------------|
+| collection   | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed   |
+| database     | Value specified in the `mongodb` environment variable | Collection on top of which the command will be executed |
+
+### > examples
+```TypeScript
+const pipeline = []; // any kind of aggregation
+cy.aggregate(pipeline).then(result => {
+    cy.log(result); // prints the result of the aggregation
+});
+```
+
+# Reference
+https://mongodb.github.io/node-mongodb-native/4.10/classes/Collection.html
 
 # Future development & support
 
