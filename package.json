@@ -1,6 +1,6 @@
 {
   "name": "cypress-mongodb",
-  "version": "5.5.0",
+  "version": "6.0.0",
   "description": "Cypress MongoDB plugin",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -30,10 +30,10 @@
     "mongodb": "4.10.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.0.1",
-    "@types/node": "^20.2.5",
-    "cypress": "^12.13.0",
-    "prettier": "^2.8.8",
-    "typescript": "^5.0.4"
+    "@faker-js/faker": "^8.0.2",
+    "@types/node": "^20.5.9",
+    "cypress": "^13.1.0",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
   }
 }

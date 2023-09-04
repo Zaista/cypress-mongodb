@@ -1,2 +1,2 @@
-import { addCommands } from '../../dist';
+import { addCommands } from '../../dist/index-browser';
 addCommands();

@@ -31,7 +31,7 @@ export function findOne(query: Document, options?: any): Chainable {
 export function findOneAndUpdate(
   filter: Document,
   document: Document,
-  options?: any
+  options?: any,
 ): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,

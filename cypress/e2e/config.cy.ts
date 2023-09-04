@@ -141,7 +141,7 @@ describe('Configuration tests', () => {
           throw new Error('Should fail with missing uri error');
         });
       });
-    }
+    },
   );
 
   describe(
@@ -251,7 +251,7 @@ describe('Configuration tests', () => {
           throw new Error('Should fail with missing database name error');
         });
       });
-    }
+    },
   );
 
   describe(
@@ -364,7 +364,7 @@ describe('Configuration tests', () => {
           throw new Error('Should fail with missing collection name error');
         });
       });
-    }
+    },
   );
 
   describe(
@@ -378,7 +378,7 @@ describe('Configuration tests', () => {
     },
     () => {
       it('Should work with provided options - create', () => {
-        cy.createCollection(faker.random.word(), {
+        cy.createCollection(faker.word.sample(), {
           database: configuration_data.database,
         }).then((result) => {
           assert.equal('Collection created', result);
@@ -444,6 +444,6 @@ describe('Configuration tests', () => {
           database: configuration_data.database,
         });
       });
-    }
+    },
   );
 });

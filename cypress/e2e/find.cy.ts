@@ -33,7 +33,7 @@ describe(
         const _id = new ObjectId();
         const document = { _id: _id, test: 'test' };
         cy.insertOne(document);
-        cy.findOne({ _id: _id }).then((result) => {
+        cy.findOne({ _id: _id }).then((result: any) => {
           assert.strictEqual(result.test, document.test);
           assert.isTrue(result._id.equals(document._id));
         });
@@ -108,7 +108,7 @@ describe(
         cy.findOneAndUpdate({ _id: _id }, document, {
           upsert: true,
           returnDocument: 'after',
-        }).then((result) => {
+        }).then((result: any) => {
           console.log(result);
           assert.equal(result.test, 'should be upsert using findOneAndUpdate');
         });
@@ -187,7 +187,7 @@ describe(
         const document1 = { _id: _id, test: 'test' };
         const document2 = { test: 'test' };
         cy.insertMany([document1, document2]);
-        cy.findMany({ _id: _id }).then((result) => {
+        cy.findMany({ _id: _id }).then((result: any) => {
           console.log(result);
           assert.equal(result.length, 1);
           assert.strictEqual(result[0].test, document1.test);
@@ -227,5 +227,5 @@ describe(
         });
       });
     });
-  }
+  },
 );
