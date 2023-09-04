@@ -5,7 +5,7 @@ import { deserialize, serialize } from 'bson';
 
 export function aggregate(
   pipeline: Document[] | Buffer,
-  options?: any
+  options?: any,
 ): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,

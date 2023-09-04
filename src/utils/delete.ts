@@ -8,7 +8,7 @@ export function deleteOne(args: any) {
       .db(args.database)
       .collection(args.collection as string);
     const result: any = await collection.deleteOne(args.filter, args.options);
-    client.close();
+    await client.close();
     return result.deletedCount + ' document deleted';
   });
 }
@@ -20,7 +20,7 @@ export function deleteMany(args: any) {
       .db(args.database)
       .collection(args.collection as string);
     const result: any = await collection.deleteMany(args.filter, args.options);
-    client.close();
+    await client.close();
     return result.deletedCount + ' documents deleted';
   });
 }

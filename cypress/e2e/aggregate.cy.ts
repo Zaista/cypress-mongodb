@@ -49,7 +49,7 @@ describe(
         string: faker.string.uuid(),
         date: new Date(),
         boolean: faker.datatype.boolean(),
-        float: faker.datatype.float(),
+        float: faker.number.float(),
       };
       cy.insertOne(document);
       const pipeline = [
@@ -90,7 +90,7 @@ describe(
         assert.strictEqual(result[0].string, document.string);
         assert.strictEqual(
           result[0].date.toISOString(),
-          document.date.toISOString()
+          document.date.toISOString(),
         );
         assert.strictEqual(result[0]._id._bsontype, 'ObjectID');
         assert.strictEqual(result[0].boolean, document.boolean);
@@ -124,5 +124,5 @@ describe(
         throw new Error('Should fail with pipeline must be specified error');
       });
     });
-  }
+  },
 );

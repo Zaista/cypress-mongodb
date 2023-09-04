@@ -22,8 +22,8 @@ describe(
     describe('insertOne', () => {
       it('Should insert one document', () => {
         const document = {
-          _id: faker.datatype.string(),
-          word: faker.random.word(),
+          _id: faker.string.sample(),
+          word: faker.word.sample(),
         };
         cy.insertOne(document).then((result) => {
           assert.strictEqual(result, document._id);
@@ -35,11 +35,15 @@ describe(
 
       it('Should insert correct data types', () => {
         const document: any = {
-          string: faker.datatype.string(),
-          integer: faker.datatype.number(),
+          string: faker.string.sample(),
+          integer: faker.number.int(),
           boolean: faker.datatype.boolean(),
-          double: faker.datatype.float(),
-          array: faker.datatype.array() as any,
+          double: faker.number.float(),
+          array: [
+            faker.string.sample(),
+            faker.string.sample(),
+            faker.string.sample(),
+          ],
           date: new Date(),
           objectId: new ObjectId(),
           object: {
@@ -68,59 +72,59 @@ describe(
           assert.deepStrictEqual(result.array, document.array);
           assert.strictEqual(
             result.date.toISOString(),
-            document.date.toISOString()
+            document.date.toISOString(),
           );
           assert.strictEqual(
             result.objectId.toString(),
-            document.objectId.toString()
+            document.objectId.toString(),
           );
           assert.strictEqual(result.objectId._bsontype, 'ObjectID');
           assert.strictEqual(
             result.objectId.toString(),
-            document.objectId.toString()
+            document.objectId.toString(),
           );
           assert.isTrue(result.object.innerObject.date instanceof Date);
           assert.strictEqual(
             result.object.innerObject.date.toISOString(),
-            document.object.innerObject.date.toISOString()
+            document.object.innerObject.date.toISOString(),
           );
           assert.strictEqual(
             result.object.innerObject.objectId._bsontype,
-            'ObjectID'
+            'ObjectID',
           );
           assert.strictEqual(
             result.object.innerObject.objectId.toString(),
-            document.object.innerObject.objectId.toString()
+            document.object.innerObject.objectId.toString(),
           );
           assert.isTrue(
-            result.object.innerObject.innerArray[0] instanceof Date
+            result.object.innerObject.innerArray[0] instanceof Date,
           );
           assert.strictEqual(
             result.object.innerObject.innerArray[0].toISOString(),
-            document.object.innerObject.innerArray[0].toISOString()
+            document.object.innerObject.innerArray[0].toISOString(),
           );
           assert.strictEqual(
             result.object.innerObject.innerArray[1]._bsontype,
-            'ObjectID'
+            'ObjectID',
           );
           assert.strictEqual(
             result.object.innerObject.innerArray[1].toString(),
-            document.object.innerObject.innerArray[1].toString()
+            document.object.innerObject.innerArray[1].toString(),
           );
           assert.isTrue(
-            result.object.innerObject.innerArray[2].date instanceof Date
+            result.object.innerObject.innerArray[2].date instanceof Date,
           );
           assert.strictEqual(
             result.object.innerObject.innerArray[2].date.toISOString(),
-            document.object.innerObject.innerArray[2].date.toISOString()
+            document.object.innerObject.innerArray[2].date.toISOString(),
           );
           assert.strictEqual(
             result.object.innerObject.innerArray[2].objectId._bsontype,
-            'ObjectID'
+            'ObjectID',
           );
           assert.strictEqual(
             result.objectId.toString(),
-            document.objectId.toString()
+            document.objectId.toString(),
           );
           assert.isNull(result.object.innerObject.innerArray[3]);
           assert.strictEqual(result.null, document.null);
@@ -152,11 +156,11 @@ describe(
 
     describe('insertMany', () => {
       it('Should insert many documents', () => {
-        const randomWord = faker.random.word();
+        const randomWord = faker.word.sample();
         const documents = [
-          { _id: faker.datatype.string(), word: randomWord },
-          { _id: faker.datatype.string(), word: randomWord },
-          { _id: faker.datatype.string(), word: randomWord },
+          { _id: faker.string.sample(), word: randomWord },
+          { _id: faker.string.sample(), word: randomWord },
+          { _id: faker.string.sample(), word: randomWord },
         ];
         const expected_result = {
           '0': documents[0]._id,
@@ -186,7 +190,7 @@ describe(
       });
 
       it('Should insert correct data types', () => {
-        const uniqueString = faker.datatype.string();
+        const uniqueString = faker.string.sample();
         const documents: any = [
           {
             string: uniqueString,
@@ -198,10 +202,14 @@ describe(
           },
           {
             string: uniqueString,
-            integer: faker.datatype.number(),
+            integer: faker.number.int(),
             boolean: faker.datatype.boolean(),
-            double: faker.datatype.float(),
-            array: faker.datatype.array() as any,
+            double: faker.number.float(),
+            array: [
+              faker.string.sample(),
+              faker.string.sample(),
+              faker.string.sample(),
+            ],
             date: new Date(),
             objectId: new ObjectId(),
             object: {
@@ -228,13 +236,13 @@ describe(
 
           assert.strictEqual(
             result[0].date.toISOString(),
-            documents[0].date.toISOString()
+            documents[0].date.toISOString(),
           );
 
           assert.strictEqual(result[1].objectId._bsontype, 'ObjectID');
           assert.strictEqual(
             result[1].objectId.toString(),
-            documents[1].objectId.toString()
+            documents[1].objectId.toString(),
           );
 
           assert.strictEqual(result[2].string, documents[2].string);
@@ -244,59 +252,59 @@ describe(
           assert.deepStrictEqual(result[2].array, documents[2].array);
           assert.strictEqual(
             result[2].date.toISOString(),
-            documents[2].date.toISOString()
+            documents[2].date.toISOString(),
           );
           assert.strictEqual(
             result[2].objectId.toString(),
-            documents[2].objectId.toString()
+            documents[2].objectId.toString(),
           );
           assert.strictEqual(result[2].objectId._bsontype, 'ObjectID');
           assert.strictEqual(
             result[2].objectId.toString(),
-            documents[2].objectId.toString()
+            documents[2].objectId.toString(),
           );
           assert.isTrue(result[2].object.innerObject.date instanceof Date);
           assert.strictEqual(
             result[2].object.innerObject.date.toISOString(),
-            documents[2].object.innerObject.date.toISOString()
+            documents[2].object.innerObject.date.toISOString(),
           );
           assert.strictEqual(
             result[2].object.innerObject.objectId._bsontype,
-            'ObjectID'
+            'ObjectID',
           );
           assert.strictEqual(
             result[2].object.innerObject.objectId.toString(),
-            documents[2].object.innerObject.objectId.toString()
+            documents[2].object.innerObject.objectId.toString(),
           );
           assert.isTrue(
-            result[2].object.innerObject.innerArray[0] instanceof Date
+            result[2].object.innerObject.innerArray[0] instanceof Date,
           );
           assert.strictEqual(
             result[2].object.innerObject.innerArray[0].toISOString(),
-            documents[2].object.innerObject.innerArray[0].toISOString()
+            documents[2].object.innerObject.innerArray[0].toISOString(),
           );
           assert.strictEqual(
             result[2].object.innerObject.innerArray[1]._bsontype,
-            'ObjectID'
+            'ObjectID',
           );
           assert.strictEqual(
             result[2].object.innerObject.innerArray[1].toString(),
-            documents[2].object.innerObject.innerArray[1].toString()
+            documents[2].object.innerObject.innerArray[1].toString(),
           );
           assert.isTrue(
-            result[2].object.innerObject.innerArray[2].date instanceof Date
+            result[2].object.innerObject.innerArray[2].date instanceof Date,
           );
           assert.strictEqual(
             result[2].object.innerObject.innerArray[2].date.toISOString(),
-            documents[2].object.innerObject.innerArray[2].date.toISOString()
+            documents[2].object.innerObject.innerArray[2].date.toISOString(),
           );
           assert.strictEqual(
             result[2].object.innerObject.innerArray[2].objectId._bsontype,
-            'ObjectID'
+            'ObjectID',
           );
           assert.strictEqual(
             result[2].object.innerObject.innerArray[2].objectId.toString(),
-            documents[2].object.innerObject.innerArray[2].objectId.toString()
+            documents[2].object.innerObject.innerArray[2].objectId.toString(),
           );
           assert.isNull(result[2].object.innerObject.innerArray[3]);
           assert.strictEqual(result[2].null, documents[2].null);
@@ -326,5 +334,5 @@ describe(
         });
       });
     });
-  }
+  },
 );

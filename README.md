@@ -21,75 +21,38 @@ profit
 If you use mongodb dependency in your project, it hast to be version <=4.10.0, otherwise you'll get a Webpack
 compilation error
 
-# Environment setup
+# Plugin configuration
 
-Add the following `env` properties in your `cypress.config.js` file:
-
-```JavaScript
-{
-    module.exports = defineConfig({
-        "env": {
-            "mongodb": {
-                "uri": "mongodb://localhost:27017",
-                "database": "database_name",
-                "collection": "collection_name"
-            }
-        }
-    });
-}
-```
-
-<b>Note:</b> only `mongodb.uri` is mandatory, you can always override/set database and collection names in each cypress
-mongodb command using options. You can set both local and remote urls.
-
-# Plugin configuration - JavaScript
-
-In your `cypress.config.js` add the following:
+In your `cypress.config.js` file, make the following changes:
+1. Add the necessary `mongodb` environment variables under `env` block
+2. Import and load the plugin under `e2e` block
 
 ```JavaScript
-const mongo = require('cypress-mongodb');
+import { configurePlugin } from 'cypress-mongodb';
 
 module.exports = defineConfig({
+    env: {
+        mongodb: {
+            uri: 'mongodb://localhost:27017',
+            database: 'database_name',
+            collection: 'collection_name'
+        }
+    },
     e2e: {
         setupNodeEvents(on, config) {
-            mongo.configurePlugin(on);
-        }
-    }
-});
-```
-
-In your `cypress/support/e2e.js` add the following:
-
-```JavaScript
-const mongo = require('cypress-mongodb');
-mongo.addCommands();
-```
-
-# Plugin configuration - TypeScript
-
-In your `cypress.config.ts` add the following:
-
-```TypeScript
-import {defineConfig} from 'cypress'
-import {configurePlugin} from 'cypress-mongodb';
-
-/**
- * @type {Cypress.PluginConfig}
- */
-export default defineConfig({
-    e2e: {
-        setupNodeEvents(on) {
             configurePlugin(on);
         }
     }
 });
 ```
 
-In your `cypress/support/e2e.ts` add the following:
+<b>Note:</b> only `mongodb.uri` is mandatory, you can always override/set database and collection names in each cypress
+mongodb command using options. You can set both local and remote urls.
 
-```TypeScript
-import {addCommands} from "cypress-mongodb";
+Finally, in your `cypress/support/e2e.js` add the following:
 
+```JavaScript
+import { addCommands } from 'cypress-mongodb/dist/index-browser';
 addCommands();
 ```
 

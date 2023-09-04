@@ -78,12 +78,12 @@ describe(
           assert.isTrue(result.date instanceof Date);
           assert.strictEqual(
             result.date.toISOString(),
-            updatedDocument.$set.date.toISOString()
+            updatedDocument.$set.date.toISOString(),
           );
           assert.isTrue(result.object.innerDate instanceof Date);
           assert.strictEqual(
             result.object.innerDate.toISOString(),
-            updatedDocument.$set.object.innerDate.toISOString()
+            updatedDocument.$set.object.innerDate.toISOString(),
           );
         });
       });
@@ -146,7 +146,7 @@ describe(
             assert.equal(result.matchedCount, 0);
             assert.equal(result.modifiedCount, 0);
             assert.equal(result.upsertedCount, 1);
-          }
+          },
         );
         cy.findMany({ uuid: newUuid }).then((result: any) => {
           assert.equal(result[0].uuid, newUuid);
@@ -185,7 +185,7 @@ describe(
             assert.isTrue(result.date instanceof Date);
             assert.strictEqual(
               result.date.toISOString(),
-              updatedDocument.$set.date.toISOString()
+              updatedDocument.$set.date.toISOString(),
             );
             assert.deepStrictEqual(result.array, updatedDocument.$set.array);
             assert.strictEqual(result.null, updatedDocument.$set.null);
@@ -215,5 +215,5 @@ describe(
         });
       });
     });
-  }
+  },
 );

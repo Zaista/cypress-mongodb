@@ -1,4 +1,3 @@
-import { faker } from '@faker-js/faker';
 import { ObjectId } from 'mongodb';
 
 const deletion_data = {
@@ -116,5 +115,5 @@ describe(
         });
       });
     });
-  }
+  },
 );

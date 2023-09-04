@@ -29,7 +29,7 @@ export async function updateMany(args: any) {
       const result: any = await collection.updateMany(
         args.filter,
         args.document,
-        args.options
+        args.options,
       );
       await client.close();
       return result ? serialize(result) : null;

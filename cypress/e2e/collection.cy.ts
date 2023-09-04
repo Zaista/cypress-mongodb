@@ -61,5 +61,5 @@ describe(
         throw new Error('Should fail with collection not specified error');
       });
     });
-  }
+  },
 );

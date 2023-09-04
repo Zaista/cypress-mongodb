@@ -6,7 +6,7 @@ import { deserialize, serialize } from 'bson';
 export function updateOne(
   filter: Document,
   document: Document,
-  options?: any
+  options?: any,
 ): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,
@@ -42,7 +42,7 @@ export function updateOne(
 export function updateMany(
   filter: Document,
   document: Document,
-  options?: any
+  options?: any,
 ): Chainable {
   const args = {
     uri: Cypress.env('mongodb').uri,

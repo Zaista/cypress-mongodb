@@ -6,8 +6,3 @@ services:
     image: mongo:6.0
     ports:
       - '27017:27017'
-
-  mongo2:
-    image: mongo:6.0
-    ports:
-      - '27018:27017'
