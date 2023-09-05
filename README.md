@@ -109,7 +109,7 @@ cy.insertMany(documents, options);
 
 ### > examples
 ```TypeScript
-cy.insertOne({document: 1}; // will insert the provided document in mongodb
+cy.insertOne({document: 1}); // will insert the provided document in mongodb
 
 cy.insertOne({document: 1}, {collection: 'someCollection', database: 'someDatabase'}).then(result => {
     cy.log(result); // prints the _id of inserted document
@@ -156,10 +156,10 @@ cy.findMany({document: 1}).then(result => {
     cy.log(result); // prints the array of documents if any matched, or empty array
 });
 
-cy.findOneAndUpdate({ document: 2 }, { $set: { document: 3 }).then(result => {
+cy.findOneAndUpdate({ document: 2 }, { $set: { document: 3 }}).then(result => {
   cy.log(result); // prints the original document with value 2
 });
-cy.findOneAndUpdate({ document: 3 }, { $set: { document: 4 }, {upsert: true, returnDocument: 'after'}).then((result: any) => {
+cy.findOneAndUpdate({ document: 3 }, { $set: { document: 4 }}, {upsert: true, returnDocument: 'after'}).then((result: any) => {
   cy.log(result); // prints the updated document with the value 4, will create (upsert) a new document if none are found
 });
 ```
@@ -239,6 +239,27 @@ cy.aggregate(pipeline, options);
 const pipeline = []; // any kind of aggregation
 cy.aggregate(pipeline).then(result => {
     cy.log(result); // prints the result of the aggregation
+});
+```
+
+## runCommand
+### > syntax
+```TypeScript
+cy.runCommand(command);
+cy.runCommand(command, options);
+```
+
+### > arguments
+| Arguments | Type                | Description                                        |
+|-----------|---------------------|----------------------------------------------------|
+| command   | Document (required) | A document representing the mongodb command to run |
+| options   | Object (optional)   | Provide additional options (see below)             |
+
+### > examples
+```TypeScript
+const command = { listCollections: 1, nameOnly: true }; // any kind of command
+cy.runCommand(command).then(result => {
+    cy.log(result); // prints the result of the command
 });
 ```
 
