@@ -9,12 +9,10 @@ export async function findOne(args: any) {
         .db(args.database)
         .collection(args.collection as string)
         .findOne(args.query, args.options);
-      await client.close();
       if (result !== null) return serialize(result);
       return null;
-    } catch (err) {
+    } finally {
       await client.close();
-      throw err;
     }
   });
 }
@@ -28,12 +26,10 @@ export async function findOneAndUpdate(args: any) {
         .db(args.database)
         .collection(args.collection as string)
         .findOneAndUpdate(args.filter, args.document, args.options);
-      await client.close();
       if (result !== null) return serialize(result);
       return null;
-    } catch (err) {
+    } finally {
       await client.close();
-      throw err;
     }
   });
 }
@@ -47,31 +43,26 @@ export async function findOneAndDelete(args: any) {
         .db(args.database)
         .collection(args.collection as string)
         .findOneAndDelete(args.filter, args.options);
-      await client.close();
       if (result !== null) return serialize(result);
       return null;
-    } catch (err) {
+    } finally {
       await client.close();
-      throw err;
     }
   });
 }
 
 export async function findMany(args: any) {
   args.query = deserialize(Buffer.from(args.query as Buffer));
-  return MongoClient.connect(args.uri).then((client) => {
-    return client
-      .db(args.database)
-      .collection(args.collection as string)
-      .find(args.query as Document[], args.options)
-      .toArray()
-      .then((result) => {
-        client.close();
-        return serialize(result);
-      })
-      .catch((err) => {
-        client.close();
-        throw err;
-      });
+  return MongoClient.connect(args.uri).then(async (client) => {
+    try {
+      const result = await client
+        .db(args.database)
+        .collection(args.collection as string)
+        .find(args.query as Document[], args.options)
+        .toArray();
+      return serialize(Object.fromEntries(result.entries()));
+    } finally {
+      await client.close();
+    }
   });
 }

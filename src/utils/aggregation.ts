@@ -6,9 +6,7 @@ export async function aggregate(args: any) {
     Buffer.from(args.pipeline as Buffer),
   );
   args.pipeline = Object.values(deserializedPipeline);
-
-  const client = new MongoClient(args.uri);
-  await client.connect();
+  const client = await MongoClient.connect(args.uri);
 
   try {
     const result = await client
@@ -16,7 +14,7 @@ export async function aggregate(args: any) {
       .collection(args.collection)
       .aggregate(args.pipeline as Document[], args.options)
       .toArray();
-    return serialize(result);
+    return serialize(Object.fromEntries(result.entries()));
   } catch (err: any) {
     throw new Error('Error connecting: ' + err.stack);
   } finally {

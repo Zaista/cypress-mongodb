@@ -1,4 +1,4 @@
-import {faker} from "@faker-js/faker";
+import { faker } from '@faker-js/faker';
 
 const command_data = {
   uri: 'mongodb://localhost:27017',
@@ -20,7 +20,7 @@ describe(
       const randomCollection = faker.word.sample();
       let flag = false;
       cy.createCollection(randomCollection);
-      const command = { listCollections: 1, nameOnly: true }
+      const command = { listCollections: 1, nameOnly: true };
       cy.runCommand(command).then((result: any) => {
         result.cursor.firstBatch.forEach((collection: any) => {
           if (collection.name === randomCollection) {
@@ -32,7 +32,7 @@ describe(
     });
 
     it('Should run ping command', () => {
-      const command = { ping: 1 }
+      const command = { ping: 1 };
       cy.runCommand(command).then((result: any) => {
         assert.deepEqual(result, { ok: 1 });
       });

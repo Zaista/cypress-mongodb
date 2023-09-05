@@ -44,7 +44,9 @@ export function insertMany(documents: Document[], options?: any): Chainable {
     throw new Error('Documents must be an array');
   }
 
-  args.documents = serialize(args.documents) as any;
+  args.documents = serialize(
+    Object.fromEntries(args.documents.entries()),
+  ) as any;
 
   return cy.task('insertMany', args).then((result: any) => {
     return result;

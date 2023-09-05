@@ -269,22 +269,22 @@ cy.runCommand(command).then(result => {
 | database                   | Value specified in the `mongodb` environment variable | Database on top of which the command will be executed                                                                         |
 | collection                 | Value specified in the `mongodb` environment variable | Collection on top of which the command will be executed                                                                       |
 | failSilently               | `false`                                               | Control if the command will fail or if the collection is not found                                                            |
-| `createCollection` options | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/CreateCollectionOptions.html) |
-| `dropCollection` options   | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/DropCollectionOptions.html)   |
-| `insertOne` options        | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/InsertOneOptions.html)        |
-| `insertMany` options       | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/BulkWriteOptions.html)        |
-| `findOne` options          | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/FindOptions.html)             |
-| `findMany` options         | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/FindOptions.html)             |
-| `findOneAndUpdate` options | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/FindOneAndUpdateOptions.html) |
-| `findOneAndDelete` options | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/FindOneAndDeleteOptions.html) |
-| `updateOne` options        | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/UpdateOptions.html)           |
-| `updateMany` options       | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/UpdateOptions.html)           |
-| `deleteOne` options        | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/DeleteOptions.html)           |
-| `deleteMany` options       | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/DeleteOptions.html)           |
-| `aggregate` options        | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/4.10/interfaces/AggregateOptions.html)        |
+| `createCollection` options | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/6.0/interfaces/CreateCollectionOptions.html) |
+| `dropCollection` options   | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/6.0/interfaces/DropCollectionOptions.html)   |
+| `insertOne` options        | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/6.0/interfaces/InsertOneOptions.html)        |
+| `insertMany` options       | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/6.0/interfaces/BulkWriteOptions.html)        |
+| `findOne` options          | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/6.0/interfaces/FindOptions.html)             |
+| `findMany` options         | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/6.0/interfaces/FindOptions.html)             |
+| `findOneAndUpdate` options | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/6.0/interfaces/FindOneAndUpdateOptions.html) |
+| `findOneAndDelete` options | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/6.0/interfaces/FindOneAndDeleteOptions.html) |
+| `updateOne` options        | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/6.0/interfaces/UpdateOptions.html)           |
+| `updateMany` options       | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/6.0/interfaces/UpdateOptions.html)           |
+| `deleteOne` options        | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/6.0/interfaces/DeleteOptions.html)           |
+| `deleteMany` options       | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/6.0/interfaces/DeleteOptions.html)           |
+| `aggregate` options        | *N/A*                                                 | Refer to official [documentation](https://mongodb.github.io/node-mongodb-native/6.0/interfaces/AggregateOptions.html)        |
 
 # Reference
-https://mongodb.github.io/node-mongodb-native/4.10/classes/Collection.html
+https://mongodb.github.io/node-mongodb-native/6.0/
 
 # Future development & support
 

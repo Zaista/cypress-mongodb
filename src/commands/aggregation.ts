@@ -23,7 +23,7 @@ export function aggregate(
     throw new Error('Pipeline must be a valid mongodb aggregation');
   }
 
-  args.pipeline = serialize(args.pipeline) as any;
+  args.pipeline = serialize(Object.fromEntries(args.pipeline.entries())) as any;
 
   return cy.task('aggregate', args).then((result: any) => {
     return Object.values(deserialize(Buffer.from(result)));

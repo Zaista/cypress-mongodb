@@ -1,4 +1,4 @@
-import {CommandOperationOptions, MongoClient} from 'mongodb';
+import { CommandOperationOptions, MongoClient } from 'mongodb';
 
 export async function runCommand(args: any) {
   let client = await MongoClient.connect(args.uri);
@@ -8,13 +8,11 @@ export async function runCommand(args: any) {
     delete args.options.collection;
   }
   try {
-    const result = await database.command(
+    return await database.command(
       args.command,
-      args.options as CommandOperationOptions
+      args.options as CommandOperationOptions,
     );
+  } finally {
     await client.close();
-    return result;
-  } catch (error) {
-    throw error;
   }
 }

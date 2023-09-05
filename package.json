@@ -1,6 +1,6 @@
 {
   "name": "cypress-mongodb",
-  "version": "6.1.0",
+  "version": "6.2.0",
   "description": "Cypress MongoDB plugin",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -27,7 +27,7 @@
     "url": "https://github.com/Zaista/cypress-mongodb"
   },
   "dependencies": {
-    "mongodb": "4.10.0"
+    "mongodb": "6.0.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",

@@ -78,7 +78,7 @@ describe(
             result.objectId.toString(),
             document.objectId.toString(),
           );
-          assert.strictEqual(result.objectId._bsontype, 'ObjectID');
+          assert.strictEqual(result.objectId._bsontype, 'ObjectId');
           assert.strictEqual(
             result.objectId.toString(),
             document.objectId.toString(),
@@ -90,7 +90,7 @@ describe(
           );
           assert.strictEqual(
             result.object.innerObject.objectId._bsontype,
-            'ObjectID',
+            'ObjectId',
           );
           assert.strictEqual(
             result.object.innerObject.objectId.toString(),
@@ -105,7 +105,7 @@ describe(
           );
           assert.strictEqual(
             result.object.innerObject.innerArray[1]._bsontype,
-            'ObjectID',
+            'ObjectId',
           );
           assert.strictEqual(
             result.object.innerObject.innerArray[1].toString(),
@@ -120,7 +120,7 @@ describe(
           );
           assert.strictEqual(
             result.object.innerObject.innerArray[2].objectId._bsontype,
-            'ObjectID',
+            'ObjectId',
           );
           assert.strictEqual(
             result.objectId.toString(),
@@ -239,7 +239,7 @@ describe(
             documents[0].date.toISOString(),
           );
 
-          assert.strictEqual(result[1].objectId._bsontype, 'ObjectID');
+          assert.strictEqual(result[1].objectId._bsontype, 'ObjectId');
           assert.strictEqual(
             result[1].objectId.toString(),
             documents[1].objectId.toString(),
@@ -258,7 +258,7 @@ describe(
             result[2].objectId.toString(),
             documents[2].objectId.toString(),
           );
-          assert.strictEqual(result[2].objectId._bsontype, 'ObjectID');
+          assert.strictEqual(result[2].objectId._bsontype, 'ObjectId');
           assert.strictEqual(
             result[2].objectId.toString(),
             documents[2].objectId.toString(),
@@ -270,7 +270,7 @@ describe(
           );
           assert.strictEqual(
             result[2].object.innerObject.objectId._bsontype,
-            'ObjectID',
+            'ObjectId',
           );
           assert.strictEqual(
             result[2].object.innerObject.objectId.toString(),
@@ -285,7 +285,7 @@ describe(
           );
           assert.strictEqual(
             result[2].object.innerObject.innerArray[1]._bsontype,
-            'ObjectID',
+            'ObjectId',
           );
           assert.strictEqual(
             result[2].object.innerObject.innerArray[1].toString(),
@@ -300,7 +300,7 @@ describe(
           );
           assert.strictEqual(
             result[2].object.innerObject.innerArray[2].objectId._bsontype,
-            'ObjectID',
+            'ObjectId',
           );
           assert.strictEqual(
             result[2].object.innerObject.innerArray[2].objectId.toString(),

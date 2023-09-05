@@ -5,7 +5,7 @@ import * as delete_commands from './commands/delete';
 import * as find_commands from './commands/find';
 import * as update_commands from './commands/update';
 import * as command_commands from './commands/command';
-import {Document} from 'mongodb';
+import { Document } from 'mongodb';
 
 declare global {
   namespace Cypress {
@@ -78,10 +78,7 @@ declare global {
       /**
        * Run a custom command in mongodb
        */
-      runCommand(
-        command: Document,
-        options?: any,
-      ): Chainable<Subject>;
+      runCommand(command: Document, options?: any): Chainable<Subject>;
     }
   }
 }
