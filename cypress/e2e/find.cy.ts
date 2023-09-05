@@ -109,7 +109,6 @@ describe(
           upsert: true,
           returnDocument: 'after',
         }).then((result: any) => {
-          console.log(result);
           assert.equal(result.test, 'should be upsert using findOneAndUpdate');
         });
       });
@@ -188,7 +187,6 @@ describe(
         const document2 = { test: 'test' };
         cy.insertMany([document1, document2]);
         cy.findMany({ _id: _id }).then((result: any) => {
-          console.log(result);
           assert.equal(result.length, 1);
           assert.strictEqual(result[0].test, document1.test);
           assert.isTrue(result[0]._id.equals(document1._id));

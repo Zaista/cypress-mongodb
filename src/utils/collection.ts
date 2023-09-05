@@ -13,7 +13,6 @@ export async function createCollection(args: any) {
       args.collection as string,
       args.options
     );
-    console.log(result)
     await client.close();
     if (result) {
       return 'Collection created';
