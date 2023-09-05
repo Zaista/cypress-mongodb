@@ -92,7 +92,7 @@ describe(
           result[0].date.toISOString(),
           document.date.toISOString(),
         );
-        assert.strictEqual(result[0]._id._bsontype, 'ObjectID');
+        assert.strictEqual(result[0]._id._bsontype, 'ObjectId');
         assert.strictEqual(result[0].boolean, document.boolean);
         assert.strictEqual(result[0].float, document.float);
         assert.strictEqual(result.length, 1);

@@ -35,7 +35,7 @@ describe(
         cy.insertOne(document);
         cy.findOne({ _id: _id }).then((result: any) => {
           assert.strictEqual(result.test, document.test);
-          assert.isTrue(result._id.equals(document._id));
+          assert.equal(result._id.toString(), document._id.toString());
         });
       });
 
@@ -189,7 +189,7 @@ describe(
         cy.findMany({ _id: _id }).then((result: any) => {
           assert.equal(result.length, 1);
           assert.strictEqual(result[0].test, document1.test);
-          assert.isTrue(result[0]._id.equals(document1._id));
+          assert.equal(result[0]._id.toString(), document1._id.toString());
         });
       });
 

@@ -62,6 +62,6 @@ export function configurePlugin(on: Cypress.PluginEvents) {
 
     async runCommand(args) {
       return await command_util.runCommand(args);
-    }
+    },
   });
 }

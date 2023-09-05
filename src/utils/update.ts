@@ -10,11 +10,9 @@ export async function updateOne(args: any) {
         .db(args.database)
         .collection(args.collection as string)
         .updateOne(args.filter, args.document, args.options);
-      await client.close();
       return result ? serialize(result) : null;
-    } catch (err) {
+    } finally {
       await client.close();
-      throw err;
     }
   });
 }
@@ -31,11 +29,9 @@ export async function updateMany(args: any) {
         args.document,
         args.options,
       );
-      await client.close();
       return result ? serialize(result) : null;
-    } catch (err) {
+    } finally {
       await client.close();
-      throw err;
     }
   });
 }

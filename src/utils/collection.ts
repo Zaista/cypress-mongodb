@@ -1,7 +1,7 @@
-import {DropCollectionOptions, MongoClient} from 'mongodb';
+import { DropCollectionOptions, MongoClient } from 'mongodb';
 
 export async function createCollection(args: any) {
-  let client = await MongoClient.connect(args.uri);
+  const client = await MongoClient.connect(args.uri);
   const database = client.db(args.database);
   const failSilently = args.options?.failSilently;
   if (args.options) {
@@ -11,9 +11,8 @@ export async function createCollection(args: any) {
   try {
     const result = await database.createCollection(
       args.collection as string,
-      args.options
+      args.options,
     );
-    await client.close();
     if (result) {
       return 'Collection created';
     } else {
@@ -22,20 +21,21 @@ export async function createCollection(args: any) {
   } catch (error) {
     if (failSilently) return error;
     else throw error;
+  } finally {
+    await client.close();
   }
 }
 
 export async function dropCollection(args: any) {
-  let client = await MongoClient.connect(args.uri);
+  const client = await MongoClient.connect(args.uri);
   const failSilently = args.options?.failSilently;
   if (args.options) delete args.options.failSilently;
   try {
     const database = client.db(args.database);
     const result = await database.dropCollection(
       args.collection as string,
-      args.options as DropCollectionOptions
+      args.options as DropCollectionOptions,
     );
-    await client.close();
     if (result) {
       return 'Collection dropped';
     } else {
@@ -44,5 +44,7 @@ export async function dropCollection(args: any) {
   } catch (error) {
     if (failSilently) return error;
     else throw error;
+  } finally {
+    await client.close();
   }
 }

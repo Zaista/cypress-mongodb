@@ -60,7 +60,7 @@ export function findOneAndUpdate(
   args.document = serialize(args.document);
 
   return cy.task('findOneAndUpdate', args).then((result: any) => {
-    if (result !== null) return deserialize(Buffer.from(result)).value;
+    if (result !== null) return deserialize(Buffer.from(result));
     else return null;
   });
 }
@@ -86,7 +86,7 @@ export function findOneAndDelete(filter: Document, options?: any): Chainable {
   args.options = serialize(args.options as Document);
 
   return cy.task('findOneAndDelete', args).then((result: any) => {
-    if (result !== null) return deserialize(Buffer.from(result)).value;
+    if (result !== null) return deserialize(Buffer.from(result));
     else return null;
   });
 }
