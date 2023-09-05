@@ -4,46 +4,47 @@ import * as insert_commands from './commands/insert';
 import * as delete_commands from './commands/delete';
 import * as find_commands from './commands/find';
 import * as update_commands from './commands/update';
-import { Document } from 'mongodb';
+import * as command_commands from './commands/command';
+import {Document} from 'mongodb';
 
 declare global {
   namespace Cypress {
     interface Chainable<Subject> {
       /**
-       * Custom command to perform mongodb aggregation
+       * Perform a mongodb aggregation
        * @example cy.aggregate([{ $match: { id: 1 } }]);
        */
       aggregate(pipeline: Document[], options?: any): Chainable<Subject>;
       /**
-       * Custom command to create a new collection in mongodb
+       * Create a new collection in mongodb
        */
       createCollection(collection: string, options?: any): Chainable<Subject>;
       /**
-       * Custom command to drop an existing collection in mongodb
+       * Drop an existing collection in mongodb
        */
       dropCollection(collection: string, options?: any): Chainable<Subject>;
       /**
-       * Custom command to insert a single document in mongodb
+       * Insert a single document in mongodb
        */
       insertOne(document: Document, options?: any): Chainable<Subject>;
       /**
-       * Custom command to insert multiple documents in mongodb
+       * Insert multiple documents in mongodb
        */
       insertMany(documents: Document[], options?: any): Chainable<Subject>;
       /**
-       * Custom command to delete a single document from mongodb
+       * Delete a single document from mongodb
        */
       deleteOne(filter: Document, options?: any): Chainable<Subject>;
       /**
-       * Custom command to delete multiple documents from mongodb
+       * Delete multiple documents from mongodb
        */
       deleteMany(filter: Document, options?: any): Chainable<Subject>;
       /**
-       * Custom command to find a single document in mongodb
+       * Find a single document in mongodb
        */
       findOne(query: Document, options?: any): Chainable<Subject>;
       /**
-       * Custom command to find a single document and update it in mongodb
+       * Find and update a single document in mongodb
        */
       findOneAndUpdate(
         filter: Document,
@@ -51,15 +52,15 @@ declare global {
         options?: any,
       ): Chainable<Subject>;
       /**
-       * Custom command to find a single document and delete it in mongodb
+       * Find and delete a single document in mongodb
        */
       findOneAndDelete(filter: Document, options?: any): Chainable<Subject>;
       /**
-       * Custom command to find multiple documents in mongodb
+       * Find multiple documents in mongodb
        */
       findMany(query: Document, options?: any): Chainable<Subject>;
       /**
-       * Custom command to update a single document in mongodb
+       * Update a single document in mongodb
        */
       updateOne(
         filter: Document,
@@ -67,11 +68,18 @@ declare global {
         options?: any,
       ): Chainable<Subject>;
       /**
-       * Custom command to update multiple documents in mongodb
+       * Update multiple documents in mongodb
        */
       updateMany(
         filter: Document,
         document: Document,
+        options?: any,
+      ): Chainable<Subject>;
+      /**
+       * Run a custom command in mongodb
+       */
+      runCommand(
+        command: Document,
         options?: any,
       ): Chainable<Subject>;
     }
@@ -107,6 +115,8 @@ export function addCommands() {
   Cypress.Commands.add('updateOne', update_commands.updateOne);
 
   Cypress.Commands.add('updateMany', update_commands.updateMany);
+
+  Cypress.Commands.add('runCommand', command_commands.runCommand);
 
   console.log('MongoDB plugin configured');
 }

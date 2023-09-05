@@ -4,85 +4,64 @@ import * as insert_util from './utils/insert';
 import * as delete_util from './utils/delete';
 import * as find_util from './utils/find';
 import * as update_util from './utils/update';
+import * as command_util from './utils/command';
 
 export function configurePlugin(on: Cypress.PluginEvents) {
   on('task', {
-    aggregate(args) {
-      return aggregate_util.aggregate(args).then((result) => {
-        return result;
-      });
+    async aggregate(args) {
+      return await aggregate_util.aggregate(args);
     },
 
-    createCollection(args) {
-      return collection_util.createCollection(args).then((result) => {
-        return result;
-      });
+    async createCollection(args) {
+      return await collection_util.createCollection(args);
     },
 
-    dropCollection(args) {
-      return collection_util.dropCollection(args).then((result) => {
-        return result;
-      });
+    async dropCollection(args) {
+      return await collection_util.dropCollection(args);
     },
 
-    insertOne(args) {
-      return insert_util.insertOne(args).then((result) => {
-        return result;
-      });
+    async insertOne(args) {
+      return await insert_util.insertOne(args);
     },
 
-    insertMany(args) {
-      return insert_util.insertMany(args).then((result) => {
-        return result;
-      });
+    async insertMany(args) {
+      return await insert_util.insertMany(args);
     },
 
-    deleteOne(args) {
-      return delete_util.deleteOne(args).then((result) => {
-        return result;
-      });
+    async deleteOne(args) {
+      return await delete_util.deleteOne(args);
     },
 
-    deleteMany(args) {
-      return delete_util.deleteMany(args).then((result) => {
-        return result;
-      });
+    async deleteMany(args) {
+      return await delete_util.deleteMany(args);
     },
 
-    findOne(args) {
-      return find_util.findOne(args).then((result) => {
-        return result;
-      });
+    async findOne(args) {
+      return await find_util.findOne(args);
     },
 
-    findOneAndUpdate(args) {
-      return find_util.findOneAndUpdate(args).then((result) => {
-        return result;
-      });
+    async findOneAndUpdate(args) {
+      return await find_util.findOneAndUpdate(args);
     },
 
-    findOneAndDelete(args) {
-      return find_util.findOneAndDelete(args).then((result) => {
-        return result;
-      });
+    async findOneAndDelete(args) {
+      return await find_util.findOneAndDelete(args);
     },
 
-    findMany(args) {
-      return find_util.findMany(args).then((result) => {
-        return result;
-      });
+    async findMany(args) {
+      return await find_util.findMany(args);
     },
 
-    updateOne(args) {
-      return update_util.updateOne(args).then((result) => {
-        return result;
-      });
+    async updateOne(args) {
+      return await update_util.updateOne(args);
     },
 
-    updateMany(args) {
-      return update_util.updateMany(args).then((result) => {
-        return result;
-      });
+    async updateMany(args) {
+      return await update_util.updateMany(args);
     },
+
+    async runCommand(args) {
+      return await command_util.runCommand(args);
+    }
   });
 }

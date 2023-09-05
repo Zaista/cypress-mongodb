@@ -267,7 +267,6 @@ describe('Configuration tests', () => {
     () => {
       it('Should fail with missing collection name error - aggregate', () => {
         cy.on('fail', (error) => {
-          console.log(error);
           if (error.message.includes('Collection not specified')) return;
           throw error;
         });
