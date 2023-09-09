@@ -3,6 +3,7 @@
 cypress/
 node_modules/
 src/
+docs/
 private/
 .prettierrc.json
 cypress.config.ts
