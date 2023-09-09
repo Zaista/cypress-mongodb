@@ -5,8 +5,9 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "prebuild": "npx prettier --write src/ cypress/",
+    "prebuild": "npx prettier . --check",
     "build": "tsc -d",
+    "format": "npx prettier . --write",
     "test": "cypress run",
     "open": "cypress open --e2e --browser chrome"
   },
@@ -27,13 +28,13 @@
     "url": "https://github.com/Zaista/cypress-mongodb"
   },
   "dependencies": {
-    "mongodb": "6.8.0"
+    "mongodb": "6.6.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
-    "@types/node": "^20.14.10",
-    "cypress": "^13.13.0",
+    "@types/node": "^22.1.0",
+    "cypress": "^13.13.2",
     "prettier": "^3.3.3",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.4"
   }
 }

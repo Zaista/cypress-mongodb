@@ -1,4 +1,4 @@
-import { defineConfig } from 'cypress'
+import { defineConfig } from 'cypress';
 import { configurePlugin } from './dist';
 
 export default defineConfig({
@@ -8,4 +8,4 @@ export default defineConfig({
       configurePlugin(on);
     },
   },
-})
+});

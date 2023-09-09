@@ -1,8 +1,6 @@
 # used for local development and testing
-version: '3.8'
-
 services:
   mongo:
-    image: mongo:6.0
+    image: mongo:latest
     ports:
       - '27017:27017'
