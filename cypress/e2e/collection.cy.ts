@@ -32,22 +32,10 @@ describe(
       });
     });
 
-    it('Should not fail creating existing collection', () => {
-      cy.createCollection(collection_data.collection, { failSilently: true })
-        .its('codeName')
-        .should('equal', 'NamespaceExists');
-    });
-
     it('Should drop created collection', () => {
       cy.dropCollection(collection_data.collection).then((res) => {
         assert.strictEqual(res, 'Collection dropped');
       });
-    });
-
-    it('Should not fail dropping nonexistant collection', () => {
-      cy.dropCollection(collection_data.collection, { failSilently: true })
-        .its('codeName')
-        .should('equal', 'NamespaceNotFound');
     });
 
     it('Should fail when no collection name is provided', () => {

@@ -1,12 +1,13 @@
 {
   "name": "cypress-mongodb",
-  "version": "6.2.0",
+  "version": "6.2.1",
   "description": "Cypress MongoDB plugin",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "prebuild": "npx prettier --write src/ cypress/",
+    "prebuild": "npx prettier . --check",
     "build": "tsc -d",
+    "format": "npx prettier . --write",
     "test": "cypress run",
     "open": "cypress open --e2e --browser chrome"
   },
@@ -27,13 +28,13 @@
     "url": "https://github.com/Zaista/cypress-mongodb"
   },
   "dependencies": {
-    "mongodb": "6.0.0"
+    "mongodb": "6.6.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.0.2",
-    "@types/node": "^20.5.9",
-    "cypress": "^13.1.0",
-    "prettier": "^3.0.3",
-    "typescript": "^5.2.2"
+    "@faker-js/faker": "^8.4.1",
+    "@types/node": "^22.1.0",
+    "cypress": "^13.13.2",
+    "prettier": "^3.3.3",
+    "typescript": "^5.5.4"
   }
 }
