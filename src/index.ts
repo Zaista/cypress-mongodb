@@ -6,7 +6,24 @@ import * as find_util from './utils/find';
 import * as update_util from './utils/update';
 import * as command_util from './utils/command';
 
+const webpackPreprocessor = require('@cypress/webpack-batteries-included-preprocessor');
+
+function getWebpackOptions() {
+  const options = webpackPreprocessor.getFullWebpackOptions();
+  options.resolve.fallback.crypto = require.resolve('crypto-browserify');
+  options.resolve.fallback.util = require.resolve('util');
+  options.resolve.fallback.zlib = require.resolve('browserify-zlib');
+  return options;
+}
+
 export function configurePlugin(on: Cypress.PluginEvents) {
+  on(
+    'file:preprocessor',
+    webpackPreprocessor({
+      typescript: 'typescript',
+      webpackOptions: getWebpackOptions(),
+    }),
+  );
   on('task', {
     async aggregate(args) {
       return await aggregate_util.aggregate(args);
