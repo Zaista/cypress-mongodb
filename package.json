@@ -28,7 +28,11 @@
     "url": "https://github.com/Zaista/cypress-mongodb"
   },
   "dependencies": {
-    "mongodb": "^7.0.0"
+    "@cypress/webpack-batteries-included-preprocessor": "^4.0.3",
+    "mongodb": "^7.0.0",
+    "browserify-zlib": "^0.2.0",
+    "crypto-browserify": "^3.12.1",
+    "util": "^0.12.5"
   },
   "devDependencies": {
     "@faker-js/faker": "^10.1.0",
