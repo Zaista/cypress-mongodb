@@ -10,15 +10,15 @@ profit
 
 # Supported and tested system versions
 
-|                        | Versions                 |
-| ---------------------- | ------------------------ |
-| MongoDB                | `4.4`, `5.0`, `6.0`      |
-| Node                   | `16.20`, `18.16`, `20.5` |
-| MongoDB Node.js Driver | `4.10.0`                 |
+|                        | Versions         |
+| ---------------------- | ---------------- |
+| MongoDB                | `7`, `8`         |
+| Node                   | `20`, `22`, `24` |
+| MongoDB Node.js Driver | `7.0`            |
 
 ### known issues
 
-If you use mongodb dependency in your project, it hast to be version <=4.10.0, otherwise you'll get a Webpack
+If you use mongodb dependency in your project, it hast to be version 7.x, otherwise you'll get a Webpack
 compilation error
 
 # Plugin configuration
