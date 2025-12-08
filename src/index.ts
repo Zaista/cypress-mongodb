@@ -5,8 +5,7 @@ import * as delete_util from './utils/delete';
 import * as find_util from './utils/find';
 import * as update_util from './utils/update';
 import * as command_util from './utils/command';
-
-const webpackPreprocessor = require('@cypress/webpack-batteries-included-preprocessor');
+import webpackPreprocessor from '@cypress/webpack-batteries-included-preprocessor';
 
 function getWebpackOptions() {
   const options = webpackPreprocessor.getFullWebpackOptions();
