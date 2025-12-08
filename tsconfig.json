@@ -7,7 +7,8 @@
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "types": ["cypress", "node"]
+    "esModuleInterop": true,
+    "types": ["cypress", "node", "webpack-bundle-analyzer"]
   },
   "include": ["src"],
   "exclude": ["dist", "node_modules", "cypress"]
