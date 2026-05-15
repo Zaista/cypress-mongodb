@@ -1,8 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["es5", "dom"],
+    "target": "es2022",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["es2022", "dom"],
+    "rootDir": "./src",
     "outDir": "./dist",
+    "sourceMap": true,
+    "inlineSources": true,
     "removeComments": true,
     "strict": true,
     "noImplicitAny": true,
