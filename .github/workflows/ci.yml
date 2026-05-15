@@ -7,8 +7,36 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [20, 22, 24]
-        mongodb-version: [7.0, 8.0]
+        include:
+          # All node/mongodb combinations with default config
+          - node-version: 20
+            mongodb-version: 7.0
+            cypress-config: default
+          - node-version: 20
+            mongodb-version: 8.0
+            cypress-config: default
+          - node-version: 22
+            mongodb-version: 7.0
+            cypress-config: default
+          - node-version: 22
+            mongodb-version: 8.0
+            cypress-config: default
+          - node-version: 24
+            mongodb-version: 7.0
+            cypress-config: default
+          - node-version: 24
+            mongodb-version: 8.0
+            cypress-config: default
+          # All config combinations with latest node/mongodb
+          - node-version: 24
+            mongodb-version: 8.0
+            cypress-config: collection
+          - node-version: 24
+            mongodb-version: 8.0
+            cypress-config: database
+          - node-version: 24
+            mongodb-version: 8.0
+            cypress-config: uri
 
     steps:
       - name: Git checkout
@@ -28,7 +56,15 @@ jobs:
         run: npm install
       - working-directory: .
         run: npm run build
-      - working-directory: .
-        run: npm test
+      - name: Run tests with ${{ matrix.cypress-config }} config
+        working-directory: .
+        run: npm run test:${{ matrix.cypress-config }}
         env:
           CI: true
+
+      - name: Upload screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots-${{ matrix.node-version }}-${{ matrix.mongodb-version }}-${{ matrix.cypress-config }}
+          path: cypress/screenshots

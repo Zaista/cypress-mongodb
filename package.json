@@ -1,6 +1,6 @@
 {
   "name": "cypress-mongodb",
-  "version": "6.3.0",
+  "version": "7.0.0",
   "description": "Cypress MongoDB plugin",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -8,8 +8,15 @@
     "prebuild": "npx prettier . --check",
     "build": "tsc -d",
     "format": "npx prettier . --write",
-    "test": "cypress run",
-    "open": "cypress open --e2e --browser chrome"
+    "test": "cypress run -C cypress.config.default.ts",
+    "test:default": "cypress run -C cypress.config.default.ts",
+    "test:database": "cypress run --config-file cypress.config.database.ts",
+    "test:collection": "cypress run --config-file cypress.config.collection.ts",
+    "test:uri": "cypress run --config-file cypress.config.uri.ts",
+    "open": "cypress open --e2e --browser chrome -C cypress.config.default.ts",
+    "open:database": "cypress open --e2e --browser chrome -C cypress.config.database.ts",
+    "open:collection": "cypress open --e2e --browser chrome -C cypress.config.collection.ts",
+    "open:uri": "cypress open --e2e --browser chrome -C cypress.config.uri.ts"
   },
   "keywords": [
     "cypress",
@@ -28,18 +35,19 @@
     "url": "https://github.com/Zaista/cypress-mongodb"
   },
   "dependencies": {
-    "@cypress/webpack-batteries-included-preprocessor": "^4.0.3",
-    "mongodb": "^7.0.0",
-    "browserify-zlib": "^0.2.0",
-    "crypto-browserify": "^3.12.1",
-    "util": "^0.12.5"
+    "browserify-zlib": "0.2.0",
+    "crypto-browserify": "3.12.1",
+    "mongodb": "7.1.1",
+    "util": "0.12.5"
   },
   "devDependencies": {
-    "@faker-js/faker": "^10.1.0",
-    "@types/node": "^24.10.0",
-    "@types/webpack-bundle-analyzer": "^4.7.0",
-    "cypress": "^15.6.0",
-    "prettier": "^3.6.0",
-    "typescript": "^5.9.0"
+    "@cypress/webpack-batteries-included-preprocessor": "4.0.4",
+    "@cypress/webpack-preprocessor": "6.0.4",
+    "@faker-js/faker": "10.4.0",
+    "@types/node": "25.5.0",
+    "@types/webpack-bundle-analyzer": "4.7.0",
+    "cypress": "15.13.0",
+    "prettier": "3.8.1",
+    "typescript": "5.9.3"
   }
 }

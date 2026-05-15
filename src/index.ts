@@ -9,6 +9,7 @@ import webpackPreprocessor from '@cypress/webpack-batteries-included-preprocesso
 
 function getWebpackOptions() {
   const options = webpackPreprocessor.getFullWebpackOptions();
+  options.devtool = 'inline-source-map';
   options.resolve.fallback.crypto = require.resolve('crypto-browserify');
   options.resolve.fallback.util = require.resolve('util');
   options.resolve.fallback.zlib = require.resolve('browserify-zlib');

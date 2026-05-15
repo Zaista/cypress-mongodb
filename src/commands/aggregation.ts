@@ -7,25 +7,29 @@ export function aggregate(
   pipeline: Document[] | Buffer,
   options?: any,
 ): Chainable {
-  const args = {
-    uri: Cypress.env('mongodb').uri,
-    database: options?.database || Cypress.env('mongodb').database,
-    collection: options?.collection || Cypress.env('mongodb').collection,
-    options: options,
-    pipeline: pipeline,
-  };
+  return cy.env(['mongodb']).then(({ mongodb }) => {
+    const args = {
+      uri: mongodb.uri,
+      database: options?.database || mongodb.database,
+      collection: options?.collection || mongodb.collection,
+      options: options,
+      pipeline: pipeline,
+    };
 
-  validate(args);
+    validate(args);
 
-  if (!pipeline) {
-    throw new Error('Pipeline must be specified');
-  } else if (typeof pipeline !== 'object' || !Array.isArray(pipeline)) {
-    throw new Error('Pipeline must be a valid mongodb aggregation');
-  }
+    if (!pipeline) {
+      throw new Error('Pipeline must be specified');
+    } else if (typeof pipeline !== 'object' || !Array.isArray(pipeline)) {
+      throw new Error('Pipeline must be a valid mongodb aggregation');
+    }
 
-  args.pipeline = serialize(Object.fromEntries(args.pipeline.entries())) as any;
+    args.pipeline = serialize(
+      Object.fromEntries(args.pipeline.entries()),
+    ) as any;
 
-  return cy.task('aggregate', args).then((result: any) => {
-    return Object.values(deserialize(Buffer.from(result)));
+    return cy.task('aggregate', args).then((result: any) => {
+      return Object.values(deserialize(Buffer.from(result)));
+    });
   });
 }

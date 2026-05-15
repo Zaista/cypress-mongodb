@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["es5", "dom"],
+    "target": "es2022",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["es2022", "dom"],
+    "sourceMap": true,
+    "inlineSources": true,
     "types": ["cypress", "node"]
   },
   "include": ["**/*.ts"]
